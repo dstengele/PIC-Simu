@@ -203,32 +203,6 @@ CA
                 <rect key="frame" x="0.0" y="0.0" width="858" height="539"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <scrollView ambiguous="YES" misplaced="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="snz-J8-kVf">
-                        <rect key="frame" x="20" y="20" width="259" height="499"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <clipView key="contentView" ambiguous="YES" misplaced="YES" id="eGl-TC-8I2">
-                            <rect key="frame" x="1" y="1" width="257" height="497"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <subviews>
-                                <collectionView ambiguous="YES" id="rJI-ty-aH2">
-                                    <rect key="frame" x="0.0" y="0.0" width="257" height="497"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <color key="primaryBackgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                    <connections>
-                                        <outlet property="itemPrototype" destination="62O-bc-fx7" id="yNQ-ck-30L"/>
-                                    </connections>
-                                </collectionView>
-                            </subviews>
-                        </clipView>
-                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="MBp-pM-h44">
-                            <rect key="frame" x="1" y="144" width="233" height="15"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </scroller>
-                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="AP4-EL-mqj">
-                            <rect key="frame" x="234" y="1" width="15" height="143"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                        </scroller>
-                    </scrollView>
                     <scrollView ambiguous="YES" misplaced="YES" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zbq-63-qzs">
                         <rect key="frame" x="287" y="20" width="551" height="499"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -289,13 +263,7 @@ CA
                     </scrollView>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="snz-J8-kVf" secondAttribute="bottom" constant="20" id="1UM-GF-U1G"/>
                     <constraint firstAttribute="trailing" secondItem="Zbq-63-qzs" secondAttribute="trailing" constant="20" id="6mn-Av-ggS"/>
-                    <constraint firstItem="snz-J8-kVf" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="20" id="8Nr-qw-qQn"/>
-                    <constraint firstItem="snz-J8-kVf" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="Blw-hY-gox"/>
-                    <constraint firstItem="Zbq-63-qzs" firstAttribute="bottom" secondItem="snz-J8-kVf" secondAttribute="bottom" id="E7S-IH-xw4"/>
-                    <constraint firstItem="Zbq-63-qzs" firstAttribute="leading" secondItem="snz-J8-kVf" secondAttribute="trailing" constant="8" id="TkJ-sM-Ith"/>
-                    <constraint firstItem="Zbq-63-qzs" firstAttribute="leading" secondItem="snz-J8-kVf" secondAttribute="trailing" constant="8" id="XaQ-gm-2RM"/>
                     <constraint firstItem="Zbq-63-qzs" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="20" id="fJt-Bu-NbT"/>
                 </constraints>
             </view>
