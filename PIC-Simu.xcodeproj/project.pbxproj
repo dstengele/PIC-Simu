@@ -7,11 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9DD4DFE077E44597922F3615 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42825CA9CEF44368951AD535 /* libPods.a */; };
+		E209DE5218E9CAB6004A43D0 /* PSVirtualPIC.m in Sources */ = {isa = PBXBuildFile; fileRef = E209DE5118E9CAB6004A43D0 /* PSVirtualPIC.m */; };
+		E27A19B818F2976E004A43D0 /* PSRegisters.m in Sources */ = {isa = PBXBuildFile; fileRef = E27A19B718F2976E004A43D0 /* PSRegisters.m */; };
 		E2E7439618E99636004A43D0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2E7439518E99636004A43D0 /* Cocoa.framework */; };
 		E2E743A018E99636004A43D0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E2E7439E18E99636004A43D0 /* InfoPlist.strings */; };
 		E2E743A218E99636004A43D0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E2E743A118E99636004A43D0 /* main.m */; };
 		E2E743A618E99636004A43D0 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = E2E743A418E99636004A43D0 /* Credits.rtf */; };
-		E2E743A918E99636004A43D0 /* DSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E2E743A818E99636004A43D0 /* DSAppDelegate.m */; };
+		E2E743A918E99636004A43D0 /* PSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E2E743A818E99636004A43D0 /* PSAppDelegate.m */; };
 		E2E743AC18E99636004A43D0 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2E743AA18E99636004A43D0 /* MainMenu.xib */; };
 		E2E743AE18E99636004A43D0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2E743AD18E99636004A43D0 /* Images.xcassets */; };
 		E2E743B518E99636004A43D0 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2E743B418E99636004A43D0 /* XCTest.framework */; };
@@ -31,6 +34,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		42825CA9CEF44368951AD535 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		B89E85DC97394B1CBD978371 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		E209DE5018E9CAB6004A43D0 /* PSVirtualPIC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSVirtualPIC.h; sourceTree = "<group>"; };
+		E209DE5118E9CAB6004A43D0 /* PSVirtualPIC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSVirtualPIC.m; sourceTree = "<group>"; };
+		E27A19B618F2976E004A43D0 /* PSRegisters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSRegisters.h; sourceTree = "<group>"; };
+		E27A19B718F2976E004A43D0 /* PSRegisters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSRegisters.m; sourceTree = "<group>"; };
 		E2E7439218E99636004A43D0 /* PIC-Simu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PIC-Simu.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2E7439518E99636004A43D0 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		E2E7439818E99636004A43D0 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -41,8 +50,8 @@
 		E2E743A118E99636004A43D0 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E2E743A318E99636004A43D0 /* PIC-Simu-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PIC-Simu-Prefix.pch"; sourceTree = "<group>"; };
 		E2E743A518E99636004A43D0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
-		E2E743A718E99636004A43D0 /* DSAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DSAppDelegate.h; sourceTree = "<group>"; };
-		E2E743A818E99636004A43D0 /* DSAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DSAppDelegate.m; sourceTree = "<group>"; };
+		E2E743A718E99636004A43D0 /* PSAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PSAppDelegate.h; sourceTree = "<group>"; };
+		E2E743A818E99636004A43D0 /* PSAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PSAppDelegate.m; sourceTree = "<group>"; };
 		E2E743AB18E99636004A43D0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		E2E743AD18E99636004A43D0 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		E2E743B318E99636004A43D0 /* PIC-SimuTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PIC-SimuTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -50,6 +59,7 @@
 		E2E743BB18E99636004A43D0 /* PIC-SimuTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PIC-SimuTests-Info.plist"; sourceTree = "<group>"; };
 		E2E743BD18E99636004A43D0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E2E743BF18E99636004A43D0 /* PIC_SimuTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PIC_SimuTests.m; sourceTree = "<group>"; };
+		E2E845C918EEEEC7004A43D0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MainMenu.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +68,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2E7439618E99636004A43D0 /* Cocoa.framework in Frameworks */,
+				9DD4DFE077E44597922F3615 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,6 +91,7 @@
 				E2E743B918E99636004A43D0 /* PIC-SimuTests */,
 				E2E7439418E99636004A43D0 /* Frameworks */,
 				E2E7439318E99636004A43D0 /* Products */,
+				B89E85DC97394B1CBD978371 /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -98,6 +110,7 @@
 				E2E7439518E99636004A43D0 /* Cocoa.framework */,
 				E2E743B418E99636004A43D0 /* XCTest.framework */,
 				E2E7439718E99636004A43D0 /* Other Frameworks */,
+				42825CA9CEF44368951AD535 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -115,11 +128,15 @@
 		E2E7439B18E99636004A43D0 /* PIC-Simu */ = {
 			isa = PBXGroup;
 			children = (
-				E2E743A718E99636004A43D0 /* DSAppDelegate.h */,
-				E2E743A818E99636004A43D0 /* DSAppDelegate.m */,
+				E2E743A718E99636004A43D0 /* PSAppDelegate.h */,
+				E2E743A818E99636004A43D0 /* PSAppDelegate.m */,
+				E27A19B618F2976E004A43D0 /* PSRegisters.h */,
+				E27A19B718F2976E004A43D0 /* PSRegisters.m */,
 				E2E743AA18E99636004A43D0 /* MainMenu.xib */,
 				E2E743AD18E99636004A43D0 /* Images.xcassets */,
 				E2E7439C18E99636004A43D0 /* Supporting Files */,
+				E209DE5018E9CAB6004A43D0 /* PSVirtualPIC.h */,
+				E209DE5118E9CAB6004A43D0 /* PSVirtualPIC.m */,
 			);
 			path = "PIC-Simu";
 			sourceTree = "<group>";
@@ -161,9 +178,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E2E743C318E99636004A43D0 /* Build configuration list for PBXNativeTarget "PIC-Simu" */;
 			buildPhases = (
+				05FB4A347E0B464F8D73A8E3 /* Check Pods Manifest.lock */,
 				E2E7438E18E99636004A43D0 /* Sources */,
 				E2E7438F18E99636004A43D0 /* Frameworks */,
 				E2E7439018E99636004A43D0 /* Resources */,
+				10323D5C0893408EA0E405FC /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -248,13 +267,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		05FB4A347E0B464F8D73A8E3 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		10323D5C0893408EA0E405FC /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		E2E7438E18E99636004A43D0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E209DE5218E9CAB6004A43D0 /* PSVirtualPIC.m in Sources */,
 				E2E743A218E99636004A43D0 /* main.m in Sources */,
-				E2E743A918E99636004A43D0 /* DSAppDelegate.m in Sources */,
+				E2E743A918E99636004A43D0 /* PSAppDelegate.m in Sources */,
+				E27A19B818F2976E004A43D0 /* PSRegisters.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,6 +351,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				E2E743AB18E99636004A43D0 /* Base */,
+				E2E845C918EEEEC7004A43D0 /* en */,
 			);
 			name = MainMenu.xib;
 			sourceTree = "<group>";
@@ -384,6 +439,7 @@
 		};
 		E2E743C418E99636004A43D0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B89E85DC97394B1CBD978371 /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -397,6 +453,7 @@
 		};
 		E2E743C518E99636004A43D0 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B89E85DC97394B1CBD978371 /* Pods.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -467,6 +524,7 @@
 				E2E743C518E99636004A43D0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E2E743C618E99636004A43D0 /* Build configuration list for PBXNativeTarget "PIC-SimuTests" */ = {
 			isa = XCConfigurationList;
@@ -475,6 +533,7 @@
 				E2E743C818E99636004A43D0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
