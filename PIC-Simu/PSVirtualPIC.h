@@ -8,14 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-@interface PSVirtualPIC : NSObject {
-	NSArray *fileContents;
+@interface PSVirtualPIC : NSObject <NSTableViewDelegate, NSTableViewDataSource> {
 }
 
+@property (retain) NSArray* fileContents;
+
 - (void)initWithTextFile:(NSURL *)sourceFile;
-
-- (NSArray *)fileContents;
-
-- (void)setFileContents:(NSArray *)newValue;
 
 @end

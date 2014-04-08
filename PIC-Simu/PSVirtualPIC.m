@@ -10,29 +10,30 @@
 
 @implementation PSVirtualPIC
 
+@synthesize fileContents;
+
 - (void)initWithTextFile:(NSURL *)sourceFile {
-		// Datei laden
-	NSData* fileData = [NSData dataWithContentsOfURL:sourceFile];
-	
-		// Dateiinhalt in NSString konvertieren
-	NSString* fileString = [[NSString alloc] initWithBytes:[fileData bytes]
-													length:[fileData length]
-												  encoding:NSUTF8StringEncoding];
+		// Datei laden und -inhalt in NSString konvertieren (Datei muss UTF-8-kodiert sein)
+	NSStringEncoding usedEnc;
+	NSString* fileString = [NSString stringWithContentsOfURL:sourceFile usedEncoding:&usedEnc error:nil];
+	NSLog(@"Opened File %@ using Encoding:%lu", sourceFile, usedEnc);
 	
 	NSLog(@"%@", fileString);
 	
 	NSString* delimiter = @"\n";
 	
 		// Dateiinhalt als Array in Instanzvariable speichern
-	[self setFileContents: [fileString componentsSeparatedByString:delimiter]];
+	self.fileContents = [fileString componentsSeparatedByString:delimiter];
 }
 
-- (NSArray *)fileContents {
-    return fileContents;
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
+    return fileContents.count;
 }
 
-- (void)setFileContents:(NSArray *)newValue {
-    fileContents = newValue;
+- (id)tableView:(NSTableView *)tableView
+objectValueForTableColumn:(NSTableColumn *)tableColumn
+			row:(NSInteger)row {
+    return [fileContents objectAtIndex:row];
 }
 
 @end

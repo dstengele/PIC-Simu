@@ -24,6 +24,7 @@
 @property (weak) IBOutlet NSToolbarItem *stopButtonToolbar;
 @property (weak) IBOutlet NSToolbarItem *stepButtonToolbar;
 @property (weak) IBOutlet NSToolbarItem *resetButtonToolbar;
+@property (weak) IBOutlet NSTableView *codeView;
 
 @property (assign) IBOutlet NSWindow *window;
 
