@@ -90,4 +90,7 @@
 	
 }
 
+- (IBAction)checkBoxClicked:(id)sender {
+	
+}
 @end

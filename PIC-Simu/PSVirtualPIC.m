@@ -7,6 +7,7 @@
 //
 
 #import "PSVirtualPIC.h"
+#import "PSLineOfCode.h"
 
 @implementation PSVirtualPIC
 
@@ -23,17 +24,28 @@
 	NSString* delimiter = @"\n";
 	
 		// Dateiinhalt als Array in Instanzvariable speichern
-	self.fileContents = [fileString componentsSeparatedByString:delimiter];
+	
+	NSArray *fileArray = [fileString componentsSeparatedByString:delimiter];
+	
+	fileContents = [[NSMutableArray alloc] init];
+	
+	for (NSString *loc in fileArray) {
+		PSLineOfCode *new_loc = [PSLineOfCode alloc];
+		new_loc.loc = loc;
+		new_loc.hasBreakpoint = NO;
+		[fileContents addObject:new_loc];
+	}
 }
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
     return fileContents.count;
 }
 
-- (id)tableView:(NSTableView *)tableView
-objectValueForTableColumn:(NSTableColumn *)tableColumn
-			row:(NSInteger)row {
-    return [fileContents objectAtIndex:row];
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
+    PSLineOfCode *loc = [fileContents objectAtIndex:row];
+	NSString *foo = [loc valueForKey:[tableColumn identifier]];
+	NSLog(@"Added %@ to tableView in column %@", foo, [tableColumn identifier]);
+	return foo;
 }
 
 @end

@@ -11,7 +11,7 @@
 @interface PSVirtualPIC : NSObject <NSTableViewDelegate, NSTableViewDataSource> {
 }
 
-@property (retain) NSArray* fileContents;
+@property (retain) NSMutableArray* fileContents;
 
 - (void)initWithTextFile:(NSURL *)sourceFile;
 
