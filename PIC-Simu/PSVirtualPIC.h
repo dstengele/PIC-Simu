@@ -8,8 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@interface PSVirtualPIC : NSObject <NSTableViewDelegate, NSTableViewDataSource> {
+@interface PSVirtualPIC : NSObject {
+	NSMutableArray *fileContents;
 }
+@property (weak) IBOutlet NSArrayController *locArrayController;
 
 @property (retain) NSMutableArray* fileContents;
 
