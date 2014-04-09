@@ -28,6 +28,4 @@
 
 @property (assign) IBOutlet NSWindow *window;
 
-- (IBAction)checkBoxClicked:(id)sender;
-
 @end
