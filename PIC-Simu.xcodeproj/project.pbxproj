@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9DD4DFE077E44597922F3615 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 42825CA9CEF44368951AD535 /* libPods.a */; };
 		E209DE5218E9CAB6004A43D0 /* PSVirtualPIC.m in Sources */ = {isa = PBXBuildFile; fileRef = E209DE5118E9CAB6004A43D0 /* PSVirtualPIC.m */; };
 		E27A19B818F2976E004A43D0 /* PSRegisters.m in Sources */ = {isa = PBXBuildFile; fileRef = E27A19B718F2976E004A43D0 /* PSRegisters.m */; };
+		E2AC163418F433C1004A43D0 /* PSLineOfCode.m in Sources */ = {isa = PBXBuildFile; fileRef = E2AC163318F433C1004A43D0 /* PSLineOfCode.m */; };
 		E2E7439618E99636004A43D0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2E7439518E99636004A43D0 /* Cocoa.framework */; };
 		E2E743A018E99636004A43D0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E2E7439E18E99636004A43D0 /* InfoPlist.strings */; };
 		E2E743A218E99636004A43D0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E2E743A118E99636004A43D0 /* main.m */; };
@@ -40,6 +40,8 @@
 		E209DE5118E9CAB6004A43D0 /* PSVirtualPIC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSVirtualPIC.m; sourceTree = "<group>"; };
 		E27A19B618F2976E004A43D0 /* PSRegisters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSRegisters.h; sourceTree = "<group>"; };
 		E27A19B718F2976E004A43D0 /* PSRegisters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSRegisters.m; sourceTree = "<group>"; };
+		E2AC163218F433C1004A43D0 /* PSLineOfCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSLineOfCode.h; sourceTree = "<group>"; };
+		E2AC163318F433C1004A43D0 /* PSLineOfCode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSLineOfCode.m; sourceTree = "<group>"; };
 		E2E7439218E99636004A43D0 /* PIC-Simu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PIC-Simu.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2E7439518E99636004A43D0 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		E2E7439818E99636004A43D0 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -68,7 +70,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2E7439618E99636004A43D0 /* Cocoa.framework in Frameworks */,
-				9DD4DFE077E44597922F3615 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,6 +134,8 @@
 				E27A19B618F2976E004A43D0 /* PSRegisters.h */,
 				E27A19B718F2976E004A43D0 /* PSRegisters.m */,
 				E2E743AA18E99636004A43D0 /* MainMenu.xib */,
+				E2AC163218F433C1004A43D0 /* PSLineOfCode.h */,
+				E2AC163318F433C1004A43D0 /* PSLineOfCode.m */,
 				E2E743AD18E99636004A43D0 /* Images.xcassets */,
 				E2E7439C18E99636004A43D0 /* Supporting Files */,
 				E209DE5018E9CAB6004A43D0 /* PSVirtualPIC.h */,
@@ -307,6 +310,7 @@
 			files = (
 				E209DE5218E9CAB6004A43D0 /* PSVirtualPIC.m in Sources */,
 				E2E743A218E99636004A43D0 /* main.m in Sources */,
+				E2AC163418F433C1004A43D0 /* PSLineOfCode.m in Sources */,
 				E2E743A918E99636004A43D0 /* PSAppDelegate.m in Sources */,
 				E27A19B818F2976E004A43D0 /* PSRegisters.m in Sources */,
 			);

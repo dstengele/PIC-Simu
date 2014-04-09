@@ -33,7 +33,6 @@
 	[_resetButtonToolbar setEnabled:NO];
 	
 	[self logButtonStatus];
-//	[_codeView setDataSource:_source];
 }
 - (IBAction)openFile:(id)sender {
 	NSOpenPanel* openPanel = [NSOpenPanel openPanel];
@@ -48,7 +47,6 @@
 		NSLog(@"Pfad: %@", path);
 	}
 	[_source initWithTextFile:path];
-	[_codeView reloadData];
 	
 	[_startButtonMenu setEnabled:true];
 	[_startButtonToolbar setEnabled:true];

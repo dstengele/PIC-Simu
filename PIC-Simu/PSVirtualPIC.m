@@ -7,15 +7,26 @@
 //
 
 #import "PSVirtualPIC.h"
+#import "PSLineOfCode.h"
 
 @implementation PSVirtualPIC
 
 @synthesize fileContents;
 
+- (id)init {
+	self = [super init];
+	if (self) {
+		fileContents = [[NSMutableArray alloc] init];
+	}
+	return self;
+}
+
 - (void)initWithTextFile:(NSURL *)sourceFile {
 		// Datei laden und -inhalt in NSString konvertieren (Datei muss UTF-8-kodiert sein)
 	NSStringEncoding usedEnc;
-	NSString* fileString = [NSString stringWithContentsOfURL:sourceFile usedEncoding:&usedEnc error:nil];
+	NSString* fileString = [NSString stringWithContentsOfURL:sourceFile
+												usedEncoding:&usedEnc
+													   error:nil];
 	NSLog(@"Opened File %@ using Encoding:%lu", sourceFile, usedEnc);
 	
 	NSLog(@"%@", fileString);
@@ -23,17 +34,17 @@
 	NSString* delimiter = @"\n";
 	
 		// Dateiinhalt als Array in Instanzvariable speichern
-	self.fileContents = [fileString componentsSeparatedByString:delimiter];
-}
-
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
-    return fileContents.count;
-}
-
-- (id)tableView:(NSTableView *)tableView
-objectValueForTableColumn:(NSTableColumn *)tableColumn
-			row:(NSInteger)row {
-    return [fileContents objectAtIndex:row];
+	
+		// TODO: fileContents-Array erweitern und gleich den jeweiligen Befehl in Feld speichern
+	
+	NSArray *fileArray = [fileString componentsSeparatedByString:delimiter];
+	
+	for (NSString *loc in fileArray) {
+		PSLineOfCode *new_loc = [PSLineOfCode alloc];
+		new_loc.loc = loc;
+		new_loc.hasBreakpoint = NO;
+		[_locArrayController addObject:new_loc];
+	}
 }
 
 @end
