@@ -11,6 +11,8 @@
 @interface PSLineOfCode : NSObject
 
 @property(readwrite) BOOL hasBreakpoint;
-@property(readwrite) NSString* loc;
+@property(readwrite) NSString* loc;				// Einzelne Zeile Code als NSString
+@property(readwrite) NSString* instruction;		// Einzelne Instruktion im Assembler als NSString
+@property(readwrite) NSString* programCounter;	// Program Counter als NSString (0-indiziert)
 
 @end

@@ -12,5 +12,7 @@
 
 @synthesize hasBreakpoint;
 @synthesize loc;
+@synthesize instruction;
+@synthesize programCounter;
 
 @end

@@ -35,14 +35,14 @@
 	
 		// Dateiinhalt als Array in Instanzvariable speichern
 	
-		// TODO: fileContents-Array erweitern und gleich den jeweiligen Befehl in Feld speichern
-	
 	NSArray *fileArray = [fileString componentsSeparatedByString:delimiter];
 	
 	for (NSString *loc in fileArray) {
 		PSLineOfCode *new_loc = [PSLineOfCode alloc];
 		new_loc.loc = loc;
 		new_loc.hasBreakpoint = NO;
+		new_loc.instruction = [loc substringWithRange:NSMakeRange(5, 4)];
+		new_loc.programCounter = [loc substringWithRange:NSMakeRange(0, 4)];
 		[_locArrayController addObject:new_loc];
 	}
 }
