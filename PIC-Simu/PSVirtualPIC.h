@@ -7,14 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "PSRegisters.h"
 
 @interface PSVirtualPIC : NSObject {
 	NSMutableArray *fileContents;
 }
 @property (weak) IBOutlet NSArrayController *locArrayController;
-
 @property (retain) NSMutableArray* fileContents;
+@property (weak) IBOutlet PSRegisters *storage;
 
 - (void)initWithTextFile:(NSURL *)sourceFile;
+- (NSIndexSet *)tableView:(NSTableView *)tableView selectionIndexesForProposedSelection:(NSIndexSet *)proposedSelectionIndexes;
 
 @end

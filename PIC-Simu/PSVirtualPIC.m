@@ -47,4 +47,8 @@
 	}
 }
 
+- (NSIndexSet *)tableView:(NSTableView *)tableView selectionIndexesForProposedSelection:(NSIndexSet *)proposedSelectionIndexes {
+	return NO;
+}
+
 @end

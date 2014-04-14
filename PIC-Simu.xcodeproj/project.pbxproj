@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E209DE5218E9CAB6004A43D0 /* PSVirtualPIC.m in Sources */ = {isa = PBXBuildFile; fileRef = E209DE5118E9CAB6004A43D0 /* PSVirtualPIC.m */; };
+		E262490818FBCBC4004A43D0 /* PSRegister.m in Sources */ = {isa = PBXBuildFile; fileRef = E262490718FBCBC4004A43D0 /* PSRegister.m */; };
 		E27A19B818F2976E004A43D0 /* PSRegisters.m in Sources */ = {isa = PBXBuildFile; fileRef = E27A19B718F2976E004A43D0 /* PSRegisters.m */; };
 		E2AC163418F433C1004A43D0 /* PSLineOfCode.m in Sources */ = {isa = PBXBuildFile; fileRef = E2AC163318F433C1004A43D0 /* PSLineOfCode.m */; };
 		E2E7439618E99636004A43D0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2E7439518E99636004A43D0 /* Cocoa.framework */; };
@@ -38,6 +39,8 @@
 		B89E85DC97394B1CBD978371 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		E209DE5018E9CAB6004A43D0 /* PSVirtualPIC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSVirtualPIC.h; sourceTree = "<group>"; };
 		E209DE5118E9CAB6004A43D0 /* PSVirtualPIC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSVirtualPIC.m; sourceTree = "<group>"; };
+		E262490618FBCBC4004A43D0 /* PSRegister.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSRegister.h; sourceTree = "<group>"; };
+		E262490718FBCBC4004A43D0 /* PSRegister.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSRegister.m; sourceTree = "<group>"; };
 		E27A19B618F2976E004A43D0 /* PSRegisters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSRegisters.h; sourceTree = "<group>"; };
 		E27A19B718F2976E004A43D0 /* PSRegisters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSRegisters.m; sourceTree = "<group>"; };
 		E2AC163218F433C1004A43D0 /* PSLineOfCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSLineOfCode.h; sourceTree = "<group>"; };
@@ -132,6 +135,8 @@
 				E2E743A718E99636004A43D0 /* PSAppDelegate.h */,
 				E2E743A818E99636004A43D0 /* PSAppDelegate.m */,
 				E27A19B618F2976E004A43D0 /* PSRegisters.h */,
+				E262490618FBCBC4004A43D0 /* PSRegister.h */,
+				E262490718FBCBC4004A43D0 /* PSRegister.m */,
 				E27A19B718F2976E004A43D0 /* PSRegisters.m */,
 				E2E743AA18E99636004A43D0 /* MainMenu.xib */,
 				E2AC163218F433C1004A43D0 /* PSLineOfCode.h */,
@@ -311,6 +316,7 @@
 				E209DE5218E9CAB6004A43D0 /* PSVirtualPIC.m in Sources */,
 				E2E743A218E99636004A43D0 /* main.m in Sources */,
 				E2AC163418F433C1004A43D0 /* PSLineOfCode.m in Sources */,
+				E262490818FBCBC4004A43D0 /* PSRegister.m in Sources */,
 				E2E743A918E99636004A43D0 /* PSAppDelegate.m in Sources */,
 				E27A19B818F2976E004A43D0 /* PSRegisters.m in Sources */,
 			);
