@@ -42,7 +42,8 @@
 
 - (void)setRegisterValueWithDecimalNumber:(NSInteger *)decimalNumber {
 	if (*decimalNumber > 255) {
-		[NSException raise:@"Register set to invalid value" format:@"Value %ld is too big", *decimalNumber];
+		[NSException raise:@"Register set to invalid value"
+					format:@"Value %ld is too big", *decimalNumber];
 	}
 }
 

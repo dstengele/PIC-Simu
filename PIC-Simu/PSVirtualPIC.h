@@ -15,8 +15,10 @@
 @property (weak) IBOutlet NSArrayController *locArrayController;
 @property (retain) NSMutableArray* fileContents;
 @property (weak) IBOutlet PSRegisters *storage;
+@property (readwrite) NSInteger pc;
 
 - (void)initWithTextFile:(NSURL *)sourceFile;
 - (NSIndexSet *)tableView:(NSTableView *)tableView selectionIndexesForProposedSelection:(NSIndexSet *)proposedSelectionIndexes;
+- (void)executeNextIntruction;
 
 @end

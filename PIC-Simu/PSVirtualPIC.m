@@ -51,4 +51,28 @@
 	return NO;
 }
 
+- (void)executeNextIntruction {
+	NSUInteger nextInstructionRow = [fileContents indexOfObjectPassingTest:
+									 ^BOOL(id obj, NSUInteger idx, BOOL *stop){
+										 PSLineOfCode *l = obj;
+										 NSString *pcString = [NSString stringWithFormat:@"%ld", (long)self.pc];
+										 if ([l.programCounter isEqualTo:pcString]) {
+											 return TRUE;
+										 }
+										 return FALSE;
+									 }
+									];
+	NSString *instruction = [[fileContents objectAtIndex:nextInstructionRow] instruction];
+	
+		// Unterscheidung der einzelnen Befehle
+//	switch (<#expression#>) {
+//		case <#constant#>:
+//			<#statements#>
+//			break;
+//			
+//		default:
+//			break;
+//	}
+}
+
 @end
