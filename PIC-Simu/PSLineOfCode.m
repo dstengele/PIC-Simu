@@ -15,4 +15,15 @@
 @synthesize instruction;
 @synthesize programCounter;
 
+- (id)init {
+	self = [super init];
+	if (self) {
+		self.hasBreakpoint = false;
+		self.loc = [[NSString alloc] init];
+		self.instruction = [[NSString alloc] init];
+		self.programCounter = [[NSString alloc] init];
+	}
+	return self;
+}
+
 @end
