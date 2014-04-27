@@ -109,7 +109,7 @@
 	self = [super init];
 	
 	if (self) {
-			// Bank 0
+			// SFR
 		self.indf	= [[PSRegister alloc] init];
 		self.tmr0	= [[PSRegister alloc] init];
 		self.pcl	= [[PSRegister alloc] init];
@@ -127,13 +127,12 @@
 		self.eecon1 = [[PSRegister alloc] init];
 		self.eecon2 = [[PSRegister alloc] init];
 		
-			// Bank 1
+			// GPR
 		self.reg0C	= [[PSRegister alloc] init];
 		self.reg0D	= [[PSRegister alloc] init];
 		self.reg0E	= [[PSRegister alloc] init];
 		self.reg0F	= [[PSRegister alloc] init];
 		
-			// GPR
 		self.reg10	= [[PSRegister alloc] init];
 		self.reg11	= [[PSRegister alloc] init];
 		self.reg12	= [[PSRegister alloc] init];
@@ -150,7 +149,7 @@
 		self.reg1D	= [[PSRegister alloc] init];
 		self.reg1E	= [[PSRegister alloc] init];
 		self.reg1F	= [[PSRegister alloc] init];
-		
+
 		self.reg20	= [[PSRegister alloc] init];
 		self.reg21	= [[PSRegister alloc] init];
 		self.reg22	= [[PSRegister alloc] init];
@@ -204,5 +203,4 @@
 	}
 	return self;
 }
-
 @end
