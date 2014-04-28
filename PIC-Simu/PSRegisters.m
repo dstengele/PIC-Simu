@@ -10,6 +10,8 @@
 
 @implementation PSRegisters
 
+@synthesize w;
+
 	// Bank 0
 @synthesize indf;
 @synthesize tmr0;

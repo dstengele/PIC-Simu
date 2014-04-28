@@ -6,11 +6,10 @@
 //  Copyright (c) 2014 Dennis Stengele. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 #import "PSRegisters.h"
 
 @interface PSVirtualPIC : NSObject {
-	NSMutableArray *fileContents;
 }
 @property (weak) IBOutlet NSArrayController *locArrayController;
 @property (retain) NSMutableArray* fileContents;

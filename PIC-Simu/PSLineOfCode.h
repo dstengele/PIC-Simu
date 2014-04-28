@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Dennis Stengele. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 
 @interface PSLineOfCode : NSObject
 

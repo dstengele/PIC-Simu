@@ -6,12 +6,14 @@
 //  Copyright (c) 2014 Dennis Stengele. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@import Foundation;
 #import "PSRegister.h"
 
 @interface PSRegisters : NSObject
 
 	// Special Function Registers
+@property (retain) PSRegister *w;
+
 	// Bank 1
 @property (retain) PSRegister *indf;
 @property (retain) PSRegister *tmr0;

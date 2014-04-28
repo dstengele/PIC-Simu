@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Dennis Stengele. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
+@import Cocoa;
 #import "PSVirtualPIC.h"
 
 @interface PSAppDelegate : NSObject <NSApplicationDelegate> {
