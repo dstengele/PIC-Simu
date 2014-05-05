@@ -43,7 +43,7 @@
 		new_loc.loc = loc;
 		new_loc.instruction = [loc substringWithRange:NSMakeRange(5, 4)];
 		new_loc.programCounter = [loc substringWithRange:NSMakeRange(0, 4)];
-		[_locArrayController addObject:new_loc];
+		[self.locArrayController addObject:new_loc];
 	}
 }
 
@@ -53,7 +53,7 @@
 }
 
 - (void)executeNextIntruction {
-	NSUInteger nextInstructionRow = [fileContents indexOfObjectPassingTest:
+	NSUInteger nextInstructionRow = [self.fileContents indexOfObjectPassingTest:
 									 ^BOOL(id obj, NSUInteger idx, BOOL *stop){
 										 PSLineOfCode *l = obj;
 										 NSString *pcString = [NSString stringWithFormat:@"%ld", (long)self.pc];
@@ -63,15 +63,13 @@
 										 return FALSE;
 									 }
 									];
-	NSString *instructionString = [[fileContents objectAtIndex:nextInstructionRow] instruction];
+	NSString *instructionString = [[self.fileContents objectAtIndex:nextInstructionRow] instruction];
 
 	int16_t instructionBinary = [instructionString intValue];
 		// TODO: Unterscheiden der Opcodes einbauen
 	PSInstruction *instruction = [[PSInstruction alloc] initWithBits:instructionBinary];
 
-
-
-		// Unterscheidung der einzelnen Befehle
+	[instruction executeWithVirtualPIC:self];
 
 }
 

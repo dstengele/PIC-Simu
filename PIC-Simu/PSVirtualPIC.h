@@ -15,6 +15,8 @@
 @property (retain) NSMutableArray* fileContents;
 @property (weak) IBOutlet PSRegisters *storage;
 @property (readwrite) NSInteger pc;
+@property (readwrite) NSInteger wdt;
+@property (retain) PSRegister* regW;
 
 - (void)initWithTextFile:(NSURL *)sourceFile;
 - (NSIndexSet *)tableView:(NSTableView *)tableView selectionIndexesForProposedSelection:(NSIndexSet *)proposedSelectionIndexes;

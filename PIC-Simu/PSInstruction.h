@@ -7,6 +7,8 @@
 //
 
 @import Foundation;
+#import "PSRegisters.h"
+#import "PSVirtualPIC.h"
 
 @interface PSInstruction : NSObject
 
@@ -17,5 +19,6 @@
 @property (readwrite) BOOL storeInF;
 
 - (PSInstruction *)initWithBits:(int16_t)instructionBinary;
+- (void)executeWithVirtualPIC:(PSVirtualPIC *)pic;
 
 @end

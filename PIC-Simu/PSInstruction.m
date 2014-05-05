@@ -312,4 +312,40 @@
 	return nil;
 }
 
+- (void)executeWithVirtualPIC:(PSVirtualPIC *)pic {
+	if ([self.instruction isEqualToString:@"CLRWDT"]) {
+		pic.wdt = 0b00000000;
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"RETFIE"]) {
+		
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"RETURN"]) {
+		
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"SLEEP"]) {
+		
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"NOP"]) {
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"CLRW"]) {
+		pic.regW = 0b000000000;
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"MOVWF"]) {
+		pic.regW = 0b000000000;
+		return;
+	}
+}
+
 @end
