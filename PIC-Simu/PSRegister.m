@@ -58,13 +58,13 @@
 	}
 }
 
-- (void)setRegisterValueWithDecimalNumber:(NSInteger *)decimalNumber {
-	if (*decimalNumber > 255) {
+- (void)setRegisterValueWithDecimalNumber:(NSInteger)decimalNumber {
+	if (decimalNumber > 255) {
 		[NSException raise:@"Register set to invalid value"
-					format:@"Value %ld is too big", *decimalNumber];
+					format:@"Value %ld is too big", decimalNumber];
 	}
 	NSMutableString *str = [NSMutableString string];
-	NSInteger decimalNumberCopy = *decimalNumber;
+	NSInteger decimalNumberCopy = decimalNumber;
 	
 		// Magic from Stackoverflow
 	for(NSInteger i = 0; i < 8 ; i++) {

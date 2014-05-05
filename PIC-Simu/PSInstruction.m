@@ -106,7 +106,7 @@
 			return self;
 		}
 		if ((instructionBinary & 0b1111111100000000) == 0b0000101100000000) {
-			self.instruction = @"ANDWF";
+			self.instruction = @"DECFSZ";
 			
 			self.registerAddress = instructionBinary & 0b0000000001111111;
 			
@@ -115,7 +115,7 @@
 			return self;
 		}
 		if ((instructionBinary & 0b1111111100000000) == 0b0000101000000000) {
-			self.instruction = @"ANDWF";
+			self.instruction = @"INCF";
 			
 			self.registerAddress = instructionBinary & 0b0000000001111111;
 			
@@ -319,17 +319,17 @@
 	}
 	
 	if ([self.instruction isEqualToString:@"RETFIE"]) {
-		
+			// Ausfüllen
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"RETURN"]) {
-		
+			// Ausfüllen
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"SLEEP"]) {
-		
+			// Ausfüllen
 		return;
 	}
 	
@@ -338,12 +338,152 @@
 	}
 	
 	if ([self.instruction isEqualToString:@"CLRW"]) {
-		pic.regW = 0b000000000;
+		pic.regW = 0x00;
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"MOVWF"]) {
-		pic.regW = 0b000000000;
+		[pic setRegisterwithAddress:self.registerAddress toValue:pic.regW.registerValue];
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"CLRF"]) {
+		[pic setRegisterwithAddress:self.registerAddress toValue:0x00];
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"ADDWF"]) {
+			// Ausfüllen
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"ANDWF"]) {
+			// Ausfüllen
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"COMF"]) {
+			// Ausfüllen
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"DECF"]) {
+			// Ausfüllen
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"DECFSZ"]) {
+			// Ausfüllen
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"INCF"]) {
+			// Ausfüllen
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"INCFSZ"]) {
+			// Ausfüllen
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"IORWF"]) {
+			// Ausfüllen
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"MOVF"]) {
+			// Ausfüllen
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"RLF"]) {
+			// Ausfüllen
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"RRF"]) {
+			// Ausfüllen
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"SUBWF"]) {
+			// Ausfüllen
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"SWAPF"]) {
+			// Ausfüllen
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"XORWF"]) {
+			// Ausfüllen
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"ADDLW"]) {
+			// Ausfüllen
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"ANDLW"]) {
+			// Ausfüllen
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"IORLW"]) {
+			// Ausfüllen
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"XORLW"]) {
+			// Ausfüllen
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"SUBLW"]) {
+			// Ausfüllen
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"BCF"]) {
+			// Ausfüllen
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"BSF"]) {
+			// Ausfüllen
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"BTFSC"]) {
+			// Ausfüllen
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"BTFSS"]) {
+			// Ausfüllen
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"MOVLW"]) {
+			// Ausfüllen
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"RETLW"]) {
+			// Ausfüllen
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"CALL"]) {
+			// Ausfüllen
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"GOTO"]) {
+			// Ausfüllen
 		return;
 	}
 }

@@ -20,6 +20,7 @@
 
 - (void)initWithTextFile:(NSURL *)sourceFile;
 - (NSIndexSet *)tableView:(NSTableView *)tableView selectionIndexesForProposedSelection:(NSIndexSet *)proposedSelectionIndexes;
-- (void)executeNextIntruction;
+- (void)executeNextInstruction;
+- (void)setRegisterwithAddress:(int16_t)address toValue:(int16_t)value;
 
 @end

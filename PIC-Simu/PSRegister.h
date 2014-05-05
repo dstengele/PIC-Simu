@@ -21,7 +21,7 @@
 @property (retain) NSString *stringValue;
 
 - (void)setRegisterValueWithBinaryString:(NSString *)binaryString;
-- (void)setRegisterValueWithDecimalNumber:(NSInteger *)decimalNumber;
+- (void)setRegisterValueWithDecimalNumber:(NSInteger)decimalNumber;
 - (NSInteger)registerValue;
 - (id)init;
 
