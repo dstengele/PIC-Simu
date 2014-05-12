@@ -356,6 +356,7 @@
         NSInteger valueregW;
         NSInteger valueF = 0;
         NSInteger addWFSum;
+        
         valueregW = pic.regW.registerValue;
         [pic setRegisterwithAddress:self.registerAddress toValue:valueF];
 
@@ -444,7 +445,7 @@
 	}
 	
 	if ([self.instruction isEqualToString:@"ANDLW"]) {
-        pic.regW.registerValue = (long)(literal & pic.regW.registerValue);
+        pic.regW.registerValue = literal & pic.regW.registerValue;
 			// Ausfüllen
 		return;
 	}

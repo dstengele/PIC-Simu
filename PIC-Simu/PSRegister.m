@@ -118,15 +118,10 @@ NSString *stringValue;
 		[scanner scanHexInt:&value];
 		NSNumber *valueNum = [NSNumber numberWithUnsignedInt:value];
 		NSInteger valueInt = [valueNum integerValue];
-<<<<<<< HEAD
-<<<<<<< HEAD
+
 		[self setRegisterValue:&valueInt];
-=======
-		[self setRegisterValueWithDecimalNumber:valueInt];
->>>>>>> FETCH_HEAD
-=======
-		[self setRegisterValueWithDecimalNumber:valueInt];
->>>>>>> FETCH_HEAD
+		[self setRegisterValue:valueInt];
+		[self setRegisterValue:valueInt];
 	}
 }
 
