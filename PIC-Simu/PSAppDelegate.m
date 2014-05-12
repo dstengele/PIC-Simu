@@ -15,7 +15,7 @@
 @synthesize codeView;
 @synthesize resetButtonMenu;
 @synthesize resetButtonToolbar;
-@synthesize source;
+@synthesize virtualPIC;
 @synthesize startButtonMenu;
 @synthesize startButtonToolbar;
 @synthesize stepButtonMenu;
@@ -23,6 +23,7 @@
 @synthesize stopButtonMenu;
 @synthesize stopButtonToolbar;
 @synthesize window;
+@synthesize nextInstructionRunLoopTimer;
 
 - (void)logButtonStatus {
 	NSLog(@"Status Startbutton: %hhd", [self.startButtonToolbar isEnabled]);
@@ -60,7 +61,7 @@
 		path = [files objectAtIndex:0];
 		NSLog(@"Pfad: %@", path);
 	}
-	[self.source initWithTextFile:path];
+	[virtualPIC initWithTextFile:path];
 	
 	[self.startButtonMenu setEnabled:true];
 	[self.startButtonToolbar setEnabled:true];
@@ -80,6 +81,8 @@
 	[self.resetButtonMenu setEnabled:NO];
 	[self.resetButtonToolbar setEnabled:NO];
 	[self logButtonStatus];
+	self.nextInstructionRunLoopTimer = [NSTimer scheduledTimerWithTimeInterval:0.01 target:virtualPIC selector:@selector(timerFireMethod:) userInfo:self repeats:YES];
+	NSLog(@"Created Timer");
 }
 - (IBAction)stopButtonPress:(id)sender {
 	[self.startButtonMenu setEnabled:YES];
@@ -94,9 +97,12 @@
 	[self.resetButtonMenu setEnabled:YES];
 	[self.resetButtonToolbar setEnabled:YES];
 	[self logButtonStatus];
+	[self.nextInstructionRunLoopTimer invalidate];
+	NSLog(@"Invalidated Timer");
 }
 - (IBAction)stepButtonPress:(id)sender {
-	
+	[virtualPIC executeNextInstruction];
+	NSLog(@"Executed one instruction");
 }
 - (IBAction)resetButtonPress:(id)sender {
 	

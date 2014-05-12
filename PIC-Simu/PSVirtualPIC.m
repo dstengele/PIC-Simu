@@ -499,4 +499,8 @@
 	}
 }
 
+- (void)timerFireMethod:(NSTimer *)timer {
+	[self executeNextInstruction];
+}
+
 @end
