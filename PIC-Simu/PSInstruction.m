@@ -353,6 +353,21 @@
 	}
 	
 	if ([self.instruction isEqualToString:@"ADDWF"]) {
+        NSInteger valueregW;
+        NSInteger valueF = 0;
+        NSInteger addWFSum;
+        valueregW = pic.regW.registerValue;
+        [pic setRegisterwithAddress:self.registerAddress toValue:valueF];
+
+        addWFSum = valueregW + valueF;
+        if(storeInF)
+        {
+            //Sum to f
+        }
+        else
+        {
+            //Sum to W
+        }
 			// Ausfüllen
 		return;
 	}
@@ -423,26 +438,31 @@
 	}
 	
 	if ([self.instruction isEqualToString:@"ADDLW"]) {
+        pic.regW.registerValue += literal;
 			// Ausfüllen
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"ANDLW"]) {
+        pic.regW.registerValue = (long)(literal & pic.regW.registerValue);
 			// Ausfüllen
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"IORLW"]) {
+        pic.regW.registerValue = literal | pic.regW.registerValue;
 			// Ausfüllen
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"XORLW"]) {
+        pic.regW.registerValue = literal ^ pic.regW.registerValue;
 			// Ausfüllen
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"SUBLW"]) {
+        pic.regW.registerValue = literal - pic.regW.registerValue;
 			// Ausfüllen
 		return;
 	}
@@ -468,6 +488,7 @@
 	}
 	
 	if ([self.instruction isEqualToString:@"MOVLW"]) {
+        pic.regW.registerValue = literal;
 			// Ausfüllen
 		return;
 	}
