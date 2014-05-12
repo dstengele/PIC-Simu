@@ -23,6 +23,7 @@
 		E2E743B618E99636004A43D0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2E7439518E99636004A43D0 /* Cocoa.framework */; };
 		E2E743BE18E99636004A43D0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E2E743BC18E99636004A43D0 /* InfoPlist.strings */; };
 		E2E743C018E99636004A43D0 /* PIC_SimuTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E2E743BF18E99636004A43D0 /* PIC_SimuTests.m */; };
+		E2F2C8641920FA31004A43D0 /* PSCallStack.m in Sources */ = {isa = PBXBuildFile; fileRef = E2F2C8631920FA31004A43D0 /* PSCallStack.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,8 @@
 		E2E743BD18E99636004A43D0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E2E743BF18E99636004A43D0 /* PIC_SimuTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PIC_SimuTests.m; sourceTree = "<group>"; };
 		E2E845C918EEEEC7004A43D0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/MainMenu.strings; sourceTree = "<group>"; };
+		E2F2C8621920FA31004A43D0 /* PSCallStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSCallStack.h; sourceTree = "<group>"; };
+		E2F2C8631920FA31004A43D0 /* PSCallStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSCallStack.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +153,8 @@
 				E209DE5118E9CAB6004A43D0 /* PSVirtualPIC.m */,
 				E235E6BB190E726F004A43D0 /* PSInstruction.h */,
 				E235E6BC190E726F004A43D0 /* PSInstruction.m */,
+				E2F2C8621920FA31004A43D0 /* PSCallStack.h */,
+				E2F2C8631920FA31004A43D0 /* PSCallStack.m */,
 			);
 			path = "PIC-Simu";
 			sourceTree = "<group>";
@@ -288,6 +293,7 @@
 				E2AC163418F433C1004A43D0 /* PSLineOfCode.m in Sources */,
 				E262490818FBCBC4004A43D0 /* PSRegister.m in Sources */,
 				E2E743A918E99636004A43D0 /* PSAppDelegate.m in Sources */,
+				E2F2C8641920FA31004A43D0 /* PSCallStack.m in Sources */,
 				E27A19B818F2976E004A43D0 /* PSRegisters.m in Sources */,
 				E235E6BD190E726F004A43D0 /* PSInstruction.m in Sources */,
 			);

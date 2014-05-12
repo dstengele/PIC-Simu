@@ -22,7 +22,7 @@ extern NSString *stringValue;
 @property (readwrite) BOOL bit7;
 
 - (void)setRegisterValueWithBinaryString:(NSString *)binaryString;
-- (void)setRegisterValueWithDecimalNumber:(NSInteger)decimalNumber;
+- (void)setRegisterValue:(NSInteger)decimalNumber;
 - (NSInteger)registerValue;
 - (id)init;
 

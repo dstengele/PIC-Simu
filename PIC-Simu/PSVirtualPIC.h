@@ -8,6 +8,7 @@
 
 @import Foundation;
 #import "PSRegisters.h"
+#import "PSCallStack.h"
 
 @interface PSVirtualPIC : NSObject {
 }
@@ -17,6 +18,7 @@
 @property (readwrite) NSInteger pc;
 @property (readwrite) NSInteger wdt;
 @property (retain) PSRegister* regW;
+@property (retain) PSCallStack* callStack;
 
 - (void)initWithTextFile:(NSURL *)sourceFile;
 - (NSIndexSet *)tableView:(NSTableView *)tableView selectionIndexesForProposedSelection:(NSIndexSet *)proposedSelectionIndexes;

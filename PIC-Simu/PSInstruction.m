@@ -478,7 +478,8 @@
 	}
 	
 	if ([self.instruction isEqualToString:@"CALL"]) {
-			// Ausfüllen
+		[pic.callStack push:pic.pc];
+		pic.pc = self.literal;
 		return;
 	}
 	
