@@ -58,7 +58,7 @@
 	}
 }
 
-- (void)setRegisterValueWithDecimalNumber:(NSInteger)decimalNumber {
+- (void)setRegisterValue:(NSInteger)decimalNumber {
 	if (decimalNumber > 255) {
 		[NSException raise:@"Register set to invalid value"
 					format:@"Value %ld is too big", decimalNumber];
@@ -117,7 +117,7 @@
 		[scanner scanHexInt:&value];
 		NSNumber *valueNum = [NSNumber numberWithUnsignedInt:value];
 		NSInteger valueInt = [valueNum integerValue];
-		[self setRegisterValueWithDecimalNumber:&valueInt];
+		[self setRegisterValue:&valueInt];
 	}
 }
 
