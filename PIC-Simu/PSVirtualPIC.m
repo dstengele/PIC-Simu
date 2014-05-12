@@ -13,6 +13,11 @@
 @implementation PSVirtualPIC
 
 @synthesize fileContents;
+@synthesize regW;
+@synthesize storage;
+@synthesize locArrayController;
+@synthesize pc;
+@synthesize wdt;
 
 - (id)init {
 	self = [super init];
@@ -66,7 +71,6 @@
 	NSString *instructionString = [[self.fileContents objectAtIndex:nextInstructionRow] instruction];
 
 	int16_t instructionBinary = [instructionString intValue];
-		// TODO: Unterscheiden der Opcodes einbauen
 	PSInstruction *instruction = [[PSInstruction alloc] initWithBits:instructionBinary];
 
 	[instruction executeWithVirtualPIC:self];
@@ -493,6 +497,10 @@
 		default:
 			break;
 	}
+}
+
+- (void)timerFireMethod:(NSTimer *)timer {
+	[self executeNextInstruction];
 }
 
 @end

@@ -10,27 +10,42 @@
 
 @implementation PSAppDelegate
 
+@synthesize buttonMenu;
+@synthesize buttonToolbar;
+@synthesize codeView;
+@synthesize resetButtonMenu;
+@synthesize resetButtonToolbar;
+@synthesize virtualPIC;
+@synthesize startButtonMenu;
+@synthesize startButtonToolbar;
+@synthesize stepButtonMenu;
+@synthesize stepButtonToolbar;
+@synthesize stopButtonMenu;
+@synthesize stopButtonToolbar;
+@synthesize window;
+@synthesize nextInstructionRunLoopTimer;
+
 - (void)logButtonStatus {
-	NSLog(@"Status Startbutton: %hhd", [_startButtonToolbar isEnabled]);
-	NSLog(@"Status Stopbutton: %hhd", [_stopButtonToolbar isEnabled]);
-	NSLog(@"Status Stepbutton: %hhd", [_stepButtonToolbar isEnabled]);
-	NSLog(@"Status Resetbutton: %hhd", [_resetButtonToolbar isEnabled]);
+	NSLog(@"Status Startbutton: %hhd", [self.startButtonToolbar isEnabled]);
+	NSLog(@"Status Stopbutton: %hhd", [self.stopButtonToolbar isEnabled]);
+	NSLog(@"Status Stepbutton: %hhd", [self.stepButtonToolbar isEnabled]);
+	NSLog(@"Status Resetbutton: %hhd", [self.resetButtonToolbar isEnabled]);
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	
 		//TODO: Alles in extra-Methode verpacken, mgl.weise mit switch-case in einer einzigen
-	[_startButtonMenu setEnabled:NO];
-	[_startButtonToolbar setEnabled:NO];
+	[self.startButtonMenu setEnabled:NO];
+	[self.startButtonToolbar setEnabled:NO];
 	
-	[_stopButtonMenu setEnabled:NO];
-	[_stopButtonToolbar setEnabled:NO];
+	[self.stopButtonMenu setEnabled:NO];
+	[self.stopButtonToolbar setEnabled:NO];
 	
-	[_stepButtonMenu setEnabled:NO];
-	[_stepButtonToolbar setEnabled:NO];
+	[self.stepButtonMenu setEnabled:NO];
+	[self.stepButtonToolbar setEnabled:NO];
 	
-	[_resetButtonMenu setEnabled:NO];
-	[_resetButtonToolbar setEnabled:NO];
+	[self.resetButtonMenu setEnabled:NO];
+	[self.resetButtonToolbar setEnabled:NO];
 	
 	[self logButtonStatus];
 }
@@ -46,43 +61,48 @@
 		path = [files objectAtIndex:0];
 		NSLog(@"Pfad: %@", path);
 	}
-	[_source initWithTextFile:path];
+	[virtualPIC initWithTextFile:path];
 	
-	[_startButtonMenu setEnabled:true];
-	[_startButtonToolbar setEnabled:true];
+	[self.startButtonMenu setEnabled:true];
+	[self.startButtonToolbar setEnabled:true];
 }
 
 	//TODO: Müsste in einer einzelnen Methode möglich sein, Tags für Buttons setzen und darauf prüfen
 - (IBAction)startButtonPress:(id)sender {
-	[_startButtonMenu setEnabled:NO];
-	[_startButtonToolbar setEnabled:NO];
+	[self.startButtonMenu setEnabled:NO];
+	[self.startButtonToolbar setEnabled:NO];
 	
-	[_stopButtonMenu setEnabled:YES];
-	[_stopButtonToolbar setEnabled:YES];
+	[self.stopButtonMenu setEnabled:YES];
+	[self.stopButtonToolbar setEnabled:YES];
 	
-	[_stepButtonMenu setEnabled:NO];
-	[_stepButtonToolbar setEnabled:NO];
+	[self.stepButtonMenu setEnabled:NO];
+	[self.stepButtonToolbar setEnabled:NO];
 	
-	[_resetButtonMenu setEnabled:NO];
-	[_resetButtonToolbar setEnabled:NO];
+	[self.resetButtonMenu setEnabled:NO];
+	[self.resetButtonToolbar setEnabled:NO];
 	[self logButtonStatus];
+	self.nextInstructionRunLoopTimer = [NSTimer scheduledTimerWithTimeInterval:0.01 target:virtualPIC selector:@selector(timerFireMethod:) userInfo:self repeats:YES];
+	NSLog(@"Created Timer");
 }
 - (IBAction)stopButtonPress:(id)sender {
-	[_startButtonMenu setEnabled:YES];
-	[_startButtonToolbar setEnabled:YES];
+	[self.startButtonMenu setEnabled:YES];
+	[self.startButtonToolbar setEnabled:YES];
 	
-	[_stopButtonMenu setEnabled:NO];
-	[_stopButtonToolbar setEnabled:NO];
+	[self.stopButtonMenu setEnabled:NO];
+	[self.stopButtonToolbar setEnabled:NO];
 	
-	[_stepButtonMenu setEnabled:YES];
-	[_stepButtonToolbar setEnabled:YES];
+	[self.stepButtonMenu setEnabled:YES];
+	[self.stepButtonToolbar setEnabled:YES];
 	
-	[_resetButtonMenu setEnabled:YES];
-	[_resetButtonToolbar setEnabled:YES];
+	[self.resetButtonMenu setEnabled:YES];
+	[self.resetButtonToolbar setEnabled:YES];
 	[self logButtonStatus];
+	[self.nextInstructionRunLoopTimer invalidate];
+	NSLog(@"Invalidated Timer");
 }
 - (IBAction)stepButtonPress:(id)sender {
-	
+	[virtualPIC executeNextInstruction];
+	NSLog(@"Executed one instruction");
 }
 - (IBAction)resetButtonPress:(id)sender {
 	

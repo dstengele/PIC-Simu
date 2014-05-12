@@ -11,7 +11,7 @@
 
 @interface PSAppDelegate : NSObject <NSApplicationDelegate> {
 }
-@property (weak) IBOutlet PSVirtualPIC *source;
+@property (weak) IBOutlet PSVirtualPIC *virtualPIC;
 
 @property (weak) IBOutlet NSMenuItem *buttonMenu;
 @property (weak) IBOutlet NSMenuItem *startButtonMenu;
@@ -25,6 +25,8 @@
 @property (weak) IBOutlet NSToolbarItem *stepButtonToolbar;
 @property (weak) IBOutlet NSToolbarItem *resetButtonToolbar;
 @property (weak) IBOutlet NSTableView *codeView;
+
+@property (assign) NSTimer *nextInstructionRunLoopTimer;
 
 @property (assign) IBOutlet NSWindow *window;
 
