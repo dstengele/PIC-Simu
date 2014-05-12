@@ -10,6 +10,8 @@
 
 @interface PSRegister : NSObject
 
+extern NSString *stringValue;
+
 @property (readwrite) BOOL bit0;
 @property (readwrite) BOOL bit1;
 @property (readwrite) BOOL bit2;
@@ -18,7 +20,6 @@
 @property (readwrite) BOOL bit5;
 @property (readwrite) BOOL bit6;
 @property (readwrite) BOOL bit7;
-@property (retain) NSString *stringValue;
 
 - (void)setRegisterValueWithBinaryString:(NSString *)binaryString;
 - (void)setRegisterValueWithDecimalNumber:(NSInteger)decimalNumber;

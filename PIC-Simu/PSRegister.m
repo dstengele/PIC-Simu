@@ -10,6 +10,8 @@
 
 @implementation PSRegister
 
+NSString *stringValue;
+
 @synthesize bit0;
 @synthesize bit1;
 @synthesize bit2;
@@ -19,7 +21,6 @@
 @synthesize bit6;
 @synthesize bit7;
 
-@synthesize stringValue;
 
 
 - (id)init {
@@ -76,7 +77,7 @@
 }
 
 - (NSInteger)registerValue {
-	return (int)bit7*128+(int)bit6*64+(int)bit5*32+(int)bit4*16+(int)bit3*8+(int)bit2*4+(int)bit1*2+(int)bit0;
+	return (int)self.bit7*128+(int)self.bit6*64+(int)self.bit5*32+(int)self.bit4*16+(int)self.bit3*8+(int)self.bit2*4+(int)self.bit1*2+(int)self.bit0;
 }
 
 - (NSString *)stringValue {
@@ -117,7 +118,7 @@
 		[scanner scanHexInt:&value];
 		NSNumber *valueNum = [NSNumber numberWithUnsignedInt:value];
 		NSInteger valueInt = [valueNum integerValue];
-		[self setRegisterValueWithDecimalNumber:&valueInt];
+		[self setRegisterValueWithDecimalNumber:valueInt];
 	}
 }
 
