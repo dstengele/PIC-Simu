@@ -108,4 +108,6 @@
 @property (retain) PSRegister *reg4E;
 @property (retain) PSRegister *reg4F;
 
+- (void)setRegister:(uint16_t)registerAddress toValue:(uint16_t)newValue;
+
 @end

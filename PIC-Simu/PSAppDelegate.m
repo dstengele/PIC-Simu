@@ -61,7 +61,7 @@
 		path = [files objectAtIndex:0];
 		NSLog(@"Pfad: %@", path);
 	}
-	[virtualPIC initWithTextFile:path];
+	[self.virtualPIC initWithTextFile:path];
 	
 	[self.startButtonMenu setEnabled:true];
 	[self.startButtonToolbar setEnabled:true];
@@ -81,7 +81,7 @@
 	[self.resetButtonMenu setEnabled:NO];
 	[self.resetButtonToolbar setEnabled:NO];
 	[self logButtonStatus];
-	self.nextInstructionRunLoopTimer = [NSTimer scheduledTimerWithTimeInterval:0.01 target:virtualPIC selector:@selector(timerFireMethod:) userInfo:self repeats:YES];
+	self.nextInstructionRunLoopTimer = [NSTimer scheduledTimerWithTimeInterval:0.01 target:self.virtualPIC selector:@selector(timerFireMethod:) userInfo:self repeats:YES];
 	NSLog(@"Created Timer");
 }
 - (IBAction)stopButtonPress:(id)sender {
@@ -101,7 +101,7 @@
 	NSLog(@"Invalidated Timer");
 }
 - (IBAction)stepButtonPress:(id)sender {
-	[virtualPIC executeNextInstruction];
+	[self.virtualPIC executeNextInstruction];
 	NSLog(@"Executed one instruction");
 }
 - (IBAction)resetButtonPress:(id)sender {
