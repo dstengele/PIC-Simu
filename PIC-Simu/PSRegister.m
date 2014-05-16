@@ -119,8 +119,6 @@ NSString *stringValue;
 		NSNumber *valueNum = [NSNumber numberWithUnsignedInt:value];
 		NSInteger valueInt = [valueNum integerValue];
 
-		[self setRegisterValue:&valueInt];
-		[self setRegisterValue:valueInt];
 		[self setRegisterValue:valueInt];
 	}
 }

@@ -343,12 +343,12 @@
 	}
 	
 	if ([self.instruction isEqualToString:@"MOVWF"]) {
-		[pic setRegisterwithAddress:self.registerAddress toValue:pic.regW.registerValue];
+		[pic.storage setRegister:self.registerAddress toValue:pic.regW.registerValue];
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"CLRF"]) {
-		[pic setRegisterwithAddress:self.registerAddress toValue:0x00];
+		[pic.storage setRegister:self.registerAddress toValue:0x00];
 		return;
 	}
 	
@@ -358,10 +358,10 @@
         NSInteger addWFSum;
         
         valueregW = pic.regW.registerValue;
-        [pic setRegisterwithAddress:self.registerAddress toValue:valueF];
+        [pic.storage setRegister:self.registerAddress toValue:valueF];
 
         addWFSum = valueregW + valueF;
-        if(storeInF)
+        if(self.storeInF)
         {
             //Sum to f
         }
@@ -439,32 +439,28 @@
 	}
 	
 	if ([self.instruction isEqualToString:@"ADDLW"]) {
-        pic.regW.registerValue += literal;
+        pic.regW.registerValue += self.literal;
 			// Ausfüllen
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"ANDLW"]) {
-        pic.regW.registerValue = literal & pic.regW.registerValue;
-			// Ausfüllen
+        pic.regW.registerValue = self.literal & pic.regW.registerValue;
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"IORLW"]) {
-        pic.regW.registerValue = literal | pic.regW.registerValue;
-			// Ausfüllen
+        pic.regW.registerValue = self.literal | pic.regW.registerValue;
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"XORLW"]) {
-        pic.regW.registerValue = literal ^ pic.regW.registerValue;
-			// Ausfüllen
+        pic.regW.registerValue = self.literal ^ pic.regW.registerValue;
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"SUBLW"]) {
-        pic.regW.registerValue = literal - pic.regW.registerValue;
-			// Ausfüllen
+        pic.regW.registerValue = self.literal - pic.regW.registerValue;
 		return;
 	}
 	
@@ -489,8 +485,7 @@
 	}
 	
 	if ([self.instruction isEqualToString:@"MOVLW"]) {
-        pic.regW.registerValue = literal;
-			// Ausfüllen
+        pic.regW.registerValue = self.literal;
 		return;
 	}
 	

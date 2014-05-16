@@ -22,8 +22,8 @@
 
 - (void)initWithTextFile:(NSURL *)sourceFile;
 - (NSIndexSet *)tableView:(NSTableView *)tableView selectionIndexesForProposedSelection:(NSIndexSet *)proposedSelectionIndexes;
-- (void)executeNextInstruction;
-- (void)setRegisterwithAddress:(int16_t)address toValue:(int16_t)value;
+- (BOOL)executeNextInstruction;
+//- (void)setRegisterwithAddress:(int16_t)address toValue:(int16_t)value;
 - (void)timerFireMethod:(NSTimer *)timer;
 
 @end
