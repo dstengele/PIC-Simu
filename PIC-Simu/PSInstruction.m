@@ -334,6 +334,7 @@
 	}
 	
 	if ([self.instruction isEqualToString:@"NOP"]) {
+        //Nope Nope Nope Nope Nope
 		return;
 	}
 	
@@ -353,32 +354,47 @@
 	}
 	
 	if ([self.instruction isEqualToString:@"ADDWF"]) {
-        NSInteger valueregW;
-        NSInteger valueF = 0;
-        NSInteger addWFSum;
         
-        valueregW = pic.regW.registerValue;
-        [pic setRegisterwithAddress:self.registerAddress toValue:valueF];
-
-        addWFSum = valueregW + valueF;
         if(storeInF)
         {
+            [pic setRegisterwithAddress:registerAddress toValue:pic.regW.registerValue + [pic.storage registerValueforAddress:registerAddress]];
             //Sum to f
         }
         else
         {
+            pic.regW.registerValue = [pic.storage registerValueforAddress:registerAddress] + pic.regW.registerValue;
             //Sum to W
         }
-			// Ausfüllen
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"ANDWF"]) {
-			// Ausfüllen
+        if(storeInF)
+        {
+            [pic setRegisterwithAddress:registerAddress toValue:pic.regW.registerValue & [pic.storage registerValueforAddress:registerAddress]];
+            //move to f
+        }
+        else
+        {
+            pic.regW.registerValue = pic.regW.registerValue & [pic.storage registerValueforAddress:registerAddress];
+            //move to W
+        }
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"COMF"]) {
+        
+        if(storeInF)
+        {
+            [pic setRegisterwithAddress:registerAddress toValue:~[pic.storage registerValueforAddress:registerAddress]];
+            //move to f
+        }
+        else
+        {
+            pic.regW.registerValue = ~[pic.storage registerValueforAddress:registerAddress];
+            //move to W
+        }
+
 			// Ausfüllen
 		return;
 	}
@@ -407,15 +423,14 @@
         
         if(storeInF)
         {
-            registerAddress = pic.regW.registerValue | registerAddress;
+            [pic setRegisterwithAddress:registerAddress toValue:pic.regW.registerValue | [pic.storage registerValueforAddress:registerAddress]];
             //result in f
         }
         else
         {
-            pic.regW.registerValue = pic.regW.registerValue | registerAddress;
+            pic.regW.registerValue = pic.regW.registerValue | [pic.storage registerValueforAddress:registerAddress];
             //result in W
         }
-			// Ausfüllen
 		return;
 	}
 	
@@ -432,62 +447,108 @@
             pic.regW.registerValue = [pic.storage registerValueforAddress:registerAddress];
             //move to W
         }
-			// Ausfüllen
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"RLF"]) {
+        
+        if(storeInF)
+        {
+            //move to f
+        }
+        else
+        {
+            //move to W
+        }
+
 			// Ausfüllen
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"RRF"]) {
+        
+        if(storeInF)
+        {
+            //move to f
+        }
+        else
+        {
+            //move to W
+        }
+
 			// Ausfüllen
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"SUBWF"]) {
-			// Ausfüllen
+        
+        if(storeInF)
+        {
+            [pic setRegisterwithAddress:registerAddress toValue:[pic.storage registerValueforAddress:registerAddress] - pic.regW.registerValue];
+            //move to f
+        }
+        else
+        {
+            pic.regW.registerValue = [pic.storage registerValueforAddress:registerAddress] - pic.regW.registerValue;
+            //move to W
+        }
+
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"SWAPF"]) {
+        
+        if(storeInF)
+        {
+            //move to f
+        }
+        else
+        {
+            //move to W
+        }
+
 			// Ausfüllen
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"XORWF"]) {
-			// Ausfüllen
+        
+        if(storeInF)
+        {
+            [pic setRegisterwithAddress:registerAddress toValue:pic.regW.registerValue ^ [pic.storage registerValueforAddress:registerAddress]];
+            //move to f
+        }
+        else
+        {
+            pic.regW.registerValue = pic.regW.registerValue ^ [pic.storage registerValueforAddress:registerAddress];
+            //move to W
+        }
+
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"ADDLW"]) {
         pic.regW.registerValue += literal;
-			// Ausfüllen
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"ANDLW"]) {
-        pic.regW.registerValue = literal & pic.regW.registerValue;
-			// Ausfüllen
+        pic.regW.registerValue = pic.regW.registerValue & literal;
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"IORLW"]) {
-        pic.regW.registerValue = literal | pic.regW.registerValue;
-			// Ausfüllen
+        pic.regW.registerValue = pic.regW.registerValue | literal;
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"XORLW"]) {
-        pic.regW.registerValue = literal ^ pic.regW.registerValue;
-			// Ausfüllen
+        pic.regW.registerValue = pic.regW.registerValue ^ literal;
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"SUBLW"]) {
         pic.regW.registerValue = literal - pic.regW.registerValue;
-			// Ausfüllen
 		return;
 	}
 	
@@ -519,7 +580,7 @@
 	}
 	
 	if ([self.instruction isEqualToString:@"RETLW"]) {
-        
+        pic.regW.registerValue = literal;
 			// Ausfüllen
 		return;
 	}
