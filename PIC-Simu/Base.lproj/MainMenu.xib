@@ -4171,6 +4171,7 @@ CA
         <collectionViewItem id="62O-bc-fx7"/>
         <customObject id="x02-up-K5j" customClass="PSVirtualPIC">
             <connections>
+                <outlet property="codeView" destination="coc-55-6QL" id="7KL-A4-xTj"/>
                 <outlet property="locArrayController" destination="Xam-DF-SMg" id="JBg-nP-Iva"/>
                 <outlet property="storage" destination="fVB-ZV-YNs" id="HXT-q6-oBg"/>
             </connections>

@@ -16,9 +16,9 @@
 @synthesize regW;
 @synthesize storage;
 @synthesize locArrayController;
-@synthesize pc;
 @synthesize wdt;
 @synthesize callStack;
+@synthesize codeView;
 
 - (id)init {
 	self = [super init];
@@ -59,16 +59,29 @@
 }
 
 - (BOOL)executeNextInstruction {
-	NSUInteger nextInstructionRow = [self.fileContents indexOfObjectPassingTest:
-									 ^BOOL(id obj, NSUInteger idx, BOOL *stop){
-										 PSLineOfCode *l = obj;
-										 NSString *pcString = [NSString stringWithFormat:@"%ld", (long)self.pc];
-										 if ([l.programCounter isEqualTo:pcString]) {
-											 return TRUE;
-										 }
-										 return FALSE;
-									 }
-									];
+	NSUInteger nextInstructionRow = NSNotFound;
+	nextInstructionRow = [self.fileContents indexOfObjectPassingTest:
+							  ^BOOL(id obj, NSUInteger idx, BOOL *stop){
+								  PSLineOfCode *l = obj;
+								  NSScanner *scanner = [NSScanner scannerWithString:l.programCounter];
+								  uint parsedPc;
+								  [scanner scanHexInt:&parsedPc];
+								  uint16_t pc = self.storage.pc;
+								  if (pc == (NSInteger)parsedPc) {
+									  return TRUE;
+								  }
+								  return FALSE;
+							  }
+							  ];
+	if (nextInstructionRow == NSNotFound) {
+		[NSException raise:@"Illegal Value in PCL or PCLATH Register!" format:@"Format Error"];
+	}
+	
+	NSIndexSet *rows;
+	NSLog(@"Instruction found: %ld", nextInstructionRow);
+	rows = [NSIndexSet indexSetWithIndex:nextInstructionRow];
+	[self.codeView selectRowIndexes:rows byExtendingSelection:FALSE];
+	
 	PSLineOfCode *loc = [self.fileContents objectAtIndex:nextInstructionRow];
 	if (loc.hasBreakpoint) {
 		return false;
@@ -79,6 +92,7 @@
 	PSInstruction *instruction = [[PSInstruction alloc] initWithBits:instructionBinary];
 
 	[instruction executeWithVirtualPIC:self];
+	[self.storage incrementPc];
 	return true;
 }
 

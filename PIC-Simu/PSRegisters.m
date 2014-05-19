@@ -807,4 +807,37 @@
 			return 0;
 	}
 }
+
+- (uint16_t)pc {
+	uint16_t res =
+	   (self.pclath.bit3 * 4096)
+	+  (self.pclath.bit4 * 2048)
+	+  (self.pclath.bit5 * 1024)
+	+  (self.pclath.bit6 * 512)
+	+  (self.pclath.bit7 * 256)
+	+  (self.pcl.   bit0 * 128)
+	+  (self.pcl.   bit1 * 64)
+	+  (self.pcl.   bit2 * 32)
+	+  (self.pcl.   bit3 * 16)
+	+  (self.pcl.   bit4 * 8)
+	+  (self.pcl.   bit5 * 4)
+	+  (self.pcl.   bit6 * 2)
+	+  (self.pcl.   bit7);
+	
+	return res;
+}
+
+- (void)setPc:(uint16_t)newPc {
+	uint16_t foo = newPc & 0b0001111111111111;
+	uint16_t high = foo &  0b1111111100000000;
+	uint16_t low = foo &   0b0000000011111111;
+	self.pcl.registerValue = low;
+	self.pclath.registerValue = high;
+}
+
+- (void)incrementPc {
+	uint16_t temp = [self pc];
+	temp++;
+	[self setPc:temp];
+}
 @end
