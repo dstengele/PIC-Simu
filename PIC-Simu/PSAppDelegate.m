@@ -97,15 +97,17 @@
 	[self.resetButtonMenu setEnabled:YES];
 	[self.resetButtonToolbar setEnabled:YES];
 	[self logButtonStatus];
-	[self.nextInstructionRunLoopTimer invalidate];
-	NSLog(@"Invalidated Timer");
+	if (self.nextInstructionRunLoopTimer != nil) {
+		[self.nextInstructionRunLoopTimer invalidate];
+		NSLog(@"Invalidated Timer");
+	}
 }
 - (IBAction)stepButtonPress:(id)sender {
 	[self.virtualPIC executeNextInstruction];
 	NSLog(@"Executed one instruction");
 }
 - (IBAction)resetButtonPress:(id)sender {
-	
+	self.virtualPIC.storage.pc = 0;
 }
 
 @end

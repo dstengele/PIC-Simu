@@ -19,6 +19,7 @@
 @property (readwrite) NSInteger wdt;
 @property (retain) PSRegister* regW;
 @property (retain) PSCallStack* callStack;
+@property (weak) IBOutlet NSTableView *codeView;
 
 - (void)initWithTextFile:(NSURL *)sourceFile;
 - (NSIndexSet *)tableView:(NSTableView *)tableView selectionIndexesForProposedSelection:(NSIndexSet *)proposedSelectionIndexes;

@@ -354,29 +354,32 @@
 	}
 	
 	if ([self.instruction isEqualToString:@"ADDWF"]) {
+        NSInteger valueregW;
+        NSInteger valueF = 0;
+        NSInteger addWFSum;
         
         if(self.storeInF)
         {
-            [pic.storage setRegister:registerAddress toValue:pic.regW.registerValue + [pic.storage registerValueforAddress:registerAddress]];
+            [pic.storage setRegister:self.registerAddress toValue:pic.regW.registerValue + [pic.storage registerValueforAddress:self.registerAddress]];
             //Sum to f
         }
         else
         {
-            pic.regW.registerValue = [pic.storage registerValueforAddress:registerAddress] + pic.regW.registerValue;
+            pic.regW.registerValue = [pic.storage registerValueforAddress:self.registerAddress] + pic.regW.registerValue;
             //Sum to W
         }
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"ANDWF"]) {
-        if(storeInF)
+        if(self.storeInF)
         {
-            [pic.storage setRegister:registerAddress toValue:pic.regW.registerValue & [pic.storage registerValueforAddress:registerAddress]];
+            [pic.storage setRegister:self.registerAddress toValue:pic.regW.registerValue & [pic.storage registerValueforAddress:self.registerAddress]];
             //move to f
         }
         else
         {
-            pic.regW.registerValue = pic.regW.registerValue & [pic.storage registerValueforAddress:registerAddress];
+            pic.regW.registerValue = pic.regW.registerValue & [pic.storage registerValueforAddress:self.registerAddress];
             //move to W
         }
 		return;
@@ -384,14 +387,14 @@
 	
 	if ([self.instruction isEqualToString:@"COMF"]) {
         
-        if(storeInF)
+        if(self.storeInF)
         {
-            [pic.storage setRegister:registerAddress toValue:~[pic.storage registerValueforAddress:registerAddress]];
+            [pic.storage setRegister:self.registerAddress toValue:[pic.storage registerValueforAddress:self.registerAddress]];
             //move to f
         }
         else
         {
-            pic.regW.registerValue = ~[pic.storage registerValueforAddress:registerAddress];
+            pic.regW.registerValue = ~[pic.storage registerValueforAddress:self.registerAddress];
             //move to W
         }
 
@@ -457,14 +460,14 @@
 	
 	if ([self.instruction isEqualToString:@"IORWF"]) {
         
-        if(storeInF)
+        if(self.storeInF)
         {
-            [pic.storage setRegister:registerAddress toValue:pic.regW.registerValue | [pic.storage registerValueforAddress:registerAddress]];
+            [pic.storage setRegister:self.registerAddress toValue:pic.regW.registerValue | [pic.storage registerValueforAddress:self.registerAddress]];
             //result in f
         }
         else
         {
-            pic.regW.registerValue = pic.regW.registerValue | [pic.storage registerValueforAddress:registerAddress];
+            pic.regW.registerValue = pic.regW.registerValue | [pic.storage registerValueforAddress:self.registerAddress];
             //result in W
         }
 		return;
@@ -472,15 +475,15 @@
 	
 	if ([self.instruction isEqualToString:@"MOVF"]) {
         
-        if(storeInF)
+        if(self.storeInF)
         {
-            [pic.storage setRegister:registerAddress
-                             toValue:[pic.storage registerValueforAddress:registerAddress ]];
+            [pic.storage setRegister:self.registerAddress
+                             toValue:[pic.storage registerValueforAddress:self.registerAddress ]];
             //move to f
         }
         else
         {
-            pic.regW.registerValue = [pic.storage registerValueforAddress:registerAddress];
+            pic.regW.registerValue = [pic.storage registerValueforAddress:self.registerAddress];
             //move to W
         }
 		return;
@@ -488,7 +491,7 @@
 	
 	if ([self.instruction isEqualToString:@"RLF"]) {
         
-        if(storeInF)
+        if(self.storeInF)
         {
             //move to f
         }
@@ -503,7 +506,7 @@
 	
 	if ([self.instruction isEqualToString:@"RRF"]) {
         
-        if(storeInF)
+        if(self.storeInF)
         {
             //move to f
         }
@@ -518,14 +521,14 @@
 	
 	if ([self.instruction isEqualToString:@"SUBWF"]) {
         
-        if(storeInF)
+        if(self.storeInF)
         {
-            [pic.storage setRegister:registerAddress toValue:[pic.storage registerValueforAddress:registerAddress] - pic.regW.registerValue];
+            [pic.storage setRegister:self.registerAddress toValue:[pic.storage registerValueforAddress:self.registerAddress] - pic.regW.registerValue];
             //move to f
         }
         else
         {
-            pic.regW.registerValue = [pic.storage registerValueforAddress:registerAddress] - pic.regW.registerValue;
+            pic.regW.registerValue = [pic.storage registerValueforAddress:self.registerAddress] - pic.regW.registerValue;
             //move to W
         }
 
@@ -534,7 +537,7 @@
 	
 	if ([self.instruction isEqualToString:@"SWAPF"]) {
         
-        if(storeInF)
+        if(self.storeInF)
         {
             //move to f
         }
@@ -549,14 +552,14 @@
 	
 	if ([self.instruction isEqualToString:@"XORWF"]) {
         
-        if(storeInF)
+        if(self.storeInF)
         {
-            [pic.storage setRegister:registerAddress toValue:pic.regW.registerValue ^ [pic.storage registerValueforAddress:registerAddress]];
+            [pic.storage setRegister:self.registerAddress toValue:pic.regW.registerValue ^ [pic.storage registerValueforAddress:self.registerAddress]];
             //move to f
         }
         else
         {
-            pic.regW.registerValue = pic.regW.registerValue ^ [pic.storage registerValueforAddress:registerAddress];
+            pic.regW.registerValue = pic.regW.registerValue ^ [pic.storage registerValueforAddress:self.registerAddress];
             //move to W
         }
 
@@ -569,17 +572,17 @@
 	}
 	
 	if ([self.instruction isEqualToString:@"ANDLW"]) {
-        pic.regW.registerValue = pic.regW.registerValue & literal;
+        pic.regW.registerValue = pic.regW.registerValue & self.literal;
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"IORLW"]) {
-        pic.regW.registerValue = pic.regW.registerValue | literal;
+        pic.regW.registerValue = pic.regW.registerValue | self.literal;
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"XORLW"]) {
-        pic.regW.registerValue = pic.regW.registerValue ^ literal;
+        pic.regW.registerValue = pic.regW.registerValue ^ self.literal;
 		return;
 	}
 	
@@ -616,9 +619,13 @@
 	}
 	
 	if ([self.instruction isEqualToString:@"RETLW"]) {
+<<<<<<< HEAD
         pic.regW.registerValue = literal;
         
         //Load PC from the top of the Stack
+=======
+        pic.regW.registerValue = self.literal;
+>>>>>>> FETCH_HEAD
 			// Ausfüllen
 		return;
 	}
