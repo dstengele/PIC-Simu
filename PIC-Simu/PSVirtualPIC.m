@@ -74,7 +74,7 @@
 							  }
 							  ];
 	if (nextInstructionRow == NSNotFound) {
-		[NSException raise:@"Illegal Value in PCL or PCLATH Register!" format:@"Format Error"];
+		[NSException raise:@"Illegal Value in PCL or PCLATH Register!" format:@"FormatError"];
 	}
 	
 	NSIndexSet *rows;
@@ -88,8 +88,10 @@
 	}
 	NSString *instructionString = [[self.fileContents objectAtIndex:nextInstructionRow] instruction];
 
-	int16_t instructionBinary = [instructionString intValue];
-	PSInstruction *instruction = [[PSInstruction alloc] initWithBits:instructionBinary];
+	NSScanner *scanner = [NSScanner scannerWithString:instructionString];
+	uint instructionBinary;
+	[scanner scanHexInt:&instructionBinary];
+	PSInstruction *instruction = [[PSInstruction alloc] initWithBits:(uint16_t)instructionBinary];
 
 	[instruction executeWithVirtualPIC:self];
 	[self.storage incrementPc];
