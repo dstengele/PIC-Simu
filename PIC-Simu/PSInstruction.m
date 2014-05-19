@@ -355,13 +355,9 @@
 	
 	if ([self.instruction isEqualToString:@"ADDWF"]) {
         
-        if(storeInF)
-        [pic.storage setRegister:self.registerAddress toValue:valueF];
-
-        addWFSum = valueregW + valueF;
         if(self.storeInF)
         {
-            [pic setRegisterwithAddress:registerAddress toValue:pic.regW.registerValue + [pic.storage registerValueforAddress:registerAddress]];
+            [pic.storage setRegister:registerAddress toValue:pic.regW.registerValue + [pic.storage registerValueforAddress:registerAddress]];
             //Sum to f
         }
         else
@@ -375,7 +371,7 @@
 	if ([self.instruction isEqualToString:@"ANDWF"]) {
         if(storeInF)
         {
-            [pic setRegisterwithAddress:registerAddress toValue:pic.regW.registerValue & [pic.storage registerValueforAddress:registerAddress]];
+            [pic.storage setRegister:registerAddress toValue:pic.regW.registerValue & [pic.storage registerValueforAddress:registerAddress]];
             //move to f
         }
         else
@@ -390,7 +386,7 @@
         
         if(storeInF)
         {
-            [pic setRegisterwithAddress:registerAddress toValue:~[pic.storage registerValueforAddress:registerAddress]];
+            [pic.storage setRegister:registerAddress toValue:~[pic.storage registerValueforAddress:registerAddress]];
             //move to f
         }
         else
@@ -427,7 +423,7 @@
         
         if(storeInF)
         {
-            [pic setRegisterwithAddress:registerAddress toValue:pic.regW.registerValue | [pic.storage registerValueforAddress:registerAddress]];
+            [pic.storage setRegister:registerAddress toValue:pic.regW.registerValue | [pic.storage registerValueforAddress:registerAddress]];
             //result in f
         }
         else
@@ -488,7 +484,7 @@
         
         if(storeInF)
         {
-            [pic setRegisterwithAddress:registerAddress toValue:[pic.storage registerValueforAddress:registerAddress] - pic.regW.registerValue];
+            [pic.storage setRegister:registerAddress toValue:[pic.storage registerValueforAddress:registerAddress] - pic.regW.registerValue];
             //move to f
         }
         else
@@ -519,7 +515,7 @@
         
         if(storeInF)
         {
-            [pic setRegisterwithAddress:registerAddress toValue:pic.regW.registerValue ^ [pic.storage registerValueforAddress:registerAddress]];
+            [pic.storage setRegister:registerAddress toValue:pic.regW.registerValue ^ [pic.storage registerValueforAddress:registerAddress]];
             //move to f
         }
         else
