@@ -358,12 +358,6 @@
         NSInteger valueF = 0;
         NSInteger addWFSum;
         
-        valueregW = pic.regW.registerValue;
-		
-        if(self.storeInF)
-        [pic.storage setRegister:self.registerAddress toValue:valueF];
-
-        addWFSum = valueregW + valueF;
         if(self.storeInF)
         {
             [pic.storage setRegister:self.registerAddress toValue:pic.regW.registerValue + [pic.storage registerValueforAddress:self.registerAddress]];
