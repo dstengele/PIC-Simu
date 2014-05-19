@@ -111,5 +111,4 @@
 - (void)setRegister:(uint16_t)registerAddress toValue:(uint16_t)newValue;
 - (uint16_t)registerValueforAddress:(uint16_t)registerAddress;
 
-- (uint16_t)registerValueforAddress:(uint16_t)registerAddress;
 @end
