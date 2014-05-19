@@ -400,21 +400,57 @@
 	}
 	
 	if ([self.instruction isEqualToString:@"DECF"]) {
+        
+        if(storeInF)
+        {
+            //move to f
+        }
+        else
+        {
+            //move to W
+        }
 			// Ausfüllen
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"DECFSZ"]) {
+        
+        if(storeInF)
+        {
+            //move to f
+        }
+        else
+        {
+            //move to W
+        }
 			// Ausfüllen
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"INCF"]) {
+        
+        if(storeInF)
+        {
+            //move to f
+        }
+        else
+        {
+            //move to W
+        }
 			// Ausfüllen
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"INCFSZ"]) {
+        
+        if(storeInF)
+        {
+            //move to f
+        }
+        else
+        {
+            //move to W
+        }
 			// Ausfüllen
 		return;
 	}
@@ -549,6 +585,7 @@
 	
 	if ([self.instruction isEqualToString:@"SUBLW"]) {
         pic.regW.registerValue = self.literal - pic.regW.registerValue;
+        
 		return;
 	}
 	
@@ -580,6 +617,8 @@
 	
 	if ([self.instruction isEqualToString:@"RETLW"]) {
         pic.regW.registerValue = literal;
+        
+        //Load PC from the top of the Stack
 			// Ausfüllen
 		return;
 	}
