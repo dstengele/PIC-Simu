@@ -17,7 +17,6 @@
 @property (weak) IBOutlet PSRegisters *storage;
 @property (readwrite) NSInteger pc;
 @property (readwrite) NSInteger wdt;
-@property (retain) PSRegister* regW;
 @property (retain) PSCallStack* callStack;
 @property (weak) IBOutlet NSTableView *codeView;
 

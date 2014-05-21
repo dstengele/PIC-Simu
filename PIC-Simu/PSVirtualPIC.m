@@ -13,7 +13,6 @@
 @implementation PSVirtualPIC
 
 @synthesize fileContents;
-@synthesize regW;
 @synthesize storage;
 @synthesize locArrayController;
 @synthesize wdt;

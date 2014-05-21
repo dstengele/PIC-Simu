@@ -247,7 +247,7 @@
 			
 			self.registerAddress = instructionBinary & 0b0000000001111111;
 			
-			self.bitAddress = instructionBinary & 0b0000001110000000;
+			self.bitAddress = (instructionBinary & 0b0000001110000000) >> 7;
 			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
@@ -256,7 +256,7 @@
 			
 			self.registerAddress = instructionBinary & 0b0000000001111111;
 			
-			self.bitAddress = instructionBinary & 0b0000001110000000;
+			self.bitAddress = (instructionBinary & 0b0000001110000000) >> 7;
 			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
@@ -265,7 +265,7 @@
 			
 			self.registerAddress = instructionBinary & 0b0000000001111111;
 			
-			self.bitAddress = instructionBinary & 0b0000001110000000;
+			self.bitAddress = (instructionBinary & 0b0000001110000000) >> 7;
 			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
@@ -274,7 +274,7 @@
 			
 			self.registerAddress = instructionBinary & 0b0000000011111111;
 			
-			self.bitAddress = instructionBinary & 0b0000001110000000;
+			self.bitAddress = (instructionBinary & 0b0000001110000000) >> 7;
 			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
@@ -319,17 +319,19 @@
 	}
 	
 	if ([self.instruction isEqualToString:@"RETFIE"]) {
-			// Ausfüllen
+		pic.storage.pc = pic.callStack.pop;
+		NSLog(@"Neuer Programmzähler: %hu", pic.storage.pc);
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"RETURN"]) {
-			// Ausfüllen
+		pic.storage.pc = pic.callStack.pop;
+		NSLog(@"Neuer Programmzähler: %hu", pic.storage.pc);
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"SLEEP"]) {
-			// Ausfüllen
+		NSLog(@"Not implemented");
 		return;
 	}
 	
@@ -339,12 +341,12 @@
 	}
 	
 	if ([self.instruction isEqualToString:@"CLRW"]) {
-		pic.regW = 0x00;
+		pic.storage.w = 0x00;
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"MOVWF"]) {
-		[pic.storage setRegister:self.registerAddress toValue:pic.regW.registerValue];
+		[pic.storage setRegister:self.registerAddress toValue:pic.storage.w.registerValue];
 		return;
 	}
 	
@@ -354,181 +356,263 @@
 	}
 	
 	if ([self.instruction isEqualToString:@"ADDWF"]) {
-        NSInteger valueregW;
-        NSInteger valueF = 0;
-        NSInteger addWFSum;
-        
-        if(self.storeInF)
-        {
-            [pic.storage setRegister:self.registerAddress toValue:pic.regW.registerValue + [pic.storage registerValueforAddress:self.registerAddress]];
+		uint16_t valueW = pic.storage.w.registerValue;
+		PSRegister *fileRegister = [pic.storage registerforAddress:self.registerAddress];
+		uint16_t valueF = [fileRegister registerValue];
+		uint16_t sum = valueW + valueF;
+		
+        if (self.storeInF) {
+			[fileRegister setRegisterValue:sum];
             //Sum to f
         }
-        else
-        {
-            pic.regW.registerValue = [pic.storage registerValueforAddress:self.registerAddress] + pic.regW.registerValue;
+        else {
+			[pic.storage.w setRegisterValue:sum];
             //Sum to W
         }
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"ANDWF"]) {
-        if(self.storeInF)
-        {
-            [pic.storage setRegister:self.registerAddress toValue:pic.regW.registerValue & [pic.storage registerValueforAddress:self.registerAddress]];
-            //move to f
+		uint16_t valueW = pic.storage.w.registerValue;
+		PSRegister *fileRegister = [pic.storage registerforAddress:self.registerAddress];
+		uint16_t valueF = [fileRegister registerValue];
+		uint16_t and = valueW & valueF;
+		
+        if (self.storeInF) {
+			[fileRegister setRegisterValue:and];
+				//AND to f
         }
-        else
-        {
-            pic.regW.registerValue = pic.regW.registerValue & [pic.storage registerValueforAddress:self.registerAddress];
-            //move to W
+        else {
+			[pic.storage.w setRegisterValue:and];
+				//AND to W
         }
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"COMF"]) {
+		uint16_t registerValue = [[pic.storage registerforAddress:self.registerAddress] registerValue];
         
-        if(self.storeInF)
-        {
-            [pic.storage setRegister:self.registerAddress toValue:[pic.storage registerValueforAddress:self.registerAddress]];
+        if (self.storeInF) {
+            [pic.storage setRegister:self.registerAddress toValue:~registerValue];
             //move to f
         }
-        else
-        {
-            pic.regW.registerValue = ~[pic.storage registerValueforAddress:self.registerAddress];
+        else {
+            pic.storage.w.registerValue = ~registerValue;
             //move to W
         }
-
-			// Ausfüllen
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"DECF"]) {
+        PSRegister *fileRegister = [pic.storage registerforAddress:self.registerAddress];
+		PSRegister *wRegister = pic.storage.w;
+		PSRegister *statusRegister = pic.storage.status;
+		
+		uint16_t temp = fileRegister.registerValue;
+		temp--;
+		
+		if (temp == 0) {
+			statusRegister.bit2 = true;
+		} else {
+			statusRegister.bit2 = false;
+		}
         
-        if(storeInF)
-        {
-            //move to f
-        }
-        else
-        {
-            //move to W
+        if (self.storeInF) {
+			fileRegister.registerValue = temp;
+        } else {
+			wRegister.registerValue = temp;
         }
 			// Ausfüllen
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"DECFSZ"]) {
+        PSRegister *fileRegister = [pic.storage registerforAddress:self.registerAddress];
+		PSRegister *wRegister = pic.storage.w;
+		
+		uint16_t temp = fileRegister.registerValue;
+		temp--;
+		
+		if (temp == 0) {
+			pic.pc++;
+		}
         
-        if(storeInF)
-        {
-            //move to f
+        if (self.storeInF) {
+			fileRegister.registerValue = temp;
+        } else {
+			wRegister.registerValue = temp;
         }
-        else
-        {
-            //move to W
-        }
-			// Ausfüllen
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"INCF"]) {
+		PSRegister *fileRegister = [pic.storage registerforAddress:self.registerAddress];
+		PSRegister *wRegister = pic.storage.w;
+		PSRegister *statusRegister = pic.storage.status;
+		
+		uint16_t temp = fileRegister.registerValue;
+		temp++;
+		
+		if (temp == 0) {
+			statusRegister.bit2 = true;
+		} else {
+			statusRegister.bit2 = false;
+		}
         
-        if(storeInF)
-        {
-            //move to f
+        if (self.storeInF) {
+			fileRegister.registerValue = temp;
+        } else {
+			wRegister.registerValue = temp;
         }
-        else
-        {
-            //move to W
-        }
-			// Ausfüllen
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"INCFSZ"]) {
+        PSRegister *fileRegister = [pic.storage registerforAddress:self.registerAddress];
+		PSRegister *wRegister = pic.storage.w;
+		
+		uint16_t temp = fileRegister.registerValue;
+		temp++;
+		
+		if (temp == 0) {
+			pic.pc++;
+		}
         
-        if(storeInF)
-        {
-            //move to f
+        if (self.storeInF) {
+			fileRegister.registerValue = temp;
+        } else {
+			wRegister.registerValue = temp;
         }
-        else
-        {
-            //move to W
-        }
-			// Ausfüllen
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"IORWF"]) {
+		
+		PSRegister *fileRegister = [pic.storage registerforAddress:self.registerAddress];
+		PSRegister *wRegister = pic.storage.w;
         
-        if(self.storeInF)
-        {
-            [pic.storage setRegister:self.registerAddress toValue:pic.regW.registerValue | [pic.storage registerValueforAddress:self.registerAddress]];
+        if (self.storeInF) {
+            [pic.storage setRegister:self.registerAddress toValue:(wRegister.registerValue | fileRegister.registerValue)];
             //result in f
-        }
-        else
-        {
-            pic.regW.registerValue = pic.regW.registerValue | [pic.storage registerValueforAddress:self.registerAddress];
+        } else {
+            pic.storage.w.registerValue = (wRegister.registerValue | fileRegister.registerValue);
             //result in W
         }
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"MOVF"]) {
+		
+		PSRegister *fileRegister = [pic.storage registerforAddress:self.registerAddress];
         
-        if(self.storeInF)
-        {
-            [pic.storage setRegister:self.registerAddress
-                             toValue:[pic.storage registerValueforAddress:self.registerAddress ]];
+        if (self.storeInF) {
+            [pic.storage setRegister:fileRegister.registerValue
+                             toValue:fileRegister.registerValue];
             //move to f
-        }
-        else
-        {
-            pic.regW.registerValue = [pic.storage registerValueforAddress:self.registerAddress];
+        } else {
+            pic.storage.w.registerValue = fileRegister.registerValue;
             //move to W
         }
+		
+		if (fileRegister.registerValue) {
+			pic.storage.status.bit2 = true;
+		} else {
+			pic.storage.status.bit2 = false;
+		}
+		
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"RLF"]) {
+        PSRegister *fileRegister = [pic.storage registerforAddress:self.registerAddress];
+		PSRegister *wRegister = pic.storage.w;
+		PSRegister *statusRegister = pic.storage.status;
+			// Einlesen
+		BOOL bit0 = fileRegister.bit0;
+		BOOL bit1 = fileRegister.bit1;
+		BOOL bit2 = fileRegister.bit2;
+		BOOL bit3 = fileRegister.bit3;
+		BOOL bit4 = fileRegister.bit4;
+		BOOL bit5 = fileRegister.bit5;
+		BOOL bit6 = fileRegister.bit6;
+		BOOL bit7 = fileRegister.bit7;
+		BOOL carry = statusRegister.bit0;
         
-        if(self.storeInF)
-        {
-            //move to f
+        if (self.storeInF) {
+            fileRegister.bit0 = bit1;
+			fileRegister.bit1 = bit2;
+			fileRegister.bit2 = bit3;
+			fileRegister.bit3 = bit4;
+			fileRegister.bit4 = bit5;
+			fileRegister.bit5 = bit6;
+			fileRegister.bit6 = bit7;
+			fileRegister.bit7 = carry;
+			statusRegister.bit0 = bit0;
+			
+        } else {
+            wRegister.bit0 = carry;
+			wRegister.bit1 = bit0;
+			wRegister.bit2 = bit1;
+			wRegister.bit3 = bit2;
+			wRegister.bit4 = bit3;
+			wRegister.bit5 = bit4;
+			wRegister.bit6 = bit5;
+			wRegister.bit7 = bit6;
+			statusRegister.bit0 = bit7;
         }
-        else
-        {
-            //move to W
-        }
-
-			// Ausfüllen
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"RRF"]) {
+		PSRegister *fileRegister = [pic.storage registerforAddress:self.registerAddress];
+		PSRegister *wRegister = pic.storage.w;
+		PSRegister *statusRegister = pic.storage.status;
+			// Einlesen
+		BOOL bit0 = fileRegister.bit0;
+		BOOL bit1 = fileRegister.bit1;
+		BOOL bit2 = fileRegister.bit2;
+		BOOL bit3 = fileRegister.bit3;
+		BOOL bit4 = fileRegister.bit4;
+		BOOL bit5 = fileRegister.bit5;
+		BOOL bit6 = fileRegister.bit6;
+		BOOL bit7 = fileRegister.bit7;
+		BOOL carry = statusRegister.bit0;
         
-        if(self.storeInF)
-        {
-            //move to f
-        }
-        else
-        {
-            //move to W
-        }
+        if (self.storeInF) {
+            fileRegister.bit0 = carry;
+			fileRegister.bit1 = bit0;
+			fileRegister.bit2 = bit1;
+			fileRegister.bit3 = bit2;
+			fileRegister.bit4 = bit3;
+			fileRegister.bit5 = bit4;
+			fileRegister.bit6 = bit5;
+			fileRegister.bit7 = bit6;
+			statusRegister.bit0 = bit7;
 
-			// Ausfüllen
+        } else {
+            wRegister.bit0 = carry;
+			wRegister.bit1 = bit0;
+			wRegister.bit2 = bit1;
+			wRegister.bit3 = bit2;
+			wRegister.bit4 = bit3;
+			wRegister.bit5 = bit4;
+			wRegister.bit6 = bit5;
+			wRegister.bit7 = bit6;
+			statusRegister.bit0 = bit7;
+        }
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"SUBWF"]) {
+		
+		PSRegister *fileRegister = [pic.storage registerforAddress:self.registerAddress];
+		PSRegister *wRegister = pic.storage.w;
         
-        if(self.storeInF)
-        {
-            [pic.storage setRegister:self.registerAddress toValue:[pic.storage registerValueforAddress:self.registerAddress] - pic.regW.registerValue];
+        if (self.storeInF) {
+            [pic.storage setRegister:self.registerAddress toValue:(fileRegister.registerValue - wRegister.registerValue)];
             //move to f
-        }
-        else
-        {
-            pic.regW.registerValue = [pic.storage registerValueforAddress:self.registerAddress] - pic.regW.registerValue;
+        } else {
+            pic.storage.w.registerValue = (fileRegister.registerValue - wRegister.registerValue);
             //move to W
         }
 
@@ -536,30 +620,53 @@
 	}
 	
 	if ([self.instruction isEqualToString:@"SWAPF"]) {
+		PSRegister *fileRegister = [pic.storage registerforAddress:self.registerAddress];
+		PSRegister *wRegister = pic.storage.w;
+			// Einlesen
+		BOOL bit0 = fileRegister.bit0;
+		BOOL bit1 = fileRegister.bit1;
+		BOOL bit2 = fileRegister.bit2;
+		BOOL bit3 = fileRegister.bit3;
+		BOOL bit4 = fileRegister.bit4;
+		BOOL bit5 = fileRegister.bit5;
+		BOOL bit6 = fileRegister.bit6;
+		BOOL bit7 = fileRegister.bit7;
         
-        if(self.storeInF)
-        {
-            //move to f
+        if (self.storeInF) {
+			fileRegister.bit0 = bit4;
+			fileRegister.bit1 = bit5;
+			fileRegister.bit2 = bit6;
+			fileRegister.bit3 = bit7;
+			fileRegister.bit4 = bit0;
+			fileRegister.bit5 = bit1;
+			fileRegister.bit6 = bit2;
+			fileRegister.bit7 = bit3;
+        } else {
+			wRegister.bit0 = bit4;
+			wRegister.bit1 = bit5;
+			wRegister.bit2 = bit6;
+			wRegister.bit3 = bit7;
+			wRegister.bit4 = bit0;
+			wRegister.bit5 = bit1;
+			wRegister.bit6 = bit2;
+			wRegister.bit7 = bit3;
         }
-        else
-        {
-            //move to W
-        }
-
-			// Ausfüllen
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"XORWF"]) {
+		
+		PSRegister *fileRegister = [pic.storage registerforAddress:self.registerAddress];
+		PSRegister *wRegister = pic.storage.w;
         
         if(self.storeInF)
         {
-            [pic.storage setRegister:self.registerAddress toValue:pic.regW.registerValue ^ [pic.storage registerValueforAddress:self.registerAddress]];
+            [pic.storage setRegister:self.registerAddress toValue:(wRegister.registerValue ^ fileRegister.registerValue)];
             //move to f
         }
         else
         {
-            pic.regW.registerValue = pic.regW.registerValue ^ [pic.storage registerValueforAddress:self.registerAddress];
+            pic.storage.w.registerValue = ((wRegister.registerValue ^ fileRegister.registerValue));
             //move to W
         }
 
@@ -567,77 +674,131 @@
 	}
 	
 	if ([self.instruction isEqualToString:@"ADDLW"]) {
-        pic.regW.registerValue += self.literal;
+        pic.storage.w.registerValue += self.literal;
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"ANDLW"]) {
-        pic.regW.registerValue = pic.regW.registerValue & self.literal;
+        pic.storage.w.registerValue = pic.storage.w.registerValue & self.literal;
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"IORLW"]) {
-        pic.regW.registerValue = pic.regW.registerValue | self.literal;
+        pic.storage.w.registerValue = pic.storage.w.registerValue | self.literal;
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"XORLW"]) {
-        pic.regW.registerValue = pic.regW.registerValue ^ self.literal;
+        pic.storage.w.registerValue = pic.storage.w.registerValue ^ self.literal;
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"SUBLW"]) {
-        pic.regW.registerValue = self.literal - pic.regW.registerValue;
+        pic.storage.w.registerValue = self.literal - pic.storage.w.registerValue;
         
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"BCF"]) {
-        
-			// Ausfüllen
+        PSRegister *fileRegister = [pic.storage registerforAddress:self.registerAddress];
+		switch (self.bitAddress) {
+			case 0:
+				fileRegister.bit0 = false;
+				break;
+			case 1:
+				fileRegister.bit1 = false;
+				break;
+			case 2:
+				fileRegister.bit2 = false;
+				break;
+			case 3:
+				fileRegister.bit3 = false;
+				break;
+			case 4:
+				fileRegister.bit4 = false;
+				break;
+			case 5:
+				fileRegister.bit5 = false;
+				break;
+			case 6:
+				fileRegister.bit6 = false;
+				break;
+			case 7:
+				fileRegister.bit7 = false;
+				break;
+		}
+
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"BSF"]) {
-			// Ausfüllen
+		PSRegister *fileRegister = [pic.storage registerforAddress:self.registerAddress];
+		switch (self.bitAddress) {
+			case 0:
+				fileRegister.bit0 = true;
+				break;
+			case 1:
+				fileRegister.bit1 = true;
+				break;
+			case 2:
+				fileRegister.bit2 = true;
+				break;
+			case 3:
+				fileRegister.bit3 = true;
+				break;
+			case 4:
+				fileRegister.bit4 = true;
+				break;
+			case 5:
+				fileRegister.bit5 = true;
+				break;
+			case 6:
+				fileRegister.bit6 = true;
+				break;
+			case 7:
+				fileRegister.bit7 = true;
+				break;
+		}
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"BTFSC"]) {
-			// Ausfüllen
+		if (!([pic.storage bitValueForAddress:self.registerAddress andBit:self.bitAddress])) {
+			pic.pc++;
+		}
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"BTFSS"]) {
-			// Ausfüllen
+		if ([pic.storage bitValueForAddress:self.registerAddress andBit:self.bitAddress]) {
+			pic.pc++;
+		}
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"MOVLW"]) {
-        pic.regW.registerValue = self.literal;
+        pic.storage.w.registerValue = self.literal;
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"RETLW"]) {
-<<<<<<< HEAD
-        pic.regW.registerValue = literal;
-        
-        //Load PC from the top of the Stack
-=======
-        pic.regW.registerValue = self.literal;
->>>>>>> FETCH_HEAD
-			// Ausfüllen
+        pic.storage.pc = pic.callStack.pop;
+        pic.storage.w.registerValue = self.literal;
+		NSLog(@"Neuer Programmzähler: %hu", pic.storage.pc);
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"CALL"]) {
-		[pic.callStack push:pic.pc];
-		pic.pc = self.literal;
+		[pic.callStack push:(pic.pc+1)];
+			// ACHTUNG! HACK! Oberer Teil des Programmzählers wird ignoriert.
+		pic.storage.pc = self.literal - 1;
+		NSLog(@"Neuer Programmzähler: %hu", pic.storage.pc);
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"GOTO"]) {
-			// Ausfüllen
+		pic.storage.pc = self.literal - 1;
+		NSLog(@"Neuer Programmzähler: %hu", pic.storage.pc);
 		return;
 	}
 }

@@ -112,6 +112,7 @@
 
 	if (self) {
 			// SFR
+		self.w	= [[PSRegister alloc] init];
 		self.indf	= [[PSRegister alloc] init];
 		self.tmr0	= [[PSRegister alloc] init];
 		self.pcl	= [[PSRegister alloc] init];
@@ -207,604 +208,290 @@
 }
 
 - (void)setRegister:(uint16_t)registerAddress toValue:(uint16_t)newValue {
-	switch (registerAddress) {
-		case 0x00:
-			self.indf.registerValue = newValue;
-			break;
-
-		case 0x01:
-			self.tmr0.registerValue = newValue;
-			break;
-
-		case 0x02:
-			self.pcl.registerValue = newValue;
-			break;
-
-		case 0x03:
-			self.status.registerValue = newValue;
-			break;
-
-		case 0x04:
-			self.fsr.registerValue = newValue;
-			break;
-
-		case 0x05:
-			self.porta.registerValue = newValue;
-			break;
-
-		case 0x06:
-			self.portb.registerValue = newValue;
-			break;
-
-		case 0x08:
-			self.eedata.registerValue = newValue;
-			break;
-
-		case 0x09:
-			self.eeadr.registerValue = newValue;
-			break;
-
-		case 0x0A:
-			self.pclath.registerValue = newValue;
-			break;
-
-		case 0x0B:
-			self.intcon.registerValue = newValue;
-			break;
-
-		case 0x81:
-			self.option.registerValue = newValue;
-			break;
-
-		case 0x85:
-			self.trisa.registerValue = newValue;
-			break;
-
-		case 0x86:
-			self.trisb.registerValue = newValue;
-			break;
-
-		case 0x88:
-			self.eecon1.registerValue = newValue;
-			break;
-
-		case 0x89:
-			self.eecon2.registerValue = newValue;
-			break;
-
-		case 0x0C:
-			self.reg0C.registerValue = newValue;
-			break;
-
-		case 0x0D:
-			self.reg0D.registerValue = newValue;
-			break;
-
-		case 0x0E:
-			self.reg0E.registerValue = newValue;
-			break;
-
-		case 0x0F:
-			self.reg0F.registerValue = newValue;
-			break;
-
-		case 0x10:
-			self.reg10.registerValue = newValue;
-			break;
-
-		case 0x11:
-			self.reg11.registerValue = newValue;
-			break;
-
-		case 0x12:
-			self.reg12.registerValue = newValue;
-			break;
-
-		case 0x13:
-			self.reg13.registerValue = newValue;
-			break;
-
-		case 0x14:
-			self.reg14.registerValue = newValue;
-			break;
-
-		case 0x15:
-			self.reg15.registerValue = newValue;
-			break;
-
-		case 0x16:
-			self.reg16.registerValue = newValue;
-			break;
-
-		case 0x17:
-			self.reg17.registerValue = newValue;
-			break;
-
-		case 0x18:
-			self.reg18.registerValue = newValue;
-			break;
-
-		case 0x19:
-			self.reg19.registerValue = newValue;
-			break;
-
-		case 0x1A:
-			self.reg1A.registerValue = newValue;
-			break;
-
-		case 0x1B:
-			self.reg1B.registerValue = newValue;
-			break;
-
-		case 0x1C:
-			self.reg1C.registerValue = newValue;
-			break;
-
-		case 0x1D:
-			self.reg1D.registerValue = newValue;
-			break;
-
-		case 0x1E:
-			self.reg1E.registerValue = newValue;
-			break;
-
-		case 0x1F:
-			self.reg1F.registerValue = newValue;
-			break;
-
-		case 0x20:
-			self.reg20.registerValue = newValue;
-			break;
-
-		case 0x21:
-			self.reg21.registerValue = newValue;
-			break;
-
-		case 0x22:
-			self.reg22.registerValue = newValue;
-			break;
-
-		case 0x23:
-			self.reg23.registerValue = newValue;
-			break;
-
-		case 0x24:
-			self.reg24.registerValue = newValue;
-			break;
-
-		case 0x25:
-			self.reg25.registerValue = newValue;
-			break;
-
-		case 0x26:
-			self.reg26.registerValue = newValue;
-			break;
-
-		case 0x27:
-			self.reg27.registerValue = newValue;
-			break;
-
-		case 0x28:
-			self.reg28.registerValue = newValue;
-			break;
-
-		case 0x29:
-			self.reg29.registerValue = newValue;
-			break;
-
-		case 0x2A:
-			self.reg2A.registerValue = newValue;
-			break;
-
-		case 0x2B:
-			self.reg2B.registerValue = newValue;
-			break;
-
-		case 0x2C:
-			self.reg2C.registerValue = newValue;
-			break;
-
-		case 0x2D:
-			self.reg2D.registerValue = newValue;
-			break;
-
-		case 0x2E:
-			self.reg2E.registerValue = newValue;
-			break;
-
-		case 0x2F:
-			self.reg2F.registerValue = newValue;
-			break;
-
-		case 0x30:
-			self.reg30.registerValue = newValue;
-			break;
-
-		case 0x31:
-			self.reg31.registerValue = newValue;
-			break;
-
-		case 0x32:
-			self.reg32.registerValue = newValue;
-			break;
-
-		case 0x33:
-			self.reg33.registerValue = newValue;
-			break;
-
-		case 0x34:
-			self.reg34.registerValue = newValue;
-			break;
-
-		case 0x35:
-			self.reg35.registerValue = newValue;
-			break;
-
-		case 0x36:
-			self.reg36.registerValue = newValue;
-			break;
-
-		case 0x37:
-			self.reg37.registerValue = newValue;
-			break;
-
-		case 0x38:
-			self.reg38.registerValue = newValue;
-			break;
-
-		case 0x39:
-			self.reg39.registerValue = newValue;
-			break;
-
-		case 0x3A:
-			self.reg3A.registerValue = newValue;
-			break;
-
-		case 0x3B:
-			self.reg3B.registerValue = newValue;
-			break;
-
-		case 0x3C:
-			self.reg3C.registerValue = newValue;
-			break;
-
-		case 0x3D:
-			self.reg3D.registerValue = newValue;
-			break;
-
-		case 0x3E:
-			self.reg3E.registerValue = newValue;
-			break;
-
-		case 0x3F:
-			self.reg3F.registerValue = newValue;
-			break;
-
-		case 0x40:
-			self.reg40.registerValue = newValue;
-			break;
-
-		case 0x41:
-			self.reg41.registerValue = newValue;
-			break;
-
-		case 0x42:
-			self.reg42.registerValue = newValue;
-			break;
-
-		case 0x43:
-			self.reg43.registerValue = newValue;
-			break;
-
-		case 0x44:
-			self.reg44.registerValue = newValue;
-			break;
-
-		case 0x45:
-			self.reg45.registerValue = newValue;
-			break;
-
-		case 0x46:
-			self.reg46.registerValue = newValue;
-			break;
-
-		case 0x47:
-			self.reg47.registerValue = newValue;
-			break;
-
-		case 0x48:
-			self.reg48.registerValue = newValue;
-			break;
-
-		case 0x49:
-			self.reg49.registerValue = newValue;
-			break;
-
-		case 0x4A:
-			self.reg4A.registerValue = newValue;
-			break;
-
-		case 0x4B:
-			self.reg4B.registerValue = newValue;
-			break;
-
-		case 0x4C:
-			self.reg4C.registerValue = newValue;
-			break;
-
-		case 0x4D:
-			self.reg4D.registerValue = newValue;
-			break;
-
-		case 0x4E:
-			self.reg4E.registerValue = newValue;
-			break;
-
-		case 0x4F:
-			self.reg4F.registerValue = newValue;
-			break;
-
-		default:
-			break;
-	}
+	PSRegister *reg = [self registerforAddress:registerAddress];
+	[reg setRegisterValue:newValue];
 }
 
-- (uint16_t)registerValueforAddress:(uint16_t)registerAddress {
+- (PSRegister *)registerforAddress:(uint16_t)registerAddress {
 	switch (registerAddress) {
 		case 0x00:
-			return self.indf.registerValue;
+			return self.indf;
 
 		case 0x01:
-			return self.tmr0.registerValue;
+			return self.tmr0;
 
 		case 0x02:
-			return self.pcl.registerValue;
+			return self.pcl;
 
 		case 0x03:
-			return self.status.registerValue;
+			return self.status;
 
 		case 0x04:
-			return self.fsr.registerValue;
+			return self.fsr;
 
 		case 0x05:
-			return self.porta.registerValue;
+			return self.porta;
 
 		case 0x06:
-			return self.portb.registerValue;
+			return self.portb;
 
 		case 0x08:
-			return self.eedata.registerValue;
+			return self.eedata;
 
 		case 0x09:
-			return self.eeadr.registerValue;
+			return self.eeadr;
 
 		case 0x0A:
-			return self.pclath.registerValue;
+			return self.pclath;
 
 		case 0x0B:
-			return self.intcon.registerValue;
+			return self.intcon;
 
 		case 0x81:
-			return self.option.registerValue;
+			return self.option;
 
 		case 0x85:
-			return self.trisa.registerValue;
+			return self.trisa;
 
 		case 0x86:
-			return self.trisb.registerValue;
+			return self.trisb;
 
 		case 0x88:
-			return self.eecon1.registerValue;
+			return self.eecon1;
 
 		case 0x89:
-			return self.eecon2.registerValue;
+			return self.eecon2;
 
 		case 0x0C:
-			return self.reg0C.registerValue;
+			return self.reg0C;
 
 		case 0x0D:
-			return self.reg0D.registerValue;
+			return self.reg0D;
 
 		case 0x0E:
-			return self.reg0E.registerValue;
+			return self.reg0E;
 
 		case 0x0F:
-			return self.reg0F.registerValue;
+			return self.reg0F;
 
 		case 0x10:
-			return self.reg10.registerValue;
+			return self.reg10;
 
 		case 0x11:
-			return self.reg11.registerValue;
+			return self.reg11;
 
 		case 0x12:
-			return self.reg12.registerValue;
+			return self.reg12;
 
 		case 0x13:
-			return self.reg13.registerValue;
+			return self.reg13;
 
 		case 0x14:
-			return self.reg14.registerValue;
+			return self.reg14;
 
 		case 0x15:
-			return self.reg15.registerValue;
+			return self.reg15;
 
 		case 0x16:
-			return self.reg16.registerValue;
+			return self.reg16;
 
 		case 0x17:
-			return self.reg17.registerValue;
+			return self.reg17;
 
 		case 0x18:
-			return self.reg18.registerValue;
+			return self.reg18;
 
 		case 0x19:
-			return self.reg19.registerValue;
+			return self.reg19;
 
 		case 0x1A:
-			return self.reg1A.registerValue;
+			return self.reg1A;
 
 		case 0x1B:
-			return self.reg1B.registerValue;
+			return self.reg1B;
 
 		case 0x1C:
-			return self.reg1C.registerValue;
+			return self.reg1C;
 
 		case 0x1D:
-			return self.reg1D.registerValue;
+			return self.reg1D;
 
 		case 0x1E:
-			return self.reg1E.registerValue;
+			return self.reg1E;
 
 		case 0x1F:
-			return self.reg1F.registerValue;
+			return self.reg1F;
 
 		case 0x20:
-			return self.reg20.registerValue;
+			return self.reg20;
 
 		case 0x21:
-			return self.reg21.registerValue;
+			return self.reg21;
 
 		case 0x22:
-			return self.reg22.registerValue;
+			return self.reg22;
 
 		case 0x23:
-			return self.reg23.registerValue;
+			return self.reg23;
 
 		case 0x24:
-			return self.reg24.registerValue;
+			return self.reg24;
 
 		case 0x25:
-			return self.reg25.registerValue;
+			return self.reg25;
 
 		case 0x26:
-			return self.reg26.registerValue;
+			return self.reg26;
 
 		case 0x27:
-			return self.reg27.registerValue;
+			return self.reg27;
 
 		case 0x28:
-			return self.reg28.registerValue;
+			return self.reg28;
 
 		case 0x29:
-			return self.reg29.registerValue;
+			return self.reg29;
 
 		case 0x2A:
-			return self.reg2A.registerValue;
+			return self.reg2A;
 
 		case 0x2B:
-			return self.reg2B.registerValue;
+			return self.reg2B;
 
 		case 0x2C:
-			return self.reg2C.registerValue;
+			return self.reg2C;
 
 		case 0x2D:
-			return self.reg2D.registerValue;
+			return self.reg2D;
 
 		case 0x2E:
-			return self.reg2E.registerValue;
+			return self.reg2E;
 
 		case 0x2F:
-			return self.reg2F.registerValue;
+			return self.reg2F;
 
 		case 0x30:
-			return self.reg30.registerValue;
+			return self.reg30;
 
 		case 0x31:
-			return self.reg31.registerValue;
+			return self.reg31;
 
 		case 0x32:
-			return self.reg32.registerValue;
+			return self.reg32;
 
 		case 0x33:
-			return self.reg33.registerValue;
+			return self.reg33;
 
 		case 0x34:
-			return self.reg34.registerValue;
+			return self.reg34;
 
 		case 0x35:
-			return self.reg35.registerValue;
+			return self.reg35;
 
 		case 0x36:
-			return self.reg36.registerValue;
+			return self.reg36;
 
 		case 0x37:
-			return self.reg37.registerValue;
+			return self.reg37;
 
 		case 0x38:
-			return self.reg38.registerValue;
+			return self.reg38;
 
 		case 0x39:
-			return self.reg39.registerValue;
+			return self.reg39;
 
 		case 0x3A:
-			return self.reg3A.registerValue;
+			return self.reg3A;
 
 		case 0x3B:
-			return self.reg3B.registerValue;
+			return self.reg3B;
 
 		case 0x3C:
-			return self.reg3C.registerValue;
+			return self.reg3C;
 
 		case 0x3D:
-			return self.reg3D.registerValue;
+			return self.reg3D;
 
 		case 0x3E:
-			return self.reg3E.registerValue;
+			return self.reg3E;
 
 		case 0x3F:
-			return self.reg3F.registerValue;
+			return self.reg3F;
 
 		case 0x40:
-			return self.reg40.registerValue;
+			return self.reg40;
 
 		case 0x41:
-			return self.reg41.registerValue;
+			return self.reg41;
 
 		case 0x42:
-			return self.reg42.registerValue;
+			return self.reg42;
 
 		case 0x43:
-			return self.reg43.registerValue;
+			return self.reg43;
 
 		case 0x44:
-			return self.reg44.registerValue;
+			return self.reg44;
 
 		case 0x45:
-			return self.reg45.registerValue;
+			return self.reg45;
 
 		case 0x46:
-			return self.reg46.registerValue;
+			return self.reg46;
 
 		case 0x47:
-			return self.reg47.registerValue;
+			return self.reg47;
 
 		case 0x48:
-			return self.reg48.registerValue;
+			return self.reg48;
 
 		case 0x49:
-			return self.reg49.registerValue;
+			return self.reg49;
 
 		case 0x4A:
-			return self.reg4A.registerValue;
+			return self.reg4A;
 
 		case 0x4B:
-			return self.reg4B.registerValue;
+			return self.reg4B;
 
 		case 0x4C:
-			return self.reg4C.registerValue;
+			return self.reg4C;
 
 		case 0x4D:
-			return self.reg4D.registerValue;
+			return self.reg4D;
 
 		case 0x4E:
-			return self.reg4E.registerValue;
+			return self.reg4E;
 
 		case 0x4F:
-			return self.reg4F.registerValue;
+			return self.reg4F;
 
 		default:
 			return 0;
+	}
+}
+
+- (BOOL)bitValueForAddress:(uint16_t)registerAddress andBitAddress:(uint16_t)bitAddress {
+	PSRegister *reg = [self registerforAddress:registerAddress];
+	switch (bitAddress) {
+		case 0:
+			return reg.bit0;
+		case 1:
+			return reg.bit1;
+		case 2:
+			return reg.bit2;
+		case 3:
+			return reg.bit3;
+		case 4:
+			return reg.bit4;
+		case 5:
+			return reg.bit5;
+		case 6:
+			return reg.bit6;
+		case 7:
+			return reg.bit7;
+		default:
+			return false;
 	}
 }
 
@@ -831,8 +518,8 @@
 	uint16_t foo = newPc & 0b0001111111111111;
 	uint16_t high = foo &  0b1111111100000000;
 	uint16_t low = foo &   0b0000000011111111;
-	self.pcl.registerValue = low;
-	self.pclath.registerValue = high;
+	[self.pcl setRegisterValue:low];
+	[self.pclath setRegisterValue:high];
 }
 
 - (void)incrementPc {
