@@ -38,42 +38,27 @@ NSString *stringValue;
 	return self;
 }
 
-	//Im Format Bit 7 ... Bit 0
-- (void)setRegisterValueWithBinaryString:(NSString *)binaryString {
-	NSError *error = NULL;
-	NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"[01]{8}"
-																		   options:NSRegularExpressionCaseInsensitive
-																			 error:&error];
-	NSUInteger count = [regex numberOfMatchesInString:binaryString
-											  options:NSMatchingAnchored
-												range:NSMakeRange(0, [binaryString length])];
-	if (count == 1 && [binaryString length] == 8) {
-		[self setBit7:(BOOL)[binaryString substringWithRange:NSMakeRange(0, 1)]];
-		[self setBit6:(BOOL)[binaryString substringWithRange:NSMakeRange(1, 1)]];
-		[self setBit5:(BOOL)[binaryString substringWithRange:NSMakeRange(2, 1)]];
-		[self setBit4:(BOOL)[binaryString substringWithRange:NSMakeRange(3, 1)]];
-		[self setBit3:(BOOL)[binaryString substringWithRange:NSMakeRange(4, 1)]];
-		[self setBit2:(BOOL)[binaryString substringWithRange:NSMakeRange(5, 1)]];
-		[self setBit1:(BOOL)[binaryString substringWithRange:NSMakeRange(6, 1)]];
-		[self setBit0:(BOOL)[binaryString substringWithRange:NSMakeRange(7, 1)]];
-	}
-}
-
 - (void)setRegisterValue:(NSInteger)decimalNumber {
 	if (decimalNumber > 255) {
 		[NSException raise:@"Register set to invalid value"
 					format:@"Value %ld is too big", decimalNumber];
 	}
-	NSMutableString *str = [NSMutableString string];
-	NSInteger decimalNumberCopy = decimalNumber;
-	
-		// Magic from Stackoverflow
-	for(NSInteger i = 0; i < 8 ; i++) {
-			// Prepend "0" or "1", depending on the bit
-		[str insertString:((decimalNumberCopy & 1) ? @"1" : @"0") atIndex:0];
-		decimalNumberCopy >>= 1;
-	}
-	self.stringValue = str;
+	NSInteger binaryNumber = decimalNumber;
+	self.bit0 = binaryNumber & 0b00000001;
+	binaryNumber >>= 1;
+	self.bit1 = binaryNumber & 0b00000001;
+	binaryNumber >>= 1;
+	self.bit2 = binaryNumber & 0b00000001;
+	binaryNumber >>= 1;
+	self.bit3 = binaryNumber & 0b00000001;
+	binaryNumber >>= 1;
+	self.bit4 = binaryNumber & 0b00000001;
+	binaryNumber >>= 1;
+	self.bit5 = binaryNumber & 0b00000001;
+	binaryNumber >>= 1;
+	self.bit6 = binaryNumber & 0b00000001;
+	binaryNumber >>= 1;
+	self.bit7 = binaryNumber & 0b00000001;
 }
 
 - (NSInteger)registerValue {
@@ -120,6 +105,50 @@ NSString *stringValue;
 		NSInteger valueInt = [valueNum integerValue];
 
 		[self setRegisterValue:valueInt];
+	}
+}
+
+- (BOOL)bitValueForBit:(uint16_t)bitAddress {
+	switch (bitAddress) {
+		case 0:
+			return self.bit0;
+		case 1:
+			return self.bit1;
+		case 2:
+			return self.bit2;
+		case 3:
+			return self.bit3;
+		case 4:
+			return self.bit4;
+		case 5:
+			return self.bit5;
+		case 6:
+			return self.bit6;
+		case 7:
+			return self.bit7;
+		default:
+			return false;
+	}
+}
+
+- (void)setBitValueTo:(BOOL)newValue forBit:(uint16_t)bitAddress {
+	switch (bitAddress) {
+		case 0:
+			self.bit0 = newValue;
+		case 1:
+			self.bit1 = newValue;
+		case 2:
+			self.bit2 = newValue;
+		case 3:
+			self.bit3 = newValue;
+		case 4:
+			self.bit4 = newValue;
+		case 5:
+			self.bit5 = newValue;
+		case 6:
+			self.bit6 = newValue;
+		case 7:
+			self.bit7 = newValue;
 	}
 }
 

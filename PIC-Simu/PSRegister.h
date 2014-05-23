@@ -21,9 +21,12 @@ extern NSString *stringValue;
 @property (readwrite) BOOL bit6;
 @property (readwrite) BOOL bit7;
 
-- (void)setRegisterValueWithBinaryString:(NSString *)binaryString;
 - (void)setRegisterValue:(NSInteger)decimalNumber;
 - (NSInteger)registerValue;
+
+- (BOOL)bitValueForBit:(uint16_t)bit;
+- (void)setBitValueTo:(BOOL)newValue forBit:(uint16_t)bitAddress;
+
 - (id)init;
 
 @end

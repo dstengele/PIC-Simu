@@ -108,9 +108,7 @@
 @property (retain) PSRegister *reg4E;
 @property (retain) PSRegister *reg4F;
 
-- (void)setRegister:(uint16_t)registerAddress toValue:(uint16_t)newValue;
 - (PSRegister *)registerforAddress:(uint16_t)registerAddress;
-- (BOOL)bitValueForAddress:(uint16_t)registerAddress andBit:(uint16_t)bit;
 
 - (uint16_t)pc;
 - (void)setPc:(uint16_t)newPc;

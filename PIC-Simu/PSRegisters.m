@@ -7,6 +7,7 @@
 //
 
 #import "PSRegisters.h"
+#import "PSRegister.h"
 
 @implementation PSRegisters
 
@@ -215,52 +216,61 @@
 - (PSRegister *)registerforAddress:(uint16_t)registerAddress {
 	switch (registerAddress) {
 		case 0x00:
-			return self.indf;
+		case 0x80: {
+			PSRegister *indirect = [self registerforAddress:self.fsr.registerValue];
+			return indirect;
+		}
+			
+		case 0x81:
+			return self.option;
 
 		case 0x01:
 			return self.tmr0;
 
 		case 0x02:
+		case 0x82:
 			return self.pcl;
 
 		case 0x03:
+		case 0x83:
 			return self.status;
 
 		case 0x04:
+		case 0x84:
 			return self.fsr;
 
 		case 0x05:
 			return self.porta;
-
-		case 0x06:
-			return self.portb;
-
-		case 0x08:
-			return self.eedata;
-
-		case 0x09:
-			return self.eeadr;
-
-		case 0x0A:
-			return self.pclath;
-
-		case 0x0B:
-			return self.intcon;
-
-		case 0x81:
-			return self.option;
-
+			
 		case 0x85:
 			return self.trisa;
 
+		case 0x06:
+			return self.portb;
+			
 		case 0x86:
 			return self.trisb;
 
+		case 0x08:
+			return self.eedata;
+			
 		case 0x88:
 			return self.eecon1;
 
+		case 0x09:
+			return self.eeadr;
+			
 		case 0x89:
 			return self.eecon2;
+
+		case 0x0A:
+		case 0x8A:
+			return self.pclath;
+
+		case 0x0B:
+		case 0x8B:
+			return self.intcon;
+
 
 		case 0x0C:
 			return self.reg0C;
@@ -471,7 +481,7 @@
 	}
 }
 
-- (BOOL)bitValueForAddress:(uint16_t)registerAddress andBitAddress:(uint16_t)bitAddress {
+- (BOOL)bitValueForAddress:(uint16_t)registerAddress andBit:(uint16_t)bitAddress {
 	PSRegister *reg = [self registerforAddress:registerAddress];
 	switch (bitAddress) {
 		case 0:
@@ -497,20 +507,21 @@
 
 - (uint16_t)pc {
 	uint16_t res =
-	   (self.pclath.bit3 * 4096)
-	+  (self.pclath.bit4 * 2048)
-	+  (self.pclath.bit5 * 1024)
-	+  (self.pclath.bit6 * 512)
-	+  (self.pclath.bit7 * 256)
-	+  (self.pcl.   bit0 * 128)
-	+  (self.pcl.   bit1 * 64)
-	+  (self.pcl.   bit2 * 32)
-	+  (self.pcl.   bit3 * 16)
-	+  (self.pcl.   bit4 * 8)
-	+  (self.pcl.   bit5 * 4)
-	+  (self.pcl.   bit6 * 2)
-	+  (self.pcl.   bit7);
+	   (self.pclath.bit4 * 4096)
+	+  (self.pclath.bit3 * 2048)
+	+  (self.pclath.bit2 * 1024)
+	+  (self.pclath.bit1 * 512)
+	+  (self.pclath.bit0 * 256)
+	+  (self.pcl.   bit7 * 128)
+	+  (self.pcl.   bit6 * 64)
+	+  (self.pcl.   bit5 * 32)
+	+  (self.pcl.   bit4 * 16)
+	+  (self.pcl.   bit3 * 8)
+	+  (self.pcl.   bit2 * 4)
+	+  (self.pcl.   bit1 * 2)
+	+  (self.pcl.   bit0);
 	
+	NSLog(@"Current Program Counter: %d", res);
 	return res;
 }
 

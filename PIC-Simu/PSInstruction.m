@@ -56,7 +56,7 @@
 		if ((instructionBinary & 0b1111111110000000) == 0b0000000010000000) {
 			self.instruction = @"MOVWF";
 			
-			self.registerAddress = instructionBinary == 0b0000000001111111;
+			self.registerAddress = instructionBinary & 0b0000000001111111;
 			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
@@ -313,6 +313,11 @@
 }
 
 - (void)executeWithVirtualPIC:(PSVirtualPIC *)pic {
+	if (pic.storage.status.bit5) {
+			// Auf Bank 1 schreiben
+		self.registerAddress = self.registerAddress + 0x80;
+		NSLog(@"Working on bank 1");
+	}
 	if ([self.instruction isEqualToString:@"CLRWDT"]) {
 		pic.wdt = 0b00000000;
 		return;
@@ -341,17 +346,19 @@
 	}
 	
 	if ([self.instruction isEqualToString:@"CLRW"]) {
-		pic.storage.w = 0x00;
+		pic.storage.w.registerValue = 0x00;
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"MOVWF"]) {
-		[pic.storage setRegister:self.registerAddress toValue:pic.storage.w.registerValue];
+		PSRegister *reg = [pic.storage registerforAddress:self.registerAddress];
+		[reg setRegisterValue:pic.storage.w.registerValue];
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"CLRF"]) {
-		[pic.storage setRegister:self.registerAddress toValue:0x00];
+		PSRegister *reg = [pic.storage registerforAddress:self.registerAddress];
+		[reg setRegisterValue:0x00];
 		return;
 	}
 	
@@ -393,7 +400,8 @@
 		uint16_t registerValue = [[pic.storage registerforAddress:self.registerAddress] registerValue];
         
         if (self.storeInF) {
-            [pic.storage setRegister:self.registerAddress toValue:~registerValue];
+			PSRegister *reg = [pic.storage registerforAddress:self.registerAddress];
+			[reg setRegisterValue:~registerValue];
             //move to f
         }
         else {
@@ -492,7 +500,8 @@
 		PSRegister *wRegister = pic.storage.w;
         
         if (self.storeInF) {
-            [pic.storage setRegister:self.registerAddress toValue:(wRegister.registerValue | fileRegister.registerValue)];
+			PSRegister *reg = [pic.storage registerforAddress:self.registerAddress];
+			[reg setRegisterValue:(wRegister.registerValue | fileRegister.registerValue)];
             //result in f
         } else {
             pic.storage.w.registerValue = (wRegister.registerValue | fileRegister.registerValue);
@@ -506,8 +515,7 @@
 		PSRegister *fileRegister = [pic.storage registerforAddress:self.registerAddress];
         
         if (self.storeInF) {
-            [pic.storage setRegister:fileRegister.registerValue
-                             toValue:fileRegister.registerValue];
+			[fileRegister setRegisterValue:fileRegister.registerValue];
             //move to f
         } else {
             pic.storage.w.registerValue = fileRegister.registerValue;
@@ -609,7 +617,7 @@
 		PSRegister *wRegister = pic.storage.w;
         
         if (self.storeInF) {
-            [pic.storage setRegister:self.registerAddress toValue:(fileRegister.registerValue - wRegister.registerValue)];
+			[fileRegister setRegisterValue:(fileRegister.registerValue - wRegister.registerValue)];
             //move to f
         } else {
             pic.storage.w.registerValue = (fileRegister.registerValue - wRegister.registerValue);
@@ -661,7 +669,7 @@
         
         if(self.storeInF)
         {
-            [pic.storage setRegister:self.registerAddress toValue:(wRegister.registerValue ^ fileRegister.registerValue)];
+			[fileRegister setRegisterValue:(fileRegister.registerValue ^ wRegister.registerValue)];
             //move to f
         }
         else
@@ -699,7 +707,7 @@
 		return;
 	}
 	
-	if ([self.instruction isEqualToString:@"BCF"]) {
+	if ([self.instruction isEqualToString:@"BCF"]) { // funktioniert
         PSRegister *fileRegister = [pic.storage registerforAddress:self.registerAddress];
 		switch (self.bitAddress) {
 			case 0:
@@ -731,7 +739,7 @@
 		return;
 	}
 	
-	if ([self.instruction isEqualToString:@"BSF"]) {
+	if ([self.instruction isEqualToString:@"BSF"]) { // Funktioniert
 		PSRegister *fileRegister = [pic.storage registerforAddress:self.registerAddress];
 		switch (self.bitAddress) {
 			case 0:
@@ -763,20 +771,22 @@
 	}
 	
 	if ([self.instruction isEqualToString:@"BTFSC"]) {
-		if (!([pic.storage bitValueForAddress:self.registerAddress andBit:self.bitAddress])) {
+		PSRegister *reg = [pic.storage registerforAddress:self.registerAddress];
+		if (!([reg bitValueForBit:self.bitAddress])) {
 			pic.pc++;
 		}
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"BTFSS"]) {
-		if ([pic.storage bitValueForAddress:self.registerAddress andBit:self.bitAddress]) {
+		PSRegister *reg = [pic.storage registerforAddress:self.registerAddress];
+		if ([reg bitValueForBit:self.bitAddress]) {
 			pic.pc++;
 		}
 		return;
 	}
 	
-	if ([self.instruction isEqualToString:@"MOVLW"]) {
+	if ([self.instruction isEqualToString:@"MOVLW"]) {	//funktioniert
         pic.storage.w.registerValue = self.literal;
 		return;
 	}
@@ -796,7 +806,7 @@
 		return;
 	}
 	
-	if ([self.instruction isEqualToString:@"GOTO"]) {
+	if ([self.instruction isEqualToString:@"GOTO"]) { // funktioniert
 		pic.storage.pc = self.literal - 1;
 		NSLog(@"Neuer Programmzähler: %hu", pic.storage.pc);
 		return;

@@ -78,8 +78,6 @@
 	
 	NSIndexSet *rows;
 	NSLog(@"Instruction found: %ld", nextInstructionRow);
-	rows = [NSIndexSet indexSetWithIndex:nextInstructionRow];
-	[self.codeView selectRowIndexes:rows byExtendingSelection:FALSE];
 	
 	PSLineOfCode *loc = [self.fileContents objectAtIndex:nextInstructionRow];
 	if (loc.hasBreakpoint) {
@@ -93,6 +91,11 @@
 	PSInstruction *instruction = [[PSInstruction alloc] initWithBits:(uint16_t)instructionBinary];
 
 	[instruction executeWithVirtualPIC:self];
+	
+		// Nächste Zeile highlighten
+	rows = [NSIndexSet indexSetWithIndex:nextInstructionRow];
+	[self.codeView selectRowIndexes:rows byExtendingSelection:FALSE];
+	
 	[self.storage incrementPc];
 	return true;
 }
