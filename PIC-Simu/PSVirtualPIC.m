@@ -42,6 +42,8 @@
 		// Dateiinhalt als Array in Instanzvariable speichern
 
 	NSArray *fileArray = [fileString componentsSeparatedByString:delimiter];
+	
+	[[self.locArrayController content] removeAllObjects];
 
 	for (NSString *loc in fileArray) {
 		PSLineOfCode *new_loc = [[PSLineOfCode alloc] init];
@@ -55,7 +57,12 @@
 		}
 		[self.locArrayController addObject:new_loc];
 	}
-	self.callStack = [[PSCallStack alloc] init];
+	if (self.callStack == nil) {
+		self.callStack = [[PSCallStack alloc] init];
+	} else {
+		[self.callStack clear];
+	}
+	
 }
 
 	// Prohibits selection in TableView showing Code
@@ -187,6 +194,98 @@
 	[self.textField4D setIntegerValue:self.storage.reg4D.registerValue];
 	[self.textField4E setIntegerValue:self.storage.reg4E.registerValue];
 	[self.textField4F setIntegerValue:self.storage.reg4F.registerValue];
+}
+
+- (void)resetRegisters {
+	self.storage.reg0C.registerValue = 0;
+	self.storage.reg0D.registerValue = 0;
+	self.storage.reg0E.registerValue = 0;
+	self.storage.reg0F.registerValue = 0;
+	
+	self.storage.reg10.registerValue = 0;
+	self.storage.reg11.registerValue = 0;
+	self.storage.reg12.registerValue = 0;
+	self.storage.reg13.registerValue = 0;
+	self.storage.reg14.registerValue = 0;
+	self.storage.reg15.registerValue = 0;
+	self.storage.reg16.registerValue = 0;
+	self.storage.reg17.registerValue = 0;
+	self.storage.reg18.registerValue = 0;
+	self.storage.reg19.registerValue = 0;
+	self.storage.reg1A.registerValue = 0;
+	self.storage.reg1B.registerValue = 0;
+	self.storage.reg1C.registerValue = 0;
+	self.storage.reg1D.registerValue = 0;
+	self.storage.reg1E.registerValue = 0;
+	self.storage.reg1F.registerValue = 0;
+	
+	self.storage.reg20.registerValue = 0;
+	self.storage.reg21.registerValue = 0;
+	self.storage.reg22.registerValue = 0;
+	self.storage.reg23.registerValue = 0;
+	self.storage.reg24.registerValue = 0;
+	self.storage.reg25.registerValue = 0;
+	self.storage.reg26.registerValue = 0;
+	self.storage.reg27.registerValue = 0;
+	self.storage.reg28.registerValue = 0;
+	self.storage.reg29.registerValue = 0;
+	self.storage.reg2A.registerValue = 0;
+	self.storage.reg2B.registerValue = 0;
+	self.storage.reg2C.registerValue = 0;
+	self.storage.reg2D.registerValue = 0;
+	self.storage.reg2E.registerValue = 0;
+	self.storage.reg2F.registerValue = 0;
+	
+	self.storage.reg30.registerValue = 0;
+	self.storage.reg31.registerValue = 0;
+	self.storage.reg32.registerValue = 0;
+	self.storage.reg33.registerValue = 0;
+	self.storage.reg34.registerValue = 0;
+	self.storage.reg35.registerValue = 0;
+	self.storage.reg36.registerValue = 0;
+	self.storage.reg37.registerValue = 0;
+	self.storage.reg38.registerValue = 0;
+	self.storage.reg39.registerValue = 0;
+	self.storage.reg3A.registerValue = 0;
+	self.storage.reg3B.registerValue = 0;
+	self.storage.reg3C.registerValue = 0;
+	self.storage.reg3D.registerValue = 0;
+	self.storage.reg3E.registerValue = 0;
+	self.storage.reg3F.registerValue = 0;
+	
+	self.storage.reg40.registerValue = 0;
+	self.storage.reg41.registerValue = 0;
+	self.storage.reg42.registerValue = 0;
+	self.storage.reg43.registerValue = 0;
+	self.storage.reg44.registerValue = 0;
+	self.storage.reg45.registerValue = 0;
+	self.storage.reg46.registerValue = 0;
+	self.storage.reg47.registerValue = 0;
+	self.storage.reg48.registerValue = 0;
+	self.storage.reg49.registerValue = 0;
+	self.storage.reg4A.registerValue = 0;
+	self.storage.reg4B.registerValue = 0;
+	self.storage.reg4C.registerValue = 0;
+	self.storage.reg4D.registerValue = 0;
+	self.storage.reg4E.registerValue = 0;
+	self.storage.reg4F.registerValue = 0;
+	
+	self.storage.tmr0.registerValue   = 0b00000000;
+	self.storage.pcl.registerValue    = 0b00000000;
+	self.storage.status.registerValue = 0b00011000;
+	self.storage.fsr.registerValue	  = 0b00000000;
+	self.storage.porta.registerValue  = 0b00000000;
+	self.storage.portb.registerValue  = 0b00000000;
+	self.storage.eedata.registerValue = 0b00000000;
+	self.storage.eeadr.registerValue  = 0b00000000;
+	self.storage.pclath.registerValue = 0b00000000;
+	self.storage.intcon.registerValue = 0b00000000;
+	self.storage.option.registerValue = 0b11111111;
+	self.storage.trisa.registerValue  = 0b00011111;
+	self.storage.trisb.registerValue  = 0b11111111;
+	self.storage.eecon1.registerValue = 0b00000000;
+	self.storage.eecon2.registerValue = 0b00000000;
+	[self updateFileRegisters];
 }
 
 @end

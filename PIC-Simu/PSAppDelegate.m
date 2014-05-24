@@ -49,7 +49,10 @@
 	
 	[self logButtonStatus];
 }
+
+	// Öffnen einer neuen LST-Datei
 - (IBAction)openFile:(id)sender {
+		// File-open-Panel öffnen
 	NSOpenPanel* openPanel = [NSOpenPanel openPanel];
 	[openPanel setCanChooseFiles:YES];
 	[openPanel setCanCreateDirectories:NO];
@@ -67,6 +70,7 @@
 	[self.startButtonToolbar setEnabled:true];
 }
 
+	// Start-Knopf drücken
 - (IBAction)startButtonPress:(id)sender {
 	[self.startButtonMenu setEnabled:NO];
 	[self.startButtonToolbar setEnabled:NO];
@@ -80,9 +84,12 @@
 	[self.resetButtonMenu setEnabled:NO];
 	[self.resetButtonToolbar setEnabled:NO];
 	[self logButtonStatus];
+		// Timer für die automatische Ausführung des nächsten Befehls
 	self.nextInstructionRunLoopTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self.virtualPIC selector:@selector(timerFireMethod:) userInfo:self repeats:YES];
 	NSLog(@"Created Timer");
 }
+
+	// Stop-Knopf-drücken
 - (IBAction)stopButtonPress:(id)sender {
 	[self.startButtonMenu setEnabled:YES];
 	[self.startButtonToolbar setEnabled:YES];
@@ -96,17 +103,29 @@
 	[self.resetButtonMenu setEnabled:YES];
 	[self.resetButtonToolbar setEnabled:YES];
 	[self logButtonStatus];
+		// Timer ausschalten
 	if (self.nextInstructionRunLoopTimer != nil) {
 		[self.nextInstructionRunLoopTimer invalidate];
 		NSLog(@"Invalidated Timer");
 	}
 }
+
+	// Step-Button gedrückt
 - (IBAction)stepButtonPress:(id)sender {
 	[self.virtualPIC executeNextInstruction];
 	NSLog(@"Executed one instruction");
 }
+
+	// Reset-Button gedrückt
 - (IBAction)resetButtonPress:(id)sender {
-	self.virtualPIC.storage.pc = 0;
+	[self.virtualPIC resetRegisters];
 }
 
+	// Öffnen der PDF-Hilfe
+- (IBAction)showPDFHelp:(id)sender {
+	NSBundle *mainBundle = [NSBundle mainBundle];
+	NSString *bundlePath = [mainBundle bundlePath];
+	NSString *documentationPath = [bundlePath stringByAppendingString:@"/Contents/Resources/en.lproj/Documentation.pdf"];	// Muss an dieser Stelle im Bundle liegen
+	[[NSWorkspace sharedWorkspace] openURL:[NSURL fileURLWithPath:documentationPath]];
+}
 @end

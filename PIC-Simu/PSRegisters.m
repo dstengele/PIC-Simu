@@ -208,12 +208,12 @@
 	return self;
 }
 
-- (void)setRegister:(uint16_t)registerAddress toValue:(uint16_t)newValue {
+- (void)setRegister:(uint8_t)registerAddress toValue:(uint8_t)newValue {
 	PSRegister *reg = [self registerforAddress:registerAddress];
 	[reg setRegisterValue:newValue];
 }
 
-- (PSRegister *)registerforAddress:(uint16_t)registerAddress {
+- (PSRegister *)registerforAddress:(uint8_t)registerAddress {
 	switch (registerAddress) {
 		case 0x00:
 		case 0x80: {
@@ -481,7 +481,7 @@
 	}
 }
 
-- (BOOL)bitValueForAddress:(uint16_t)registerAddress andBit:(uint16_t)bitAddress {
+- (BOOL)bitValueForAddress:(uint8_t)registerAddress andBit:(uint8_t)bitAddress {
 	PSRegister *reg = [self registerforAddress:registerAddress];
 	switch (bitAddress) {
 		case 0:

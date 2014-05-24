@@ -98,5 +98,6 @@
 - (BOOL)executeNextInstruction;
 - (void)timerFireMethod:(NSTimer *)timer;
 - (void)updateFileRegisters;
+- (void)resetRegisters;
 
 @end

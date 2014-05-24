@@ -74,7 +74,7 @@
 			
 			self.registerAddress = instructionBinary & 0b0000000001111111;
 			
-			self.storeInF = instructionBinary & 0b0000000001000000;
+			self.storeInF = instructionBinary & 0b0000000010000000;
 			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
@@ -83,7 +83,7 @@
 			
 			self.registerAddress = instructionBinary & 0b0000000001111111;
 			
-			self.storeInF = instructionBinary & 0b0000000001000000;
+			self.storeInF = instructionBinary & 0b0000000010000000;
 			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
@@ -92,7 +92,7 @@
 			
 			self.registerAddress = instructionBinary & 0b0000000001111111;
 			
-			self.storeInF = instructionBinary & 0b0000000001000000;
+			self.storeInF = instructionBinary & 0b0000000010000000;
 			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
@@ -137,7 +137,7 @@
 			
 			self.registerAddress = instructionBinary & 0b0000000001111111;
 			
-			self.storeInF = instructionBinary & 0b0000000001000000;
+			self.storeInF = instructionBinary & 0b0000000010000000;
 			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
@@ -146,7 +146,7 @@
 			
 			self.registerAddress = instructionBinary & 0b0000000001111111;
 			
-			self.storeInF = instructionBinary & 0b0000000001000000;
+			self.storeInF = instructionBinary & 0b0000000010000000;
 			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
@@ -155,7 +155,7 @@
 			
 			self.registerAddress = instructionBinary & 0b0000000001111111;
 			
-			self.storeInF = instructionBinary & 0b0000000001000000;
+			self.storeInF = instructionBinary & 0b0000000010000000;
 			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
@@ -164,7 +164,7 @@
 			
 			self.registerAddress = instructionBinary & 0b0000000001111111;
 			
-			self.storeInF = instructionBinary & 0b0000000001000000;
+			self.storeInF = instructionBinary & 0b0000000010000000;
 			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
@@ -173,7 +173,7 @@
 			
 			self.registerAddress = instructionBinary & 0b0000000001111111;
 			
-			self.storeInF = instructionBinary & 0b0000000001000000;
+			self.storeInF = instructionBinary & 0b0000000010000000;
 			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
@@ -182,7 +182,7 @@
 			
 			self.registerAddress = instructionBinary & 0b0000000001111111;
 			
-			self.storeInF = instructionBinary & 0b0000000001000000;
+			self.storeInF = instructionBinary & 0b0000000010000000;
 			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
@@ -191,7 +191,7 @@
 			
 			self.registerAddress = instructionBinary & 0b0000000001111111;
 			
-			self.storeInF = instructionBinary & 0b0000000001000000;
+			self.storeInF = instructionBinary & 0b0000000010000000;
 			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
@@ -200,7 +200,7 @@
 			
 			self.literal = instructionBinary & 0b0000000001111111;
 			
-			self.storeInF = instructionBinary & 0b0000000001000000;
+			self.storeInF = instructionBinary & 0b0000000010000000;
 			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
@@ -209,7 +209,7 @@
 			
 			self.literal = instructionBinary & 0b0000000001111111;
 			
-			self.storeInF = instructionBinary & 0b0000000001000000;
+			self.storeInF = instructionBinary & 0b0000000010000000;
 			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
@@ -218,7 +218,7 @@
 			
 			self.literal = instructionBinary & 0b0000000001111111;
 			
-			self.storeInF = instructionBinary & 0b0000000001000000;
+			self.storeInF = instructionBinary & 0b0000000010000000;
 			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
@@ -227,7 +227,7 @@
 			
 			self.literal = instructionBinary & 0b0000000001111111;
 			
-			self.storeInF = instructionBinary & 0b0000000001000000;
+			self.storeInF = instructionBinary & 0b0000000010000000;
 			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
@@ -236,7 +236,7 @@
 			
 			self.literal = instructionBinary & 0b0000000001111111;
 			
-			self.storeInF = instructionBinary & 0b0000000001000000;
+			self.storeInF = instructionBinary & 0b0000000010000000;
 			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
@@ -363,10 +363,10 @@
 	}
 	
 	if ([self.instruction isEqualToString:@"ADDWF"]) {
-		uint16_t valueW = pic.storage.w.registerValue;
+		uint8_t valueW = pic.storage.w.registerValue;
 		PSRegister *fileRegister = [pic.storage registerforAddress:self.registerAddress];
-		uint16_t valueF = [fileRegister registerValue];
-		uint16_t sum = valueW + valueF;
+		uint8_t valueF = [fileRegister registerValue];
+		uint8_t sum = valueW + valueF;
 		
         if (self.storeInF) {
 			[fileRegister setRegisterValue:sum];
@@ -380,10 +380,10 @@
 	}
 	
 	if ([self.instruction isEqualToString:@"ANDWF"]) {
-		uint16_t valueW = pic.storage.w.registerValue;
+		uint8_t valueW = pic.storage.w.registerValue;
 		PSRegister *fileRegister = [pic.storage registerforAddress:self.registerAddress];
-		uint16_t valueF = [fileRegister registerValue];
-		uint16_t and = valueW & valueF;
+		uint8_t valueF = [fileRegister registerValue];
+		uint8_t and = valueW & valueF;
 		
         if (self.storeInF) {
 			[fileRegister setRegisterValue:and];
@@ -397,7 +397,7 @@
 	}
 	
 	if ([self.instruction isEqualToString:@"COMF"]) {
-		uint16_t registerValue = [[pic.storage registerforAddress:self.registerAddress] registerValue];
+		uint8_t registerValue = [[pic.storage registerforAddress:self.registerAddress] registerValue];
         
         if (self.storeInF) {
 			PSRegister *reg = [pic.storage registerforAddress:self.registerAddress];
@@ -416,7 +416,7 @@
 		PSRegister *wRegister = pic.storage.w;
 		PSRegister *statusRegister = pic.storage.status;
 		
-		uint16_t temp = fileRegister.registerValue;
+		uint8_t temp = fileRegister.registerValue;
 		temp--;
 		
 		if (temp == 0) {
@@ -438,7 +438,7 @@
         PSRegister *fileRegister = [pic.storage registerforAddress:self.registerAddress];
 		PSRegister *wRegister = pic.storage.w;
 		
-		uint16_t temp = fileRegister.registerValue;
+		uint8_t temp = fileRegister.registerValue;
 		temp--;
 		
 		if (temp == 0) {
@@ -458,7 +458,7 @@
 		PSRegister *wRegister = pic.storage.w;
 		PSRegister *statusRegister = pic.storage.status;
 		
-		uint16_t temp = fileRegister.registerValue;
+		uint8_t temp = fileRegister.registerValue;
 		temp++;
 		
 		if (temp == 0) {
@@ -479,7 +479,7 @@
         PSRegister *fileRegister = [pic.storage registerforAddress:self.registerAddress];
 		PSRegister *wRegister = pic.storage.w;
 		
-		uint16_t temp = fileRegister.registerValue;
+		uint8_t temp = fileRegister.registerValue;
 		temp++;
 		
 		if (temp == 0) {
@@ -547,15 +547,15 @@
 		BOOL carry = statusRegister.bit0;
         
         if (self.storeInF) {
-            fileRegister.bit0 = bit1;
-			fileRegister.bit1 = bit2;
-			fileRegister.bit2 = bit3;
-			fileRegister.bit3 = bit4;
-			fileRegister.bit4 = bit5;
-			fileRegister.bit5 = bit6;
-			fileRegister.bit6 = bit7;
-			fileRegister.bit7 = carry;
-			statusRegister.bit0 = bit0;
+            fileRegister.bit0 = carry;
+			fileRegister.bit1 = bit0;
+			fileRegister.bit2 = bit1;
+			fileRegister.bit3 = bit2;
+			fileRegister.bit4 = bit3;
+			fileRegister.bit5 = bit4;
+			fileRegister.bit6 = bit5;
+			fileRegister.bit7 = bit6;
+			statusRegister.bit0 = bit7;
 			
         } else {
             wRegister.bit0 = carry;
@@ -587,26 +587,26 @@
 		BOOL carry = statusRegister.bit0;
         
         if (self.storeInF) {
-            fileRegister.bit0 = carry;
-			fileRegister.bit1 = bit0;
-			fileRegister.bit2 = bit1;
-			fileRegister.bit3 = bit2;
-			fileRegister.bit4 = bit3;
-			fileRegister.bit5 = bit4;
-			fileRegister.bit6 = bit5;
-			fileRegister.bit7 = bit6;
-			statusRegister.bit0 = bit7;
+            fileRegister.bit0 = bit1;
+			fileRegister.bit1 = bit2;
+			fileRegister.bit2 = bit3;
+			fileRegister.bit3 = bit4;
+			fileRegister.bit4 = bit5;
+			fileRegister.bit5 = bit6;
+			fileRegister.bit6 = bit7;
+			fileRegister.bit7 = carry;
+			statusRegister.bit0 = bit0;
 
         } else {
-            wRegister.bit0 = carry;
-			wRegister.bit1 = bit0;
-			wRegister.bit2 = bit1;
-			wRegister.bit3 = bit2;
-			wRegister.bit4 = bit3;
-			wRegister.bit5 = bit4;
-			wRegister.bit6 = bit5;
-			wRegister.bit7 = bit6;
-			statusRegister.bit0 = bit7;
+            wRegister.bit0 = bit1;
+			wRegister.bit1 = bit2;
+			wRegister.bit2 = bit3;
+			wRegister.bit3 = bit4;
+			wRegister.bit4 = bit5;
+			wRegister.bit5 = bit6;
+			wRegister.bit6 = bit7;
+			wRegister.bit7 = carry;
+			statusRegister.bit0 = bit0;
         }
 		return;
 	}

@@ -29,5 +29,6 @@
 @property (assign) NSTimer *nextInstructionRunLoopTimer;
 
 @property (assign) IBOutlet NSWindow *window;
+- (IBAction)showPDFHelp:(id)sender;
 
 @end
