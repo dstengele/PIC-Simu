@@ -101,7 +101,7 @@
 			
 			self.registerAddress = instructionBinary & 0b0000000001111111;
 			
-			self.storeInF = instructionBinary & 0b0000000001000000;
+			self.storeInF = instructionBinary & 0b0000000010000000;
 			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
@@ -110,7 +110,7 @@
 			
 			self.registerAddress = instructionBinary & 0b0000000001111111;
 			
-			self.storeInF = instructionBinary & 0b0000000001000000;
+			self.storeInF = instructionBinary & 0b0000000010000000;
 			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
@@ -119,7 +119,7 @@
 			
 			self.registerAddress = instructionBinary & 0b0000000001111111;
 			
-			self.storeInF = instructionBinary & 0b0000000001000000;
+			self.storeInF = instructionBinary & 0b0000000010000000;
 			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
@@ -128,7 +128,7 @@
 			
 			self.registerAddress = instructionBinary & 0b0000000001111111;
 			
-			self.storeInF = instructionBinary & 0b0000000001000000;
+			self.storeInF = instructionBinary & 0b0000000010000000;
 			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
@@ -198,7 +198,7 @@
 		if ((instructionBinary & 0b1111111000000000) == 0b0011111000000000) {
 			self.instruction = @"ADDLW";
 			
-			self.registerAddress = instructionBinary & 0b0000000001111111;
+			self.literal = instructionBinary & 0b0000000001111111;
 			
 			self.storeInF = instructionBinary & 0b0000000001000000;
 			NSLog(@"Instruction: %@", self.instruction);
@@ -207,7 +207,7 @@
 		if ((instructionBinary & 0b1111111100000000) == 0b0011100100000000) {
 			self.instruction = @"ANDLW";
 			
-			self.registerAddress = instructionBinary & 0b0000000001111111;
+			self.literal = instructionBinary & 0b0000000001111111;
 			
 			self.storeInF = instructionBinary & 0b0000000001000000;
 			NSLog(@"Instruction: %@", self.instruction);
@@ -216,7 +216,7 @@
 		if ((instructionBinary & 0b1111111100000000) == 0b0011100000000000) {
 			self.instruction = @"IORLW";
 			
-			self.registerAddress = instructionBinary & 0b0000000001111111;
+			self.literal = instructionBinary & 0b0000000001111111;
 			
 			self.storeInF = instructionBinary & 0b0000000001000000;
 			NSLog(@"Instruction: %@", self.instruction);
@@ -225,7 +225,7 @@
 		if ((instructionBinary & 0b1111111100000000) == 0b0011101000000000) {
 			self.instruction = @"XORLW";
 			
-			self.registerAddress = instructionBinary & 0b0000000001111111;
+			self.literal = instructionBinary & 0b0000000001111111;
 			
 			self.storeInF = instructionBinary & 0b0000000001000000;
 			NSLog(@"Instruction: %@", self.instruction);
@@ -234,7 +234,7 @@
 		if ((instructionBinary & 0b1111111000000000) == 0b0011110000000000) {
 			self.instruction = @"SUBLW";
 			
-			self.registerAddress = instructionBinary & 0b0000000001111111;
+			self.literal = instructionBinary & 0b0000000001111111;
 			
 			self.storeInF = instructionBinary & 0b0000000001000000;
 			NSLog(@"Instruction: %@", self.instruction);
@@ -442,7 +442,7 @@
 		temp--;
 		
 		if (temp == 0) {
-			pic.pc++;
+			pic.storage.pc++;
 		}
         
         if (self.storeInF) {
@@ -483,7 +483,7 @@
 		temp++;
 		
 		if (temp == 0) {
-			pic.pc++;
+			pic.storage.pc++;
 		}
         
         if (self.storeInF) {
@@ -773,7 +773,7 @@
 	if ([self.instruction isEqualToString:@"BTFSC"]) {
 		PSRegister *reg = [pic.storage registerforAddress:self.registerAddress];
 		if (!([reg bitValueForBit:self.bitAddress])) {
-			pic.pc++;
+			pic.storage.pc++;
 		}
 		return;
 	}
@@ -781,7 +781,7 @@
 	if ([self.instruction isEqualToString:@"BTFSS"]) {
 		PSRegister *reg = [pic.storage registerforAddress:self.registerAddress];
 		if ([reg bitValueForBit:self.bitAddress]) {
-			pic.pc++;
+			pic.storage.pc++;
 		}
 		return;
 	}
@@ -799,7 +799,7 @@
 	}
 	
 	if ([self.instruction isEqualToString:@"CALL"]) {
-		[pic.callStack push:(pic.pc+1)];
+		[pic.callStack push:(pic.storage.pc)];
 			// ACHTUNG! HACK! Oberer Teil des Programmzählers wird ignoriert.
 		pic.storage.pc = self.literal - 1;
 		NSLog(@"Neuer Programmzähler: %hu", pic.storage.pc);

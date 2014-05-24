@@ -67,7 +67,6 @@
 	[self.startButtonToolbar setEnabled:true];
 }
 
-	//TODO: Müsste in einer einzelnen Methode möglich sein, Tags für Buttons setzen und darauf prüfen
 - (IBAction)startButtonPress:(id)sender {
 	[self.startButtonMenu setEnabled:NO];
 	[self.startButtonToolbar setEnabled:NO];
@@ -81,7 +80,7 @@
 	[self.resetButtonMenu setEnabled:NO];
 	[self.resetButtonToolbar setEnabled:NO];
 	[self logButtonStatus];
-	self.nextInstructionRunLoopTimer = [NSTimer scheduledTimerWithTimeInterval:0.01 target:self.virtualPIC selector:@selector(timerFireMethod:) userInfo:self repeats:YES];
+	self.nextInstructionRunLoopTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self.virtualPIC selector:@selector(timerFireMethod:) userInfo:self repeats:YES];
 	NSLog(@"Created Timer");
 }
 - (IBAction)stopButtonPress:(id)sender {

@@ -252,7 +252,7 @@ CA
                                                 <binding destination="Xam-DF-SMg" name="value" keyPath="arrangedObjects" id="RqL-gM-gNk"/>
                                             </connections>
                                         </tableColumn>
-                                        <tableColumn width="576" minWidth="40" maxWidth="1000" id="0WI-g9-obV">
+                                        <tableColumn identifier="loc" width="660" minWidth="40" maxWidth="1000" id="0WI-g9-obV">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -266,11 +266,11 @@ CA
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
                                                 <tableCellView id="MnK-oU-Gva">
-                                                    <rect key="frame" x="22" y="1" width="576" height="17"/>
+                                                    <rect key="frame" x="22" y="1" width="660" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="trb-tG-MID">
-                                                            <rect key="frame" x="0.0" y="0.0" width="576" height="17"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="660" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Testzeile" id="KYM-DY-ZCE">
                                                                 <font key="font" metaFont="fixedUser" size="11"/>
@@ -4290,6 +4290,74 @@ CA
                 <outlet property="codeView" destination="coc-55-6QL" id="7KL-A4-xTj"/>
                 <outlet property="locArrayController" destination="Xam-DF-SMg" id="JBg-nP-Iva"/>
                 <outlet property="storage" destination="fVB-ZV-YNs" id="HXT-q6-oBg"/>
+                <outlet property="textField0C" destination="Fg9-24-8PE" id="NeS-7P-g1N"/>
+                <outlet property="textField0D" destination="a11-fQ-GN0" id="hqR-4v-pxC"/>
+                <outlet property="textField0E" destination="EFs-4V-aFX" id="qAK-e9-Ibg"/>
+                <outlet property="textField0F" destination="bma-Ls-PsI" id="fxN-m9-aYp"/>
+                <outlet property="textField10" destination="Lwi-Rk-C0g" id="Pqu-2B-zKN"/>
+                <outlet property="textField11" destination="7Wf-gR-kE3" id="YUo-WL-09g"/>
+                <outlet property="textField12" destination="1S0-yK-l98" id="lXT-Ej-qzh"/>
+                <outlet property="textField13" destination="W1a-Ku-Zku" id="lgW-jr-h1T"/>
+                <outlet property="textField14" destination="WdI-Vf-Nrs" id="8Dy-iC-9iy"/>
+                <outlet property="textField15" destination="JZj-l5-q2b" id="VpD-im-a4y"/>
+                <outlet property="textField16" destination="BhS-hm-kHO" id="xfK-oi-f9p"/>
+                <outlet property="textField17" destination="5Ne-Y9-9Xs" id="p5V-bI-OEm"/>
+                <outlet property="textField18" destination="meX-nc-0mS" id="veH-DP-aSu"/>
+                <outlet property="textField19" destination="iK8-cS-QfC" id="ss8-qi-qxH"/>
+                <outlet property="textField1A" destination="FBB-4c-BSd" id="dyI-RE-Dub"/>
+                <outlet property="textField1B" destination="1oT-v7-8ck" id="bYk-Lv-Nou"/>
+                <outlet property="textField1C" destination="JPh-Jy-FBm" id="25A-cR-TNX"/>
+                <outlet property="textField1D" destination="ky3-0a-0hu" id="yAJ-TX-Kx7"/>
+                <outlet property="textField1E" destination="Jen-wU-SHg" id="Iol-Jv-bXr"/>
+                <outlet property="textField1F" destination="o2f-TK-41s" id="i1G-x0-KPG"/>
+                <outlet property="textField20" destination="e8M-sD-zut" id="c2y-dN-Azm"/>
+                <outlet property="textField21" destination="q99-mn-vQ3" id="dd9-lx-h1M"/>
+                <outlet property="textField22" destination="QNF-JS-1H3" id="BqN-zP-Ioc"/>
+                <outlet property="textField23" destination="pv0-gs-A9Z" id="LrS-rs-wX5"/>
+                <outlet property="textField24" destination="bQo-8m-Uee" id="HqZ-dG-lLc"/>
+                <outlet property="textField25" destination="iNV-61-epQ" id="Jbe-Gz-W9D"/>
+                <outlet property="textField26" destination="ghl-4z-xM6" id="aqS-kX-wSy"/>
+                <outlet property="textField27" destination="e7H-RR-ctn" id="id6-2T-stO"/>
+                <outlet property="textField28" destination="gHR-1s-0sf" id="IeN-VG-ZM6"/>
+                <outlet property="textField29" destination="pAi-qs-cJ2" id="Zb0-lN-X2a"/>
+                <outlet property="textField2A" destination="wHy-B3-lVB" id="1W7-6T-GFe"/>
+                <outlet property="textField2B" destination="9dt-mw-Qp6" id="CYh-xn-1RN"/>
+                <outlet property="textField2C" destination="NUL-8X-hyB" id="hva-kX-FdE"/>
+                <outlet property="textField2D" destination="xmn-oL-nUW" id="112-Vi-qkb"/>
+                <outlet property="textField2E" destination="U94-UY-aIe" id="ire-Af-tA2"/>
+                <outlet property="textField2F" destination="Db9-Q2-f6I" id="Y34-ab-S30"/>
+                <outlet property="textField30" destination="mmK-rs-qEc" id="tOD-5N-Us0"/>
+                <outlet property="textField31" destination="Reb-5T-O7s" id="h7e-No-Ka8"/>
+                <outlet property="textField32" destination="3gz-CI-RDG" id="HWl-pD-VeM"/>
+                <outlet property="textField33" destination="mEF-j2-A10" id="gkG-cc-xEL"/>
+                <outlet property="textField34" destination="j8Z-BY-txr" id="6pg-Ry-Tnk"/>
+                <outlet property="textField35" destination="dVq-Wv-swk" id="f6c-pM-U5w"/>
+                <outlet property="textField36" destination="eng-Od-t6A" id="NdF-0b-c3U"/>
+                <outlet property="textField37" destination="pUS-b7-v9F" id="bND-1t-K9p"/>
+                <outlet property="textField38" destination="4KM-jU-agr" id="qzB-qM-Sgt"/>
+                <outlet property="textField39" destination="6Vj-1w-CSm" id="OgZ-Ju-F7w"/>
+                <outlet property="textField3A" destination="jad-pX-yff" id="PNg-jW-51c"/>
+                <outlet property="textField3B" destination="grb-6T-xZS" id="lbc-ka-qkt"/>
+                <outlet property="textField3C" destination="PpZ-38-JWr" id="F4M-Ff-OOV"/>
+                <outlet property="textField3D" destination="L0v-t5-0tb" id="PmK-QG-trT"/>
+                <outlet property="textField3E" destination="Ku8-Dy-DQd" id="d2Z-og-vRV"/>
+                <outlet property="textField3F" destination="yWO-xh-fVt" id="v8k-9c-tfW"/>
+                <outlet property="textField40" destination="k1G-vg-aMI" id="bMP-nx-ru0"/>
+                <outlet property="textField41" destination="O1c-RZ-0ZF" id="xGY-Ff-F3b"/>
+                <outlet property="textField42" destination="gHe-LG-X4w" id="eO9-hg-Pxv"/>
+                <outlet property="textField43" destination="5lP-GD-95p" id="AlJ-3R-Ve7"/>
+                <outlet property="textField44" destination="w1n-ZY-366" id="yFD-SW-mBK"/>
+                <outlet property="textField45" destination="H7x-To-rNg" id="uv1-Yi-p29"/>
+                <outlet property="textField46" destination="lJh-4R-IBS" id="vz7-bs-Fo4"/>
+                <outlet property="textField47" destination="qbe-T5-C4x" id="1p8-kw-2pR"/>
+                <outlet property="textField48" destination="MU7-Dn-S7X" id="UQq-OV-eHN"/>
+                <outlet property="textField49" destination="5Wc-aP-xWA" id="b2W-7Y-dsx"/>
+                <outlet property="textField4A" destination="9Ek-uY-fYh" id="bT2-76-ZGF"/>
+                <outlet property="textField4B" destination="nkK-L3-0Xe" id="h0f-CQ-FDn"/>
+                <outlet property="textField4C" destination="3DY-xh-6gn" id="ClW-Xx-1Ra"/>
+                <outlet property="textField4D" destination="IK1-7f-RSk" id="yOM-rE-MWf"/>
+                <outlet property="textField4E" destination="Et7-kw-kmM" id="GEt-wP-q3I"/>
+                <outlet property="textField4F" destination="dxS-5Y-Org" id="1aQ-Bl-IxU"/>
             </connections>
         </customObject>
         <userDefaultsController representsSharedInstance="YES" id="SyR-2E-gfc"/>

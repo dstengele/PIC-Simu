@@ -46,10 +46,16 @@
 	for (NSString *loc in fileArray) {
 		PSLineOfCode *new_loc = [[PSLineOfCode alloc] init];
 		new_loc.loc = loc;
-		new_loc.instruction = [loc substringWithRange:NSMakeRange(5, 4)];
-		new_loc.programCounter = [loc substringWithRange:NSMakeRange(0, 4)];
+		@try {
+			new_loc.instruction = [loc substringWithRange:NSMakeRange(5, 4)];
+			new_loc.programCounter = [loc substringWithRange:NSMakeRange(0, 4)];
+		}
+		@catch (NSException *exception) {
+			NSLog(@"Fehler beim Lesen der Zeile %@: %@", loc, exception);
+		}
 		[self.locArrayController addObject:new_loc];
 	}
+	self.callStack = [[PSCallStack alloc] init];
 }
 
 	// Prohibits selection in TableView showing Code
@@ -97,6 +103,7 @@
 	[self.codeView selectRowIndexes:rows byExtendingSelection:FALSE];
 	
 	[self.storage incrementPc];
+	[self updateFileRegisters];
 	return true;
 }
 
@@ -105,6 +112,81 @@
 		[timer invalidate];
 	}
 	return;
+}
+
+- (void)updateFileRegisters {
+	[self.textField0C setIntegerValue:self.storage.reg0C.registerValue];
+	[self.textField0D setIntegerValue:self.storage.reg0D.registerValue];
+	[self.textField0E setIntegerValue:self.storage.reg0E.registerValue];
+	[self.textField0F setIntegerValue:self.storage.reg0F.registerValue];
+	
+	[self.textField10 setIntegerValue:self.storage.reg10.registerValue];
+	[self.textField11 setIntegerValue:self.storage.reg11.registerValue];
+	[self.textField12 setIntegerValue:self.storage.reg12.registerValue];
+	[self.textField13 setIntegerValue:self.storage.reg13.registerValue];
+	[self.textField14 setIntegerValue:self.storage.reg14.registerValue];
+	[self.textField15 setIntegerValue:self.storage.reg15.registerValue];
+	[self.textField16 setIntegerValue:self.storage.reg16.registerValue];
+	[self.textField17 setIntegerValue:self.storage.reg17.registerValue];
+	[self.textField18 setIntegerValue:self.storage.reg18.registerValue];
+	[self.textField19 setIntegerValue:self.storage.reg19.registerValue];
+	[self.textField1A setIntegerValue:self.storage.reg1A.registerValue];
+	[self.textField1B setIntegerValue:self.storage.reg1B.registerValue];
+	[self.textField1C setIntegerValue:self.storage.reg1C.registerValue];
+	[self.textField1D setIntegerValue:self.storage.reg1D.registerValue];
+	[self.textField1E setIntegerValue:self.storage.reg1E.registerValue];
+	[self.textField1F setIntegerValue:self.storage.reg1F.registerValue];
+	
+	[self.textField20 setIntegerValue:self.storage.reg20.registerValue];
+	[self.textField21 setIntegerValue:self.storage.reg21.registerValue];
+	[self.textField22 setIntegerValue:self.storage.reg22.registerValue];
+	[self.textField23 setIntegerValue:self.storage.reg23.registerValue];
+	[self.textField24 setIntegerValue:self.storage.reg24.registerValue];
+	[self.textField25 setIntegerValue:self.storage.reg25.registerValue];
+	[self.textField26 setIntegerValue:self.storage.reg26.registerValue];
+	[self.textField27 setIntegerValue:self.storage.reg27.registerValue];
+	[self.textField28 setIntegerValue:self.storage.reg28.registerValue];
+	[self.textField29 setIntegerValue:self.storage.reg29.registerValue];
+	[self.textField2A setIntegerValue:self.storage.reg2A.registerValue];
+	[self.textField2B setIntegerValue:self.storage.reg2B.registerValue];
+	[self.textField2C setIntegerValue:self.storage.reg2C.registerValue];
+	[self.textField2D setIntegerValue:self.storage.reg2D.registerValue];
+	[self.textField2E setIntegerValue:self.storage.reg2E.registerValue];
+	[self.textField2F setIntegerValue:self.storage.reg2F.registerValue];
+	
+	[self.textField30 setIntegerValue:self.storage.reg30.registerValue];
+	[self.textField31 setIntegerValue:self.storage.reg31.registerValue];
+	[self.textField32 setIntegerValue:self.storage.reg32.registerValue];
+	[self.textField33 setIntegerValue:self.storage.reg33.registerValue];
+	[self.textField34 setIntegerValue:self.storage.reg34.registerValue];
+	[self.textField35 setIntegerValue:self.storage.reg35.registerValue];
+	[self.textField36 setIntegerValue:self.storage.reg36.registerValue];
+	[self.textField37 setIntegerValue:self.storage.reg37.registerValue];
+	[self.textField38 setIntegerValue:self.storage.reg38.registerValue];
+	[self.textField39 setIntegerValue:self.storage.reg39.registerValue];
+	[self.textField3A setIntegerValue:self.storage.reg3A.registerValue];
+	[self.textField3B setIntegerValue:self.storage.reg3B.registerValue];
+	[self.textField3C setIntegerValue:self.storage.reg3C.registerValue];
+	[self.textField3D setIntegerValue:self.storage.reg3D.registerValue];
+	[self.textField3E setIntegerValue:self.storage.reg3E.registerValue];
+	[self.textField3F setIntegerValue:self.storage.reg3F.registerValue];
+
+	[self.textField40 setIntegerValue:self.storage.reg40.registerValue];
+	[self.textField41 setIntegerValue:self.storage.reg41.registerValue];
+	[self.textField42 setIntegerValue:self.storage.reg42.registerValue];
+	[self.textField43 setIntegerValue:self.storage.reg43.registerValue];
+	[self.textField44 setIntegerValue:self.storage.reg44.registerValue];
+	[self.textField45 setIntegerValue:self.storage.reg45.registerValue];
+	[self.textField46 setIntegerValue:self.storage.reg46.registerValue];
+	[self.textField47 setIntegerValue:self.storage.reg47.registerValue];
+	[self.textField48 setIntegerValue:self.storage.reg48.registerValue];
+	[self.textField49 setIntegerValue:self.storage.reg49.registerValue];
+	[self.textField4A setIntegerValue:self.storage.reg4A.registerValue];
+	[self.textField4B setIntegerValue:self.storage.reg4B.registerValue];
+	[self.textField4C setIntegerValue:self.storage.reg4C.registerValue];
+	[self.textField4D setIntegerValue:self.storage.reg4D.registerValue];
+	[self.textField4E setIntegerValue:self.storage.reg4E.registerValue];
+	[self.textField4F setIntegerValue:self.storage.reg4F.registerValue];
 }
 
 @end
