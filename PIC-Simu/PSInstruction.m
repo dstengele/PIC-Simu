@@ -21,34 +21,28 @@
 	if (self) {
 		if (instructionBinary == 0b0000000001100100) { //CLRWDT
 			self.instruction = @"CLRWDT";
-			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
 		if (instructionBinary == 0b0000000000001001) {
 			self.instruction = @"RETFIE";
-			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
 		if (instructionBinary == 0b0000000000001000) {
 			self.instruction = @"RETURN";
-			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
 		if (instructionBinary == 0b0000000001100011) {
 			self.instruction = @"SLEEP";
-			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
 		
 			// Nur Don't-Care-Bits
 		if ((instructionBinary & 0b1111111110011111) == 0b0000000000000000) {
 			self.instruction = @"NOP";
-			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
 		if ((instructionBinary & 0b1111111110000000) == 0b0000000100000000) {
 			self.instruction = @"CLRW";
-			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
 		
@@ -57,14 +51,12 @@
 			self.instruction = @"MOVWF";
 			
 			self.registerAddress = instructionBinary & 0b0000000001111111;
-			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
 		if ((instructionBinary & 0b1111111110000000) == 0b0000000110000000) {
 			self.instruction = @"CLRF";
 			
 			self.registerAddress = instructionBinary & 0b0000000001111111;
-			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
 		
@@ -75,7 +67,6 @@
 			self.registerAddress = instructionBinary & 0b0000000001111111;
 			
 			self.storeInF = instructionBinary & 0b0000000010000000;
-			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
 		if ((instructionBinary & 0b1111111100000000) == 0b0000010100000000) {
@@ -84,7 +75,6 @@
 			self.registerAddress = instructionBinary & 0b0000000001111111;
 			
 			self.storeInF = instructionBinary & 0b0000000010000000;
-			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
 		if ((instructionBinary & 0b1111111100000000) == 0b0000100100000000) {
@@ -93,7 +83,6 @@
 			self.registerAddress = instructionBinary & 0b0000000001111111;
 			
 			self.storeInF = instructionBinary & 0b0000000010000000;
-			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
 		if ((instructionBinary & 0b1111111100000000) == 0b0000001100000000) {
@@ -102,7 +91,6 @@
 			self.registerAddress = instructionBinary & 0b0000000001111111;
 			
 			self.storeInF = instructionBinary & 0b0000000010000000;
-			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
 		if ((instructionBinary & 0b1111111100000000) == 0b0000101100000000) {
@@ -111,7 +99,6 @@
 			self.registerAddress = instructionBinary & 0b0000000001111111;
 			
 			self.storeInF = instructionBinary & 0b0000000010000000;
-			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
 		if ((instructionBinary & 0b1111111100000000) == 0b0000101000000000) {
@@ -120,7 +107,6 @@
 			self.registerAddress = instructionBinary & 0b0000000001111111;
 			
 			self.storeInF = instructionBinary & 0b0000000010000000;
-			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
 		if ((instructionBinary & 0b1111111100000000) == 0b0000111100000000) {
@@ -129,7 +115,6 @@
 			self.registerAddress = instructionBinary & 0b0000000001111111;
 			
 			self.storeInF = instructionBinary & 0b0000000010000000;
-			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
 		if ((instructionBinary & 0b1111111100000000) == 0b0000010000000000) {
@@ -138,7 +123,6 @@
 			self.registerAddress = instructionBinary & 0b0000000001111111;
 			
 			self.storeInF = instructionBinary & 0b0000000010000000;
-			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
 		if ((instructionBinary & 0b1111111100000000) == 0b0000100000000000) {
@@ -147,7 +131,6 @@
 			self.registerAddress = instructionBinary & 0b0000000001111111;
 			
 			self.storeInF = instructionBinary & 0b0000000010000000;
-			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
 		if ((instructionBinary & 0b1111111100000000) == 0b0000110100000000) {
@@ -156,7 +139,6 @@
 			self.registerAddress = instructionBinary & 0b0000000001111111;
 			
 			self.storeInF = instructionBinary & 0b0000000010000000;
-			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
 		if ((instructionBinary & 0b1111111100000000) == 0b0000110000000000) {
@@ -165,7 +147,6 @@
 			self.registerAddress = instructionBinary & 0b0000000001111111;
 			
 			self.storeInF = instructionBinary & 0b0000000010000000;
-			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
 		if ((instructionBinary & 0b1111111100000000) == 0b0000001000000000) {
@@ -174,7 +155,6 @@
 			self.registerAddress = instructionBinary & 0b0000000001111111;
 			
 			self.storeInF = instructionBinary & 0b0000000010000000;
-			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
 		if ((instructionBinary & 0b1111111100000000) == 0b0000111000000000) {
@@ -183,7 +163,6 @@
 			self.registerAddress = instructionBinary & 0b0000000001111111;
 			
 			self.storeInF = instructionBinary & 0b0000000010000000;
-			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
 		if ((instructionBinary & 0b1111111100000000) == 0b0000011000000000) {
@@ -192,7 +171,6 @@
 			self.registerAddress = instructionBinary & 0b0000000001111111;
 			
 			self.storeInF = instructionBinary & 0b0000000010000000;
-			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
 		if ((instructionBinary & 0b1111111000000000) == 0b0011111000000000) {
@@ -201,7 +179,6 @@
 			self.literal = instructionBinary & 0b0000000001111111;
 			
 			self.storeInF = instructionBinary & 0b0000000010000000;
-			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
 		if ((instructionBinary & 0b1111111100000000) == 0b0011100100000000) {
@@ -210,7 +187,6 @@
 			self.literal = instructionBinary & 0b0000000001111111;
 			
 			self.storeInF = instructionBinary & 0b0000000010000000;
-			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
 		if ((instructionBinary & 0b1111111100000000) == 0b0011100000000000) {
@@ -219,7 +195,6 @@
 			self.literal = instructionBinary & 0b0000000001111111;
 			
 			self.storeInF = instructionBinary & 0b0000000010000000;
-			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
 		if ((instructionBinary & 0b1111111100000000) == 0b0011101000000000) {
@@ -228,7 +203,6 @@
 			self.literal = instructionBinary & 0b0000000001111111;
 			
 			self.storeInF = instructionBinary & 0b0000000010000000;
-			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
 		if ((instructionBinary & 0b1111111000000000) == 0b0011110000000000) {
@@ -237,7 +211,6 @@
 			self.literal = instructionBinary & 0b0000000001111111;
 			
 			self.storeInF = instructionBinary & 0b0000000010000000;
-			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
 		
@@ -248,7 +221,6 @@
 			self.registerAddress = instructionBinary & 0b0000000001111111;
 			
 			self.bitAddress = (instructionBinary & 0b0000001110000000) >> 7;
-			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
 		if ((instructionBinary & 0b1111110000000000) == 0b0001010000000000) {
@@ -257,7 +229,6 @@
 			self.registerAddress = instructionBinary & 0b0000000001111111;
 			
 			self.bitAddress = (instructionBinary & 0b0000001110000000) >> 7;
-			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
 		if ((instructionBinary & 0b1111110000000000) == 0b0001100000000000) {
@@ -266,7 +237,6 @@
 			self.registerAddress = instructionBinary & 0b0000000001111111;
 			
 			self.bitAddress = (instructionBinary & 0b0000001110000000) >> 7;
-			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
 		if ((instructionBinary & 0b1111110000000000) == 0b0001110000000000) {
@@ -275,21 +245,18 @@
 			self.registerAddress = instructionBinary & 0b0000000011111111;
 			
 			self.bitAddress = (instructionBinary & 0b0000001110000000) >> 7;
-			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
 		if ((instructionBinary & 0b1111110000000000) == 0b0011000000000000) {
 			self.instruction = @"MOVLW";
 			
 			self.literal = instructionBinary & 0b0000000011111111;
-			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
 		if ((instructionBinary & 0b1111110000000000) == 0b0011010000000000) {
 			self.instruction = @"RETLW";
 			
 			self.literal = instructionBinary & 0b0000000011111111;
-			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
 		
@@ -298,14 +265,12 @@
 			self.instruction = @"CALL";
 			
 			self.literal = instructionBinary & 0b0000011111111111;
-			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
 		if ((instructionBinary & 0b1111100000000000) == 0b0010100000000000) {
 			self.instruction = @"GOTO";
 			
 			self.literal = instructionBinary & 0b0000011111111111;
-			NSLog(@"Instruction: %@", self.instruction);
 			return self;
 		}
 	}
@@ -313,10 +278,12 @@
 }
 
 - (void)executeWithVirtualPIC:(PSVirtualPIC *)pic {
+	if (self.registerAddress == 0x06 || pic.storage.fsr.registerValue == 0x06) {
+		[pic.storage resetOldRb0];
+	}
 	if (pic.storage.status.bit5) {
 			// Auf Bank 1 schreiben
 		self.registerAddress = self.registerAddress + 0x80;
-		NSLog(@"Working on bank 1");
 	}
 	if ([self.instruction isEqualToString:@"CLRWDT"]) {
 		pic.wdt = 0b00000000;
@@ -325,13 +292,11 @@
 	
 	if ([self.instruction isEqualToString:@"RETFIE"]) {
 		pic.storage.pc = pic.callStack.pop;
-		NSLog(@"Neuer Programmzähler: %hu", pic.storage.pc);
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"RETURN"]) {
 		pic.storage.pc = pic.callStack.pop;
-		NSLog(@"Neuer Programmzähler: %hu", pic.storage.pc);
 		return;
 	}
 	
@@ -522,7 +487,7 @@
             //move to W
         }
 		
-		if (fileRegister.registerValue) {
+		if (!fileRegister.registerValue) {
 			pic.storage.status.bit2 = true;
 		} else {
 			pic.storage.status.bit2 = false;
@@ -794,7 +759,6 @@
 	if ([self.instruction isEqualToString:@"RETLW"]) {
         pic.storage.pc = pic.callStack.pop;
         pic.storage.w.registerValue = self.literal;
-		NSLog(@"Neuer Programmzähler: %hu", pic.storage.pc);
 		return;
 	}
 	
@@ -802,13 +766,11 @@
 		[pic.callStack push:(pic.storage.pc)];
 			// ACHTUNG! HACK! Oberer Teil des Programmzählers wird ignoriert.
 		pic.storage.pc = self.literal - 1;
-		NSLog(@"Neuer Programmzähler: %hu", pic.storage.pc);
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"GOTO"]) { // funktioniert
 		pic.storage.pc = self.literal - 1;
-		NSLog(@"Neuer Programmzähler: %hu", pic.storage.pc);
 		return;
 	}
 }

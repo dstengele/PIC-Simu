@@ -25,13 +25,6 @@
 @synthesize window;
 @synthesize nextInstructionRunLoopTimer;
 
-- (void)logButtonStatus {
-	NSLog(@"Status Startbutton: %hhd", [self.startButtonToolbar isEnabled]);
-	NSLog(@"Status Stopbutton: %hhd", [self.stopButtonToolbar isEnabled]);
-	NSLog(@"Status Stepbutton: %hhd", [self.stepButtonToolbar isEnabled]);
-	NSLog(@"Status Resetbutton: %hhd", [self.resetButtonToolbar isEnabled]);
-}
-
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	
 		//TODO: Alles in extra-Methode verpacken, mgl.weise mit switch-case in einer einzigen
@@ -47,7 +40,8 @@
 	[self.resetButtonMenu setEnabled:NO];
 	[self.resetButtonToolbar setEnabled:NO];
 	
-	[self logButtonStatus];
+	[virtualPIC setCycleDurationSlider:50];
+	[virtualPIC updateFileRegisters];
 }
 
 	// Öffnen einer neuen LST-Datei
@@ -65,9 +59,13 @@
 		NSLog(@"Pfad: %@", path);
 	}
 	[self.virtualPIC initWithTextFile:path];
+	virtualPIC.runtimeCounter = 0;
 	
 	[self.startButtonMenu setEnabled:true];
 	[self.startButtonToolbar setEnabled:true];
+	
+	[self.stepButtonMenu setEnabled:YES];
+	[self.stepButtonToolbar setEnabled:YES];
 }
 
 	// Start-Knopf drücken
@@ -83,9 +81,9 @@
 	
 	[self.resetButtonMenu setEnabled:NO];
 	[self.resetButtonToolbar setEnabled:NO];
-	[self logButtonStatus];
+	[self.clockSpeedSlider setEnabled:NO];
 		// Timer für die automatische Ausführung des nächsten Befehls
-	self.nextInstructionRunLoopTimer = [NSTimer scheduledTimerWithTimeInterval:0.1 target:self.virtualPIC selector:@selector(timerFireMethod:) userInfo:self repeats:YES];
+	self.nextInstructionRunLoopTimer = [NSTimer scheduledTimerWithTimeInterval:(virtualPIC.cycleDuration*100000) target:self.virtualPIC selector:@selector(timerFireMethod:) userInfo:self repeats:YES];
 	NSLog(@"Created Timer");
 }
 
@@ -102,12 +100,12 @@
 	
 	[self.resetButtonMenu setEnabled:YES];
 	[self.resetButtonToolbar setEnabled:YES];
-	[self logButtonStatus];
 		// Timer ausschalten
 	if (self.nextInstructionRunLoopTimer != nil) {
 		[self.nextInstructionRunLoopTimer invalidate];
 		NSLog(@"Invalidated Timer");
 	}
+	[self.clockSpeedSlider setEnabled:YES];
 }
 
 	// Step-Button gedrückt
@@ -119,6 +117,7 @@
 	// Reset-Button gedrückt
 - (IBAction)resetButtonPress:(id)sender {
 	[self.virtualPIC resetRegisters];
+	virtualPIC.runtimeCounter = 0;
 }
 
 	// Öffnen der PDF-Hilfe

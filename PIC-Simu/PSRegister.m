@@ -62,6 +62,24 @@ NSString *stringValue;
 	return (int)self.bit7*128+(int)self.bit6*64+(int)self.bit5*32+(int)self.bit4*16+(int)self.bit3*8+(int)self.bit2*4+(int)self.bit1*2+(int)self.bit0;
 }
 
+- (NSString *)description {
+	uint8_t regValue = self.registerValue;
+	uint8_t numberCopy = regValue;
+	
+		// Konvertieren der Zahl in binären String für Ausgabe
+	NSMutableString *binaryString = [NSMutableString stringWithFormat:@""];
+	for (int i = 0; i < 8; i++) {
+			// Prepend "0" or "1", depending on the bit
+		[binaryString insertString:((numberCopy & 1) ? @"1" : @"0") atIndex:0];
+		numberCopy >>= 1;
+	}
+	
+	NSString *res = [NSString stringWithFormat:@"0x%X - ", regValue];
+	res = [res stringByAppendingString:binaryString];
+	res = [res stringByAppendingString:[NSString stringWithFormat:@" - %d", regValue]];
+	return res;
+}
+
 - (BOOL)bitValueForBit:(uint8_t)bitAddress {
 	switch (bitAddress) {
 		case 0:

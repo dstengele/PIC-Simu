@@ -18,6 +18,14 @@
 @property (readwrite) NSInteger wdt;
 @property (retain) PSCallStack* callStack;
 @property (weak) IBOutlet NSTableView *codeView;
+@property (weak) IBOutlet NSTableView *stackView;
+@property (readwrite) NSInteger runtimeCounter;
+
+@property (weak) IBOutlet NSTextField *cycleCounter;
+@property (weak) IBOutlet NSTextField *timeCounter;
+
+@property (readwrite) float cycleDuration;
+
 
 @property (weak) IBOutlet NSTextField *textField0C;
 @property (weak) IBOutlet NSTextField *textField0D;
@@ -99,5 +107,10 @@
 - (void)timerFireMethod:(NSTimer *)timer;
 - (void)updateFileRegisters;
 - (void)resetRegisters;
+
+- (void)updateRuntimeCounterViews;
+
+- (void)setCycleDurationSlider:(float)newValue;
+- (float)cycleDurationSlider;
 
 @end

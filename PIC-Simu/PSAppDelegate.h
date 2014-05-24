@@ -27,6 +27,7 @@
 @property (weak) IBOutlet NSTableView *codeView;
 
 @property (assign) NSTimer *nextInstructionRunLoopTimer;
+@property (weak) IBOutlet NSSlider *clockSpeedSlider;
 
 @property (assign) IBOutlet NSWindow *window;
 - (IBAction)showPDFHelp:(id)sender;

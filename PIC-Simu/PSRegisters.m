@@ -11,102 +11,8 @@
 
 @implementation PSRegisters
 
-@synthesize w;
-
-	// Bank 0
-@synthesize indf;
-@synthesize tmr0;
-@synthesize pcl;
-@synthesize status;
-@synthesize fsr;
-@synthesize porta;
-@synthesize portb;
-@synthesize eedata;
-@synthesize eeadr;
-@synthesize pclath;
-@synthesize intcon;
-
-	// Bank 1
-@synthesize option;
-@synthesize trisa;
-@synthesize trisb;
-@synthesize eecon1;
-@synthesize eecon2;
-
-	// GPR
-@synthesize reg0C;
-@synthesize reg0D;
-@synthesize reg0E;
-@synthesize reg0F;
-
-@synthesize reg10;
-@synthesize reg11;
-@synthesize reg12;
-@synthesize reg13;
-@synthesize reg14;
-@synthesize reg15;
-@synthesize reg16;
-@synthesize reg17;
-@synthesize reg18;
-@synthesize reg19;
-@synthesize reg1A;
-@synthesize reg1B;
-@synthesize reg1C;
-@synthesize reg1D;
-@synthesize reg1E;
-@synthesize reg1F;
-
-@synthesize reg20;
-@synthesize reg21;
-@synthesize reg22;
-@synthesize reg23;
-@synthesize reg24;
-@synthesize reg25;
-@synthesize reg26;
-@synthesize reg27;
-@synthesize reg28;
-@synthesize reg29;
-@synthesize reg2A;
-@synthesize reg2B;
-@synthesize reg2C;
-@synthesize reg2D;
-@synthesize reg2E;
-@synthesize reg2F;
-
-@synthesize reg30;
-@synthesize reg31;
-@synthesize reg32;
-@synthesize reg33;
-@synthesize reg34;
-@synthesize reg35;
-@synthesize reg36;
-@synthesize reg37;
-@synthesize reg38;
-@synthesize reg39;
-@synthesize reg3A;
-@synthesize reg3B;
-@synthesize reg3C;
-@synthesize reg3D;
-@synthesize reg3E;
-@synthesize reg3F;
-
-@synthesize reg40;
-@synthesize reg41;
-@synthesize reg42;
-@synthesize reg43;
-@synthesize reg44;
-@synthesize reg45;
-@synthesize reg46;
-@synthesize reg47;
-@synthesize reg48;
-@synthesize reg49;
-@synthesize reg4A;
-@synthesize reg4B;
-@synthesize reg4C;
-@synthesize reg4D;
-@synthesize reg4E;
-@synthesize reg4F;
-
+BOOL oldRb0 = 0;
+uint8_t oldRbValue = 0;
 
 - (id)init {
 	self = [super init];
@@ -521,7 +427,6 @@
 	+  (self.pcl.   bit1 * 2)
 	+  (self.pcl.   bit0);
 	
-	NSLog(@"Current Program Counter: %d", res);
 	return res;
 }
 
@@ -537,5 +442,66 @@
 	uint16_t temp = [self pc];
 	temp++;
 	[self setPc:temp];
+}
+
+
+- (uint8_t)tmr {
+	uint8_t res =
+	+  (self.tmr0.   bit7 * 128)
+	+  (self.tmr0.   bit6 * 64)
+	+  (self.tmr0.   bit5 * 32)
+	+  (self.tmr0.   bit4 * 16)
+	+  (self.tmr0.   bit3 * 8)
+	+  (self.tmr0.   bit2 * 4)
+	+  (self.tmr0.   bit1 * 2)
+	+  (self.tmr0.   bit0);
+	return res;
+}
+
+- (void)setTmr:(uint8_t)newTmr {
+	[self.tmr0 setRegisterValue:newTmr];
+}
+
+- (void)incrementTmr {
+	uint8_t temp = [self tmr];
+	temp++;
+	[self setTmr:temp];
+}
+
+- (void)checkTmrInt {
+	[self incrementTmr];
+	if ([self tmr] == 0) {
+		if (self.intcon.bit5) {
+			self.intcon.bit2 = 1;
+		}
+	}
+}
+
+- (void)checkrb0Int {
+	if (self.intcon.bit4) {
+		if (self.option.bit6) {
+			if (oldRb0 == 0 && self.portb.bit0 == 1) {
+				self.intcon.bit1 = 1;
+			}
+		} else {
+			if (oldRb0 == 1 && self.portb.bit0 == 0) {
+				self.intcon.bit1 = 1;
+			}
+		}
+	}
+	oldRb0 = self.portb.bit0;
+}
+
+- (void)checkportbInt {
+	if (self.intcon.bit3) {
+		uint8_t rbValue = (self.portb.bit7 * 128) + (self.portb.bit6 * 64) + (self.portb.bit5 * 32) + (self.portb.bit4 * 16);
+		if (rbValue != oldRbValue) {
+			self.intcon.bit0 = 1;
+		}
+	}
+}
+
+- (void)resetOldRb0 {
+	oldRb0 = self.portb.bit0;
 }
 @end
