@@ -12,6 +12,10 @@
 		E262490818FBCBC4004A43D0 /* PSRegister.m in Sources */ = {isa = PBXBuildFile; fileRef = E262490718FBCBC4004A43D0 /* PSRegister.m */; };
 		E2AC163418F433C1004A43D0 /* PSLineOfCode.m in Sources */ = {isa = PBXBuildFile; fileRef = E2AC163318F433C1004A43D0 /* PSLineOfCode.m */; };
 		E2CB355E1930BC6C004A43D0 /* Documentation.pdf in Resources */ = {isa = PBXBuildFile; fileRef = E2CB355C1930BC6C004A43D0 /* Documentation.pdf */; };
+		E2D8170619320EAE004A43D0 /* PlayButton.png in Resources */ = {isa = PBXBuildFile; fileRef = E2D816FE19320EAE004A43D0 /* PlayButton.png */; };
+		E2D8170719320EAE004A43D0 /* ResetButton.png in Resources */ = {isa = PBXBuildFile; fileRef = E2D8170019320EAE004A43D0 /* ResetButton.png */; };
+		E2D8170819320EAE004A43D0 /* StepButton.png in Resources */ = {isa = PBXBuildFile; fileRef = E2D8170219320EAE004A43D0 /* StepButton.png */; };
+		E2D8170919320EAE004A43D0 /* StopButton.png in Resources */ = {isa = PBXBuildFile; fileRef = E2D8170419320EAE004A43D0 /* StopButton.png */; };
 		E2E7439618E99636004A43D0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2E7439518E99636004A43D0 /* Cocoa.framework */; };
 		E2E743A018E99636004A43D0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E2E7439E18E99636004A43D0 /* InfoPlist.strings */; };
 		E2E743A218E99636004A43D0 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E2E743A118E99636004A43D0 /* main.m */; };
@@ -51,6 +55,10 @@
 		E2AC163218F433C1004A43D0 /* PSLineOfCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSLineOfCode.h; sourceTree = "<group>"; };
 		E2AC163318F433C1004A43D0 /* PSLineOfCode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSLineOfCode.m; sourceTree = "<group>"; };
 		E2CB355D1930BC6C004A43D0 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = en; path = en.lproj/Documentation.pdf; sourceTree = "<group>"; };
+		E2D816FF19320EAE004A43D0 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/PlayButton.png; sourceTree = "<group>"; };
+		E2D8170119320EAE004A43D0 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/ResetButton.png; sourceTree = "<group>"; };
+		E2D8170319320EAE004A43D0 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/StepButton.png; sourceTree = "<group>"; };
+		E2D8170519320EAE004A43D0 /* en */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = en; path = en.lproj/StopButton.png; sourceTree = "<group>"; };
 		E2E7439218E99636004A43D0 /* PIC-Simu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PIC-Simu.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2E7439518E99636004A43D0 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		E2E7439818E99636004A43D0 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -164,6 +172,10 @@
 		E2E7439C18E99636004A43D0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E2D816FE19320EAE004A43D0 /* PlayButton.png */,
+				E2D8170019320EAE004A43D0 /* ResetButton.png */,
+				E2D8170219320EAE004A43D0 /* StepButton.png */,
+				E2D8170419320EAE004A43D0 /* StopButton.png */,
 				E2CB355C1930BC6C004A43D0 /* Documentation.pdf */,
 				E2E7439D18E99636004A43D0 /* PIC-Simu-Info.plist */,
 				E2E7439E18E99636004A43D0 /* InfoPlist.strings */,
@@ -270,9 +282,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				E2CB355E1930BC6C004A43D0 /* Documentation.pdf in Resources */,
+				E2D8170819320EAE004A43D0 /* StepButton.png in Resources */,
+				E2D8170719320EAE004A43D0 /* ResetButton.png in Resources */,
 				E2E743A018E99636004A43D0 /* InfoPlist.strings in Resources */,
 				E2E743AE18E99636004A43D0 /* Images.xcassets in Resources */,
+				E2D8170619320EAE004A43D0 /* PlayButton.png in Resources */,
 				E2E743A618E99636004A43D0 /* Credits.rtf in Resources */,
+				E2D8170919320EAE004A43D0 /* StopButton.png in Resources */,
 				E2E743AC18E99636004A43D0 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -328,6 +344,38 @@
 				E2CB355D1930BC6C004A43D0 /* en */,
 			);
 			name = Documentation.pdf;
+			sourceTree = "<group>";
+		};
+		E2D816FE19320EAE004A43D0 /* PlayButton.png */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E2D816FF19320EAE004A43D0 /* en */,
+			);
+			name = PlayButton.png;
+			sourceTree = "<group>";
+		};
+		E2D8170019320EAE004A43D0 /* ResetButton.png */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E2D8170119320EAE004A43D0 /* en */,
+			);
+			name = ResetButton.png;
+			sourceTree = "<group>";
+		};
+		E2D8170219320EAE004A43D0 /* StepButton.png */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E2D8170319320EAE004A43D0 /* en */,
+			);
+			name = StepButton.png;
+			sourceTree = "<group>";
+		};
+		E2D8170419320EAE004A43D0 /* StopButton.png */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E2D8170519320EAE004A43D0 /* en */,
+			);
+			name = StopButton.png;
 			sourceTree = "<group>";
 		};
 		E2E7439E18E99636004A43D0 /* InfoPlist.strings */ = {

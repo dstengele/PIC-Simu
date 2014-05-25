@@ -199,7 +199,7 @@ CA
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="228" y="236" width="1267" height="661"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1050"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1028"/>
             <view key="contentView" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="1267" height="661"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -3899,7 +3899,7 @@ CA
                                         <rect key="frame" x="-100" y="-100" width="257" height="16"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </scroller>
-                                    <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="0.014179608372721142" horizontal="NO" id="cPG-MT-ebJ">
+                                    <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="0.99864956110735992" horizontal="NO" id="cPG-MT-ebJ">
                                         <rect key="frame" x="242" y="1" width="16" height="253"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </scroller>
@@ -4260,26 +4260,26 @@ CA
                     <constraint firstItem="OaN-7S-A2N" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="20" id="zql-Nf-JJC"/>
                 </constraints>
             </view>
-            <toolbar key="toolbar" implicitIdentifier="7908694D-D8B7-425B-A89B-A223A6DA9567" autosavesConfiguration="NO" displayMode="labelOnly" sizeMode="regular" id="BUz-Uu-rFj">
+            <toolbar key="toolbar" implicitIdentifier="7908694D-D8B7-425B-A89B-A223A6DA9567" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="BUz-Uu-rFj">
                 <allowedToolbarItems>
                     <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="bKx-wb-o9n"/>
                     <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="2TN-1g-rCd"/>
-                    <toolbarItem implicitItemIdentifier="3B3E0B58-2CDF-480E-99A9-D8C180F6A3CB" label="Start" paletteLabel="Start" tag="-1" image="NSRightFacingTriangleTemplate" autovalidates="NO" id="0sc-9G-d0p">
+                    <toolbarItem implicitItemIdentifier="3B3E0B58-2CDF-480E-99A9-D8C180F6A3CB" label="Start" paletteLabel="Start" tag="-1" image="PlayButton.png" autovalidates="NO" id="0sc-9G-d0p">
                         <connections>
                             <action selector="startButtonPress:" target="Voe-Tx-rLC" id="owY-5Z-dFg"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="3BD18C7E-1ABC-449C-B2BD-927B1BB037E0" label="Stop" paletteLabel="Stop" tag="-1" image="NSMenuMixedStateTemplate" autovalidates="NO" id="aVT-nz-3lQ">
+                    <toolbarItem implicitItemIdentifier="3BD18C7E-1ABC-449C-B2BD-927B1BB037E0" label="Stop" paletteLabel="Stop" tag="-1" image="StopButton.png" autovalidates="NO" id="aVT-nz-3lQ">
                         <connections>
                             <action selector="stopButtonPress:" target="Voe-Tx-rLC" id="UW3-lS-0NH"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="89037ED8-7B3D-4969-B8A4-3FD68499F10F" label="Step" paletteLabel="Step" tag="-1" image="NSFollowLinkFreestandingTemplate" autovalidates="NO" id="N9O-F2-pgR">
+                    <toolbarItem implicitItemIdentifier="89037ED8-7B3D-4969-B8A4-3FD68499F10F" label="Step" paletteLabel="Step" tag="-1" image="StepButton.png" autovalidates="NO" id="N9O-F2-pgR">
                         <connections>
                             <action selector="stepButtonPress:" target="Voe-Tx-rLC" id="cyH-nC-RoZ"/>
                         </connections>
                     </toolbarItem>
-                    <toolbarItem implicitItemIdentifier="DDA6AEAC-C44A-441D-BDD9-5149B6364E8F" label="Reset" paletteLabel="Reset" tag="-1" autovalidates="NO" id="hJK-MK-RpM">
+                    <toolbarItem implicitItemIdentifier="DDA6AEAC-C44A-441D-BDD9-5149B6364E8F" label="Reset" paletteLabel="Reset" tag="-1" image="ResetButton.png" autovalidates="NO" id="hJK-MK-RpM">
                         <connections>
                             <action selector="resetButtonPress:" target="Voe-Tx-rLC" id="EqM-hX-qlW"/>
                         </connections>
@@ -4400,8 +4400,9 @@ CA
         </arrayController>
     </objects>
     <resources>
-        <image name="NSFollowLinkFreestandingTemplate" width="10" height="10"/>
-        <image name="NSMenuMixedStateTemplate" width="10" height="3"/>
-        <image name="NSRightFacingTriangleTemplate" width="9" height="9"/>
+        <image name="PlayButton.png" width="128" height="128"/>
+        <image name="ResetButton.png" width="128" height="128"/>
+        <image name="StepButton.png" width="128" height="128"/>
+        <image name="StopButton.png" width="128" height="128"/>
     </resources>
 </document>
