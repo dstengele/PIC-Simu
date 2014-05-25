@@ -22,6 +22,7 @@
 @synthesize runtimeCounter;
 @synthesize cycleDuration;		// bis zu 10 MHz real (10MHz == cycleDuration=0.0000001)
 
+	// Init-Methode. Initialisiert Array für Dateiinhalt und setzt Quarzgeschwindigkeit auf 50 MHz
 - (id)init {
 	self = [super init];
 	if (self) {
@@ -31,6 +32,7 @@
 	return self;
 }
 
+	// Initialisieren mit einer geöffneten Textdatei
 - (void)initWithTextFile:(NSURL *)sourceFile {
 		// Datei laden und -inhalt in NSString konvertieren (Datei muss UTF-8-kodiert sein)
 	NSStringEncoding usedEnc;
@@ -39,19 +41,21 @@
 													   error:nil];
 	NSLog(@"Opened File %@ using Encoding:%lu", sourceFile, usedEnc);
 
-	NSLog(@"%@", fileString);
-
+		// Trennen am Zeilenumbruch
 	NSString* delimiter = @"\n";
 
 		// Dateiinhalt als Array in Instanzvariable speichern
 
 	NSArray *fileArray = [fileString componentsSeparatedByString:delimiter];
 
+		// Alle vielleicht bereits vorhandenen Codezeilen aus dem Array entfernen (falls bereits eine Datei geladen ist.
 	[[self.locArrayController content] removeAllObjects];
 
+		// Datei Zeile für Zeile einlesen
 	for (NSString *loc in fileArray) {
 		PSLineOfCode *new_loc = [[PSLineOfCode alloc] init];
 		new_loc.loc = loc;
+			// Exception abfangen, wenn leere Codezeile eingelesen wird.
 		@try {
 			new_loc.instruction = [loc substringWithRange:NSMakeRange(5, 4)];
 			new_loc.programCounter = [loc substringWithRange:NSMakeRange(0, 4)];
@@ -61,6 +65,14 @@
 		}
 		[self.locArrayController addObject:new_loc];
 	}
+	
+		// Erste Zeile highlighten und hinscrollen
+	NSIndexSet *rows = [NSIndexSet indexSetWithIndex:0];
+	[self.codeView selectRowIndexes:rows byExtendingSelection:FALSE];
+	
+	[codeView scrollRowToVisible:0];
+	
+		// Call Stack vorbereiten
 	if (self.callStack == nil) {
 		self.callStack = [[PSCallStack alloc] init];
 	} else {
@@ -74,6 +86,7 @@
 }
 
 - (BOOL)executeNextInstruction {
+		// Nächste Instruktion auf Basis des PC ermitteln
 	NSUInteger nextInstructionRow = NSNotFound;
 	nextInstructionRow = [self.fileContents indexOfObjectPassingTest:
 							  ^BOOL(id obj, NSUInteger idx, BOOL *stop){
@@ -91,48 +104,68 @@
 								  return FALSE;
 							  }
 							  ];
+		// Falls PC nicht im Source vorhanden, Exception werfen
 	if (nextInstructionRow == NSNotFound) {
 		[NSException raise:@"Illegal Value in PCL or PCLATH Register!" format:@"FormatError"];
 	}
 
-	NSIndexSet *rows;
-
+		// Referenz auf aktuelle Zeile
 	PSLineOfCode *loc = [self.fileContents objectAtIndex:nextInstructionRow];
+	
+		// Bei Breakpoint Ausführung abbrechen. Return-Wert false stoppt den Timer
 	if (loc.hasBreakpoint) {
 		return false;
 	}
+	
+		//Instruction als String auslesen
 	NSString *instructionString = [[self.fileContents objectAtIndex:nextInstructionRow] instruction];
 
+		// Instruction in Zahl parsen
 	NSScanner *scanner = [NSScanner scannerWithString:instructionString];
 	uint instructionBinary;
 	[scanner scanHexInt:&instructionBinary];
+		// Neues PSInstruction-Objekt erstellen, mit eingelesenem Bitmuster
 	PSInstruction *instruction = [[PSInstruction alloc] initWithBits:(uint16_t)instructionBinary];
-
+	
+		// Instruktion ausführen
 	[instruction executeWithVirtualPIC:self];
 
-		// Nächste Zeile highlighten
-	rows = [NSIndexSet indexSetWithIndex:nextInstructionRow];
+		// Nächste Zeile highlighten und hinscrollen
+	NSIndexSet *rows = [NSIndexSet indexSetWithIndex:nextInstructionRow];
 	[self.codeView selectRowIndexes:rows byExtendingSelection:FALSE];
+	[self.codeView scrollRowToVisible:nextInstructionRow];
+	
+		// Keine Zeile ausgewählt in der StackView
 	[self.stackView deselectAll:self];
 
+		// Programmzähler erhöhen
 	[self.storage incrementPc];
+		// Auf TMR0-Interrupt prüfen
 	[self.storage checkTmrInt];
+		// Auf RB0-Interrupt prüfen
 	[self.storage checkrb0Int];
+		// Auf PORTB-Interrupt prüfen
 	[self.storage checkportbInt];
+		// File-Register-View updaten
 	[self updateFileRegisters];
 
+		// Laufzeitzähler erhöhen
 	self.runtimeCounter++;
+		// Laufzeitzähler-View updaten
 	[self updateRuntimeCounterViews];
 	return true;
 }
 
+	// Wird vom Timer automatisch aufgerufen
 - (void)timerFireMethod:(NSTimer *)timer {
+		// Wenn false zurückgegeben wird (bei einem Breakpoint) wird der Timer invalidiert und die Programmausführung stoppt.
 	if (![self executeNextInstruction]) {
 		[timer invalidate];
 	}
 	return;
 }
 
+	// File-Register updaten. Nicht schön, aber selten.
 - (void)updateFileRegisters {
 	[self.textField0C setStringValue:self.storage.reg0C.description];
 	[self.textField0D setStringValue:self.storage.reg0D.description];
@@ -208,6 +241,7 @@
 	[self.textField4F setStringValue:self.storage.reg4F.description];
 }
 
+	// File-Register zurücksetzen bei Klick auf Reset-Button.
 - (void)resetRegisters {
 	self.storage.reg0C.registerValue = 0;
 	self.storage.reg0D.registerValue = 0;
@@ -300,17 +334,19 @@
 	[self updateFileRegisters];
 }
 
+	// Updaten der Laufzeitanzeigen-View
 - (void)updateRuntimeCounterViews {
 	[self.cycleCounter setIntegerValue:self.runtimeCounter];
 	float seconds = self.runtimeCounter * cycleDuration;
 	float milliseconds = seconds*1000;
 	float microseconds = milliseconds*1000;
+		// Ausgabe in Mikrosekunden
 	NSString *timeString = [NSString stringWithFormat:@"%1.1f µs", microseconds];
 	[self.timeCounter setStringValue:timeString];
 }
 
 
-	// Für Berechnungen
+	// Für Berechnungen, Direktzugriff auf Variable, Variable gibt Sekunden zwischen zwei Befehlen an
 - (void)setCycleDuration:(float)newCycleDuration {
 	cycleDuration = newCycleDuration;
 }
@@ -319,7 +355,7 @@
 	return cycleDuration;
 }
 
-	// Zur Anzeige
+	// Zur Anzeige, Umrechnen der Zeit zwischen zwei Befehlen in Megahertz
 - (void)setCycleDurationSlider:(float)newValue {
 	cycleDuration = ((101-newValue)/10000000);
 }

@@ -15,6 +15,7 @@
 @synthesize instruction;
 @synthesize programCounter;
 
+	// Initialisieren der Codezeilen-Klasse
 - (id)init {
 	self = [super init];
 	if (self) {

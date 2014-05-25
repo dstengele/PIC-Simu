@@ -12,7 +12,6 @@
 
 @synthesize buttonMenu;
 @synthesize buttonToolbar;
-@synthesize codeView;
 @synthesize resetButtonMenu;
 @synthesize resetButtonToolbar;
 @synthesize virtualPIC;
@@ -26,8 +25,6 @@
 @synthesize nextInstructionRunLoopTimer;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-	
-		//TODO: Alles in extra-Methode verpacken, mgl.weise mit switch-case in einer einzigen
 	[self.startButtonMenu setEnabled:NO];
 	[self.startButtonToolbar setEnabled:NO];
 	
@@ -118,6 +115,9 @@
 - (IBAction)resetButtonPress:(id)sender {
 	[self.virtualPIC resetRegisters];
 	virtualPIC.runtimeCounter = 0;
+	[virtualPIC updateRuntimeCounterViews];
+	[virtualPIC.codeView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
+	[virtualPIC.codeView scrollRowToVisible:0];
 }
 
 	// Öffnen der PDF-Hilfe

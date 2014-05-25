@@ -9,11 +9,13 @@
 #import "PSRegisters.h"
 #import "PSRegister.h"
 
+	// "Speicher", beinhaltet alle Register
 @implementation PSRegisters
 
 BOOL oldRb0 = 0;
 uint8_t oldRbValue = 0;
 
+	// Init-Methode, initialisiert alle Register
 - (id)init {
 	self = [super init];
 
@@ -114,11 +116,13 @@ uint8_t oldRbValue = 0;
 	return self;
 }
 
+	// Register mit Addresse auf bestimmten Wert setzen
 - (void)setRegister:(uint8_t)registerAddress toValue:(uint8_t)newValue {
 	PSRegister *reg = [self registerforAddress:registerAddress];
 	[reg setRegisterValue:newValue];
 }
 
+	// Lookup-Methode, die für bestimmte Addresse das dazugehörende Register zurückgibt.
 - (PSRegister *)registerforAddress:(uint8_t)registerAddress {
 	switch (registerAddress) {
 		case 0x00:
@@ -387,6 +391,7 @@ uint8_t oldRbValue = 0;
 	}
 }
 
+	// Ausgeben des Wertes eines bestimmten Bits in einem bestimmten Register
 - (BOOL)bitValueForAddress:(uint8_t)registerAddress andBit:(uint8_t)bitAddress {
 	PSRegister *reg = [self registerforAddress:registerAddress];
 	switch (bitAddress) {
@@ -411,6 +416,7 @@ uint8_t oldRbValue = 0;
 	}
 }
 
+	// Programmzähler berechnen und ausgeben
 - (uint16_t)pc {
 	uint16_t res =
 	   (self.pclath.bit4 * 4096)
@@ -430,53 +436,44 @@ uint8_t oldRbValue = 0;
 	return res;
 }
 
+	// Programmzähler setzen
 - (void)setPc:(uint16_t)newPc {
-	uint16_t foo = newPc & 0b0001111111111111;
-	uint16_t high = foo &  0b1111111100000000;
-	uint16_t low = foo &   0b0000000011111111;
+		// Aufteilen in oberen und unteren Teil
+	uint16_t newPcCopy = newPc & 0b0001111111111111;
+	uint16_t high = newPcCopy &  0b1111111100000000;
+	uint16_t low = newPcCopy &   0b0000000011111111;
+	
+		// Unteren Teil setzen
 	[self.pcl setRegisterValue:low];
+		// Oberen Teil setzen
 	[self.pclath setRegisterValue:high];
 }
 
+	// Programmzähler erhöhen
 - (void)incrementPc {
 	uint16_t temp = [self pc];
 	temp++;
 	[self setPc:temp];
 }
 
-
-- (uint8_t)tmr {
-	uint8_t res =
-	+  (self.tmr0.   bit7 * 128)
-	+  (self.tmr0.   bit6 * 64)
-	+  (self.tmr0.   bit5 * 32)
-	+  (self.tmr0.   bit4 * 16)
-	+  (self.tmr0.   bit3 * 8)
-	+  (self.tmr0.   bit2 * 4)
-	+  (self.tmr0.   bit1 * 2)
-	+  (self.tmr0.   bit0);
-	return res;
-}
-
-- (void)setTmr:(uint8_t)newTmr {
-	[self.tmr0 setRegisterValue:newTmr];
-}
-
+	// Internen Timer erhöhen
 - (void)incrementTmr {
-	uint8_t temp = [self tmr];
+	uint8_t temp = self.tmr0.registerValue;
 	temp++;
-	[self setTmr:temp];
+	self.tmr0.registerValue = temp;
 }
 
+	// Prüfen, ob das TMR0-Register übergelaufen ist und gegebenenfalls Interrupt setzen
 - (void)checkTmrInt {
 	[self incrementTmr];
-	if ([self tmr] == 0) {
+	if (self.tmr0.registerValue == 0) {
 		if (self.intcon.bit5) {
 			self.intcon.bit2 = 1;
 		}
 	}
 }
 
+	// Auf Flanke an RB0 prüfen und gegebenenfalls Interrupt setzen
 - (void)checkrb0Int {
 	if (self.intcon.bit4) {
 		if (self.option.bit6) {
@@ -492,6 +489,7 @@ uint8_t oldRbValue = 0;
 	oldRb0 = self.portb.bit0;
 }
 
+	// Auf Flanke an PORTB prüfen und gegebenenfalls Interrupt setzen
 - (void)checkportbInt {
 	if (self.intcon.bit3) {
 		uint8_t rbValue = (self.portb.bit7 * 128) + (self.portb.bit6 * 64) + (self.portb.bit5 * 32) + (self.portb.bit4 * 16);
@@ -501,6 +499,8 @@ uint8_t oldRbValue = 0;
 	}
 }
 
+	// RB0-Prüfvariable zurücksetzen. Wird benutzt, wenn eine Instruktion ausgeführt wird, die PORTB verändert.
+	// Dabei soll der Interrupt nicht ausgelöst werden.
 - (void)resetOldRb0 {
 	oldRb0 = self.portb.bit0;
 }

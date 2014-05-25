@@ -8,6 +8,7 @@
 
 #import "PSRegister.h"
 
+	// Einzelnes Register
 @implementation PSRegister
 
 NSString *stringValue;
@@ -39,8 +40,10 @@ NSString *stringValue;
 	return self;
 }
 
+	// Setzt RegisterWert auf Basis einer ganzen Zahl
 - (void)setRegisterValue:(uint8_t)decimalNumber {
 	uint8_t binaryNumber = decimalNumber;
+		// Immer das am weitesten Rechts stehende Bit wird gelesen. Dann wird das Bitmuster nach rechts rotiert und wieder das am weitesten rechts stehende Bit gelesen
 	self.bit0 = binaryNumber & 0b00000001;
 	binaryNumber >>= 1;
 	self.bit1 = binaryNumber & 0b00000001;
@@ -58,15 +61,17 @@ NSString *stringValue;
 	self.bit7 = binaryNumber & 0b00000001;
 }
 
+	// Ausgeben des Wertes auf Basis der einzelnen Bits.
 - (uint8_t)registerValue {
 	return (int)self.bit7*128+(int)self.bit6*64+(int)self.bit5*32+(int)self.bit4*16+(int)self.bit3*8+(int)self.bit2*4+(int)self.bit1*2+(int)self.bit0;
 }
 
+	// Methode, die "Beschreibung" des Registers zurückgibt. Hier die Zahl in drei Darstellungen (Hex, Binär und Dezimal)
 - (NSString *)description {
 	uint8_t regValue = self.registerValue;
 	uint8_t numberCopy = regValue;
 	
-		// Konvertieren der Zahl in binären String für Ausgabe
+		// Konvertieren der Zahl in binären String für Ausgabe, muss von Hand berechnet werden
 	NSMutableString *binaryString = [NSMutableString stringWithFormat:@""];
 	for (int i = 0; i < 8; i++) {
 			// Prepend "0" or "1", depending on the bit
@@ -74,12 +79,13 @@ NSString *stringValue;
 		numberCopy >>= 1;
 	}
 	
-	NSString *res = [NSString stringWithFormat:@"0x%X - ", regValue];
+	NSString *res = [NSString stringWithFormat:@"0x%X - ", regValue]; // Hexadezimaler Wert, direkt mit NSString möglich
 	res = [res stringByAppendingString:binaryString];
-	res = [res stringByAppendingString:[NSString stringWithFormat:@" - %d", regValue]];
+	res = [res stringByAppendingString:[NSString stringWithFormat:@" - %d", regValue]]; // Dezimalen Wert, auch mit NSString möglich
 	return res;
 }
 
+	// Ausgabe des Wertes eines einzelnen Bits des Registers
 - (BOOL)bitValueForBit:(uint8_t)bitAddress {
 	switch (bitAddress) {
 		case 0:
@@ -103,6 +109,7 @@ NSString *stringValue;
 	}
 }
 
+	// Setzen des Wertes eines einzelnen Bits des Registers
 - (void)setBitValueTo:(BOOL)newValue forBit:(uint8_t)bitAddress {
 	switch (bitAddress) {
 		case 0:

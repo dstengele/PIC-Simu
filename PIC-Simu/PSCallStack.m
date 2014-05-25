@@ -8,6 +8,7 @@
 
 #import "PSCallStack.h"
 
+	// Implementierung eines Stacks mit einem Array
 @implementation PSCallStack
 
 @synthesize count;
@@ -23,6 +24,9 @@
 }
 
 - (void)push:(NSInteger)pc {
+	if ([self.m_array count] == 8) {
+		
+	}
 	[self willChangeValueForKey:@"m_array"];
     [self.m_array addObject:[NSNumber numberWithInteger:pc]];
     self.count = (int)self.m_array.count;

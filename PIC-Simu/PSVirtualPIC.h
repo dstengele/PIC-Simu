@@ -16,7 +16,7 @@
 @property (retain) NSMutableArray* fileContents;
 @property (weak) IBOutlet PSRegisters *storage;
 @property (readwrite) NSInteger wdt;
-@property (retain) PSCallStack* callStack;
+@property (retain) PSCallStack *callStack;
 @property (weak) IBOutlet NSTableView *codeView;
 @property (weak) IBOutlet NSTableView *stackView;
 @property (readwrite) NSInteger runtimeCounter;

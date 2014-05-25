@@ -16,6 +16,8 @@
 @synthesize registerAddress;
 @synthesize storeInF;
 
+	// Auslesen des Bitfeldes der Instruktion und setzen der benötigten Felder
+	// (Name des Befehls, Registeraddresse, Bit im Register, ob in F gespeichert werden soll, Literal)
 - (PSInstruction *)initWithBits:(int16_t)instructionBinary {
 	self = [super init];
 	if (self) {
@@ -277,10 +279,14 @@
 	return nil;
 }
 
+	// Code, der die eigenlichen Befehle dann ausführt
 - (void)executeWithVirtualPIC:(PSVirtualPIC *)pic {
+		// Prüfung ob mit PORTB gearbeitet wird (für PORTB-Interrupt)
 	if (self.registerAddress == 0x06 || pic.storage.fsr.registerValue == 0x06) {
 		[pic.storage resetOldRb0];
 	}
+	
+		// Prüfen, welche Bank in Benutzung ist
 	if (pic.storage.status.bit5) {
 			// Auf Bank 1 schreiben
 		self.registerAddress = self.registerAddress + 0x80;
@@ -291,12 +297,13 @@
 	}
 	
 	if ([self.instruction isEqualToString:@"RETFIE"]) {
-		pic.storage.pc = pic.callStack.pop;
+		pic.storage.pc = [pic.callStack pop];
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"RETURN"]) {
-		pic.storage.pc = pic.callStack.pop;
+			// Programmzähler vom Call Stack holen
+		pic.storage.pc = [pic.callStack pop];
 		return;
 	}
 	
@@ -366,7 +373,7 @@
         
         if (self.storeInF) {
 			PSRegister *reg = [pic.storage registerforAddress:self.registerAddress];
-			[reg setRegisterValue:~registerValue];
+			[reg setRegisterValue:~registerValue]; // Der Tilde-Operator bildet Komplement
             //move to f
         }
         else {
@@ -384,7 +391,7 @@
 		uint8_t temp = fileRegister.registerValue;
 		temp--;
 		
-		if (temp == 0) {
+		if (temp == 0) { // Prüfung, ob Zero-Bit gesetzt werden muss
 			statusRegister.bit2 = true;
 		} else {
 			statusRegister.bit2 = false;
@@ -737,7 +744,7 @@
 	
 	if ([self.instruction isEqualToString:@"BTFSC"]) {
 		PSRegister *reg = [pic.storage registerforAddress:self.registerAddress];
-		if (!([reg bitValueForBit:self.bitAddress])) {
+		if (!([reg bitValueForBit:self.bitAddress])) { // Wenn Bit nicht gesetzt ist, Programmzähler erhöhen. Dadurch wird nächste Zeile übersprungen
 			pic.storage.pc++;
 		}
 		return;
@@ -745,13 +752,13 @@
 	
 	if ([self.instruction isEqualToString:@"BTFSS"]) {
 		PSRegister *reg = [pic.storage registerforAddress:self.registerAddress];
-		if ([reg bitValueForBit:self.bitAddress]) {
+		if ([reg bitValueForBit:self.bitAddress]) { // Wenn Bit gesetzt ist, Programmzähler erhöhen. Dadurch wird nächste Zeile übersprungen
 			pic.storage.pc++;
 		}
 		return;
 	}
 	
-	if ([self.instruction isEqualToString:@"MOVLW"]) {	//funktioniert
+	if ([self.instruction isEqualToString:@"MOVLW"]) {
         pic.storage.w.registerValue = self.literal;
 		return;
 	}
@@ -769,7 +776,7 @@
 		return;
 	}
 	
-	if ([self.instruction isEqualToString:@"GOTO"]) { // funktioniert
+	if ([self.instruction isEqualToString:@"GOTO"]) {
 		pic.storage.pc = self.literal - 1;
 		return;
 	}

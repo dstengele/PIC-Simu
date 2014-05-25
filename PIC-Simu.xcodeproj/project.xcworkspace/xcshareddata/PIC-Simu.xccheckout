@@ -10,6 +10,8 @@
 	<string>PIC-Simu</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
+		<key>78D13FDA-2E95-4547-BD8D-8FD1E30FBB99</key>
+		<string>https://github.com/davedelong/CHDataStructures.git</string>
 		<key>A2035954-1A42-4DB5-B9F5-99A7B00D86B4</key>
 		<string>ssh://github.com/derintendant/PIC-Simu.git</string>
 	</dict>
@@ -17,6 +19,8 @@
 	<string>PIC-Simu.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
+		<key>78D13FDA-2E95-4547-BD8D-8FD1E30FBB99</key>
+		<string>../../../CHDataStructures</string>
 		<key>A2035954-1A42-4DB5-B9F5-99A7B00D86B4</key>
 		<string>../..</string>
 	</dict>
@@ -28,6 +32,14 @@
 	<string>A2035954-1A42-4DB5-B9F5-99A7B00D86B4</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>78D13FDA-2E95-4547-BD8D-8FD1E30FBB99</string>
+			<key>IDESourceControlWCCName</key>
+			<string>CHDataStructures</string>
+		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>

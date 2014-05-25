@@ -113,8 +113,6 @@
 - (uint16_t)pc;
 - (void)setPc:(uint16_t)newPc;
 - (void)incrementPc;
-- (uint8_t)tmr;
-- (void)setTmr;
 - (void)incrementTmr;
 - (void)checkTmrInt;
 - (void)checkrb0Int;
