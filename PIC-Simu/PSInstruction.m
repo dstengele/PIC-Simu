@@ -536,12 +536,6 @@
             //move to W
         }
 		
-//		if (fileRegister.registerValue) {
-//			pic.storage.status.bit2 = true;
-//		} else {
-//			pic.storage.status.bit2 = false;
-//		}
-		
 		return;
 	}
 	
@@ -628,26 +622,42 @@
 	if ([self.instruction isEqualToString:@"SUBWF"]) {
 		
 		PSRegister *fileRegister = [pic.storage registerforAddress:self.registerAddress];
+        PSRegister *statusRegister = pic.storage.status;
 		PSRegister *wRegister = pic.storage.w;
         
         if (self.storeInF) {
 			[fileRegister setRegisterValue:(fileRegister.registerValue - wRegister.registerValue)];
-			if (fileRegister.registerValue == 0) {
-				pic.storage.status.bit2 = 1;
-			} else {
-				pic.storage.status.bit2 = 0;
-			}
-            //move to f
+				//move to f
+            
+            if(fileRegister.registerValue > 0){
+                statusRegister.bit0 = true;
+            }
+            else if(fileRegister.registerValue == 0){
+                statusRegister.bit0 = true;
+                statusRegister.bit2 = true;
+            }
+            else if(fileRegister.registerValue < 0){
+                statusRegister.bit0 = false;
+                statusRegister.bit2 = false;
+            }
         } else {
-            wRegister.registerValue = (fileRegister.registerValue - wRegister.registerValue);
-			if (wRegister.registerValue == 0) {
-				pic.storage.status.bit2 = 1;
-			} else {
-				pic.storage.status.bit2 = 0;
-			}
-            //move to W
+            pic.storage.w.registerValue = (fileRegister.registerValue - wRegister.registerValue);
+				//move to W
+            
+            if(wRegister.registerValue > 0){
+                statusRegister.bit0 = true;
+            }
+            else if(wRegister.registerValue == 0){
+                statusRegister.bit0 = true;
+                statusRegister.bit2 = true;
+            }
+            else if(wRegister.registerValue < 0){
+                statusRegister.bit0 = false;
+                statusRegister.bit2 = false;
+            }
+			
         }
-
+		
 		return;
 	}
 	
@@ -757,11 +767,21 @@
 	
 	if ([self.instruction isEqualToString:@"SUBLW"]) {
         pic.storage.w.registerValue = self.literal - pic.storage.w.registerValue;
-        if (pic.storage.w.registerValue == 0) {
-			pic.storage.status.bit2 = 1;
-		} else {
-			pic.storage.status.bit2 = 0;
-		}
+		PSRegister *statusRegister = pic.storage.status;
+		PSRegister *wRegister = pic.storage.w;
+        
+        if(wRegister.registerValue > 0){
+            statusRegister.bit0 = true;
+        }
+        else if(wRegister.registerValue == 0){
+            statusRegister.bit0 = true;
+            statusRegister.bit2 = true;
+        }
+        else if(wRegister.registerValue < 0){
+            statusRegister.bit0 = false;
+            statusRegister.bit2 = false;
+        }
+
 		return;
 	}
 	
