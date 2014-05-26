@@ -7,6 +7,7 @@
 //
 
 @import Foundation;
+
 #import "PSRegister.h"
 
 @interface PSRegisters : NSObject
@@ -114,9 +115,9 @@
 - (void)setPc:(uint16_t)newPc;
 - (void)incrementPc;
 - (void)incrementTmr;
-- (void)checkTmrInt;
-- (void)checkrb0Int;
-- (void)checkportbInt;
+- (BOOL)checkTmrInt;
+- (BOOL)checkrb0Int;
+- (BOOL)checkportbInt;
 
 - (void)resetOldRb0;
 

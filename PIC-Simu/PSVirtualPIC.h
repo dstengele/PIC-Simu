@@ -14,7 +14,7 @@
 }
 @property (weak) IBOutlet NSArrayController *locArrayController;
 @property (retain) NSMutableArray* fileContents;
-@property (weak) IBOutlet PSRegisters *storage;
+@property (retain) PSRegisters *storage;
 @property (readwrite) NSInteger wdt;
 @property (retain) PSCallStack *callStack;
 @property (weak) IBOutlet NSTableView *codeView;

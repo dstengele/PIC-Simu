@@ -297,7 +297,7 @@
 	}
 	
 	if ([self.instruction isEqualToString:@"RETFIE"]) {
-		pic.storage.pc = [pic.callStack pop];
+		pic.storage.pc = [pic.callStack pop] + 1;
 		return;
 	}
 	
@@ -319,6 +319,7 @@
 	
 	if ([self.instruction isEqualToString:@"CLRW"]) {
 		pic.storage.w.registerValue = 0x00;
+		pic.storage.status.bit2 = 1;
 		return;
 	}
 	
@@ -331,6 +332,7 @@
 	if ([self.instruction isEqualToString:@"CLRF"]) {
 		PSRegister *reg = [pic.storage registerforAddress:self.registerAddress];
 		[reg setRegisterValue:0x00];
+		pic.storage.status.bit2 = 1;
 		return;
 	}
 	
@@ -359,10 +361,20 @@
 		
         if (self.storeInF) {
 			[fileRegister setRegisterValue:and];
+			if (fileRegister.registerValue == 0) {
+				pic.storage.status.bit2 = 1;
+			} else {
+				pic.storage.status.bit2 = 0;
+			}
 				//AND to f
         }
         else {
 			[pic.storage.w setRegisterValue:and];
+			if (pic.storage.w.registerValue == 0) {
+				pic.storage.status.bit2 = 1;
+			} else {
+				pic.storage.status.bit2 = 0;
+			}
 				//AND to W
         }
 		return;
@@ -374,10 +386,20 @@
         if (self.storeInF) {
 			PSRegister *reg = [pic.storage registerforAddress:self.registerAddress];
 			[reg setRegisterValue:~registerValue]; // Der Tilde-Operator bildet Komplement
+			if (reg.registerValue == 0) {
+				pic.storage.status.bit2 = 1;
+			} else {
+				pic.storage.status.bit2 = 0;
+			}
             //move to f
         }
         else {
             pic.storage.w.registerValue = ~registerValue;
+			if (pic.storage.w.registerValue == 0) {
+				pic.storage.status.bit2 = 1;
+			} else {
+				pic.storage.status.bit2 = 0;
+			}
             //move to W
         }
 		return;
@@ -474,9 +496,19 @@
         if (self.storeInF) {
 			PSRegister *reg = [pic.storage registerforAddress:self.registerAddress];
 			[reg setRegisterValue:(wRegister.registerValue | fileRegister.registerValue)];
+			if (reg.registerValue == 0) {
+				pic.storage.status.bit2 = 1;
+			} else {
+				pic.storage.status.bit2 = 0;
+			}
             //result in f
         } else {
             pic.storage.w.registerValue = (wRegister.registerValue | fileRegister.registerValue);
+			if (wRegister.registerValue == 0) {
+				pic.storage.status.bit2 = 1;
+			} else {
+				pic.storage.status.bit2 = 0;
+			}
             //result in W
         }
 		return;
@@ -488,17 +520,27 @@
         
         if (self.storeInF) {
 			[fileRegister setRegisterValue:fileRegister.registerValue];
+			if (fileRegister.registerValue == 0) {
+				pic.storage.status.bit2 = 1;
+			} else {
+				pic.storage.status.bit2 = 0;
+			}
             //move to f
         } else {
             pic.storage.w.registerValue = fileRegister.registerValue;
+			if (pic.storage.w.registerValue == 0) {
+				pic.storage.status.bit2 = 1;
+			} else {
+				pic.storage.status.bit2 = 0;
+			}
             //move to W
         }
 		
-		if (!fileRegister.registerValue) {
-			pic.storage.status.bit2 = true;
-		} else {
-			pic.storage.status.bit2 = false;
-		}
+//		if (fileRegister.registerValue) {
+//			pic.storage.status.bit2 = true;
+//		} else {
+//			pic.storage.status.bit2 = false;
+//		}
 		
 		return;
 	}
@@ -590,9 +632,19 @@
         
         if (self.storeInF) {
 			[fileRegister setRegisterValue:(fileRegister.registerValue - wRegister.registerValue)];
+			if (fileRegister.registerValue == 0) {
+				pic.storage.status.bit2 = 1;
+			} else {
+				pic.storage.status.bit2 = 0;
+			}
             //move to f
         } else {
-            pic.storage.w.registerValue = (fileRegister.registerValue - wRegister.registerValue);
+            wRegister.registerValue = (fileRegister.registerValue - wRegister.registerValue);
+			if (wRegister.registerValue == 0) {
+				pic.storage.status.bit2 = 1;
+			} else {
+				pic.storage.status.bit2 = 0;
+			}
             //move to W
         }
 
@@ -642,11 +694,21 @@
         if(self.storeInF)
         {
 			[fileRegister setRegisterValue:(fileRegister.registerValue ^ wRegister.registerValue)];
+			if (fileRegister.registerValue == 0) {
+				pic.storage.status.bit2 = 1;
+			} else {
+				pic.storage.status.bit2 = 0;
+			}
             //move to f
         }
         else
         {
             pic.storage.w.registerValue = ((wRegister.registerValue ^ fileRegister.registerValue));
+			if (wRegister.registerValue == 0) {
+				pic.storage.status.bit2 = 1;
+			} else {
+				pic.storage.status.bit2 = 0;
+			}
             //move to W
         }
 
@@ -655,27 +717,51 @@
 	
 	if ([self.instruction isEqualToString:@"ADDLW"]) {
         pic.storage.w.registerValue += self.literal;
+		if (pic.storage.w.registerValue == 0) {
+			pic.storage.status.bit2 = 1;
+		} else {
+			pic.storage.status.bit2 = 0;
+		}
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"ANDLW"]) {
         pic.storage.w.registerValue = pic.storage.w.registerValue & self.literal;
+		if (pic.storage.w.registerValue == 0) {
+			pic.storage.status.bit2 = 1;
+		} else {
+			pic.storage.status.bit2 = 0;
+		}
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"IORLW"]) {
         pic.storage.w.registerValue = pic.storage.w.registerValue | self.literal;
+		if (pic.storage.w.registerValue == 0) {
+			pic.storage.status.bit2 = 1;
+		} else {
+			pic.storage.status.bit2 = 0;
+		}
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"XORLW"]) {
         pic.storage.w.registerValue = pic.storage.w.registerValue ^ self.literal;
+		if (pic.storage.w.registerValue == 0) {
+			pic.storage.status.bit2 = 1;
+		} else {
+			pic.storage.status.bit2 = 0;
+		}
 		return;
 	}
 	
 	if ([self.instruction isEqualToString:@"SUBLW"]) {
         pic.storage.w.registerValue = self.literal - pic.storage.w.registerValue;
-        
+        if (pic.storage.w.registerValue == 0) {
+			pic.storage.status.bit2 = 1;
+		} else {
+			pic.storage.status.bit2 = 0;
+		}
 		return;
 	}
 	

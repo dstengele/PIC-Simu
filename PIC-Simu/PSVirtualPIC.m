@@ -141,11 +141,20 @@
 		// Programmzähler erhöhen
 	[self.storage incrementPc];
 		// Auf TMR0-Interrupt prüfen
-	[self.storage checkTmrInt];
+	if ([self.storage checkTmrInt]) {
+		[self.callStack push:self.storage.pc];
+		[self.storage setPc:4];
+	}
 		// Auf RB0-Interrupt prüfen
-	[self.storage checkrb0Int];
+	if ([self.storage checkrb0Int]) {
+		[self.callStack push:self.storage.pc];
+		[self.storage setPc:4];
+	}
 		// Auf PORTB-Interrupt prüfen
-	[self.storage checkportbInt];
+	if ([self.storage checkportbInt]) {
+		[self.callStack push:self.storage.pc];
+		[self.storage setPc:4];
+	}
 		// File-Register-View updaten
 	[self updateFileRegisters];
 

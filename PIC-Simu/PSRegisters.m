@@ -464,39 +464,61 @@ uint8_t oldRbValue = 0;
 }
 
 	// Prüfen, ob das TMR0-Register übergelaufen ist und gegebenenfalls Interrupt setzen
-- (void)checkTmrInt {
+- (BOOL)checkTmrInt {
 	[self incrementTmr];
 	if (self.tmr0.registerValue == 0) {
+		self.status.bit2 = 1;
 		if (self.intcon.bit5) {
 			self.intcon.bit2 = 1;
+			return TRUE;
+			
 		}
 	}
+	return FALSE;
 }
 
 	// Auf Flanke an RB0 prüfen und gegebenenfalls Interrupt setzen
-- (void)checkrb0Int {
+- (BOOL)checkrb0Int {
 	if (self.intcon.bit4) {
 		if (self.option.bit6) {
 			if (oldRb0 == 0 && self.portb.bit0 == 1) {
 				self.intcon.bit1 = 1;
+				oldRb0 = self.portb.bit0;
+				return TRUE;
 			}
 		} else {
 			if (oldRb0 == 1 && self.portb.bit0 == 0) {
 				self.intcon.bit1 = 1;
+				oldRb0 = self.portb.bit0;
+				return TRUE;
 			}
 		}
 	}
 	oldRb0 = self.portb.bit0;
+	return FALSE;
 }
 
 	// Auf Flanke an PORTB prüfen und gegebenenfalls Interrupt setzen
-- (void)checkportbInt {
+- (BOOL)checkportbInt {
+	uint8_t bit7, bit6, bit5, bit4;
+	(self.trisb.bit7)?(bit7 = 0):(bit7 = self.portb.bit7 * 128);
+	
+	(self.trisb.bit6)?(bit6 = 0):(bit6 = self.portb.bit6 * 64);
+	
+	(self.trisb.bit5)?(bit5 = 0):(bit5 = self.portb.bit5 * 32);
+	
+	(self.trisb.bit4)?(bit4 = 0):(bit4 = self.portb.bit4 * 16);
+	
+	uint8_t rbValue = bit7 + bit6 + bit5 + bit4;
 	if (self.intcon.bit3) {
-		uint8_t rbValue = (self.portb.bit7 * 128) + (self.portb.bit6 * 64) + (self.portb.bit5 * 32) + (self.portb.bit4 * 16);
 		if (rbValue != oldRbValue) {
 			self.intcon.bit0 = 1;
+			oldRbValue = rbValue;
+			return TRUE;
 		}
 	}
+	oldRbValue = rbValue;
+	return FALSE;
 }
 
 	// RB0-Prüfvariable zurücksetzen. Wird benutzt, wenn eine Instruktion ausgeführt wird, die PORTB verändert.
