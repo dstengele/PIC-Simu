@@ -138,31 +138,36 @@
 	
 		// Keine Zeile ausgewählt in der StackView
 	[self.stackView deselectAll:self];
+	
+		// File-Register-View updaten
+	[self updateFileRegisters];
+	
+		// Laufzeitzähler erhöhen
+	self.runtimeCounter++;
+		// Laufzeitzähler-View updaten
+	[self updateRuntimeCounterViews];
 
-		// Programmzähler erhöhen
-	[self.storage incrementPc];
 		// Auf TMR0-Interrupt prüfen
 	if ([self.storage checkTmrInt]) {
 		[self.callStack push:self.storage.pc];
 		[self.storage setPc:4];
+		return true;
 	}
 		// Auf RB0-Interrupt prüfen
 	if ([self.storage checkrb0Int]) {
 		[self.callStack push:self.storage.pc];
 		[self.storage setPc:4];
+		return true;
 	}
 		// Auf PORTB-Interrupt prüfen
 	if ([self.storage checkportbInt]) {
 		[self.callStack push:self.storage.pc];
 		[self.storage setPc:4];
+		return true;
 	}
-		// File-Register-View updaten
-	[self updateFileRegisters];
-
-		// Laufzeitzähler erhöhen
-	self.runtimeCounter++;
-		// Laufzeitzähler-View updaten
-	[self updateRuntimeCounterViews];
+	
+		// Programmzähler erhöhen
+	[self.storage incrementPc];
 	return true;
 }
 

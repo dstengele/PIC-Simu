@@ -66,6 +66,7 @@
 	
 	[self.resetButtonMenu setEnabled:YES];
 	[self.resetButtonToolbar setEnabled:YES];
+	[virtualPIC resetRegisters];
 }
 
 	// Start-Knopf drücken
@@ -124,6 +125,7 @@
 	[virtualPIC updateRuntimeCounterViews];
 	[virtualPIC.codeView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
 	[virtualPIC.codeView scrollRowToVisible:0];
+	[virtualPIC.callStack clear];
 }
 
 	// Öffnen der PDF-Hilfe

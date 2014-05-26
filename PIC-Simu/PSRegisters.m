@@ -13,7 +13,10 @@
 @implementation PSRegisters
 
 BOOL oldRb0 = 0;
-uint8_t oldRbValue = 0;
+BOOL bit7Old = 0;
+bool bit6Old = 0;
+bool bit5Old = 0;
+bool bit4Old = 0;
 
 	// Init-Methode, initialisiert alle Register
 - (id)init {
@@ -470,6 +473,7 @@ uint8_t oldRbValue = 0;
 		self.status.bit2 = 1;
 		if (self.intcon.bit5) {
 			self.intcon.bit2 = 1;
+			NSLog(@"TMR-Interrupt occured!");
 			return TRUE;
 			
 		}
@@ -484,12 +488,14 @@ uint8_t oldRbValue = 0;
 			if (oldRb0 == 0 && self.portb.bit0 == 1) {
 				self.intcon.bit1 = 1;
 				oldRb0 = self.portb.bit0;
+				NSLog(@"RB0-Interrupt occured!");
 				return TRUE;
 			}
 		} else {
 			if (oldRb0 == 1 && self.portb.bit0 == 0) {
 				self.intcon.bit1 = 1;
 				oldRb0 = self.portb.bit0;
+				NSLog(@"RB0-Interrupt occured!");
 				return TRUE;
 			}
 		}
@@ -500,25 +506,22 @@ uint8_t oldRbValue = 0;
 
 	// Auf Flanke an PORTB prüfen und gegebenenfalls Interrupt setzen
 - (BOOL)checkportbInt {
-	uint8_t bit7, bit6, bit5, bit4;
-	(self.trisb.bit7)?(bit7 = 0):(bit7 = self.portb.bit7 * 128);
+	BOOL res = ((bit7Old != self.portb.bit7) && self.trisb.bit7)
+			|| ((bit6Old != self.portb.bit6) && self.trisb.bit6)
+			|| ((bit5Old != self.portb.bit5) && self.trisb.bit5)
+			|| ((bit4Old != self.portb.bit4) && self.trisb.bit4);
 	
-	(self.trisb.bit6)?(bit6 = 0):(bit6 = self.portb.bit6 * 64);
-	
-	(self.trisb.bit5)?(bit5 = 0):(bit5 = self.portb.bit5 * 32);
-	
-	(self.trisb.bit4)?(bit4 = 0):(bit4 = self.portb.bit4 * 16);
-	
-	uint8_t rbValue = bit7 + bit6 + bit5 + bit4;
 	if (self.intcon.bit3) {
-		if (rbValue != oldRbValue) {
+		if (res) {
 			self.intcon.bit0 = 1;
-			oldRbValue = rbValue;
-			return TRUE;
+			NSLog(@"RBx-Interrupt occured!");
 		}
 	}
-	oldRbValue = rbValue;
-	return FALSE;
+	bit7Old = self.portb.bit7;
+	bit6Old = self.portb.bit6;
+	bit5Old = self.portb.bit5;
+	bit4Old = self.portb.bit4;
+	return res;
 }
 
 	// RB0-Prüfvariable zurücksetzen. Wird benutzt, wenn eine Instruktion ausgeführt wird, die PORTB verändert.

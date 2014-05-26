@@ -297,7 +297,7 @@
 	}
 	
 	if ([self.instruction isEqualToString:@"RETFIE"]) {
-		pic.storage.pc = [pic.callStack pop] + 1;
+		pic.storage.pc = [pic.callStack pop];
 		return;
 	}
 	
