@@ -63,6 +63,9 @@
 	
 	[self.stepButtonMenu setEnabled:YES];
 	[self.stepButtonToolbar setEnabled:YES];
+	
+	[self.resetButtonMenu setEnabled:YES];
+	[self.resetButtonToolbar setEnabled:YES];
 }
 
 	// Start-Knopf drücken
@@ -80,7 +83,7 @@
 	[self.resetButtonToolbar setEnabled:NO];
 	[self.clockSpeedSlider setEnabled:NO];
 		// Timer für die automatische Ausführung des nächsten Befehls
-	self.nextInstructionRunLoopTimer = [NSTimer scheduledTimerWithTimeInterval:(virtualPIC.cycleDuration*100000) target:self.virtualPIC selector:@selector(timerFireMethod:) userInfo:self repeats:YES];
+	self.nextInstructionRunLoopTimer = [NSTimer scheduledTimerWithTimeInterval:(virtualPIC.cycleDuration*100000+0.1) target:self.virtualPIC selector:@selector(timerFireMethod:) userInfo:self repeats:YES];
 	NSLog(@"Created Timer");
 }
 
@@ -109,6 +112,9 @@
 - (IBAction)stepButtonPress:(id)sender {
 	[self.virtualPIC executeNextInstruction];
 	NSLog(@"Executed one instruction");
+	
+	[self.startButtonMenu setEnabled:YES];
+	[self.startButtonToolbar setEnabled:YES];
 }
 
 	// Reset-Button gedrückt
@@ -126,5 +132,19 @@
 	NSString *bundlePath = [mainBundle bundlePath];
 	NSString *documentationPath = [bundlePath stringByAppendingString:@"/Contents/Resources/en.lproj/Documentation.pdf"];	// Muss an dieser Stelle im Bundle liegen
 	[[NSWorkspace sharedWorkspace] openURL:[NSURL fileURLWithPath:documentationPath]];
+}
+
+- (void)breakpointReached {
+	[self.startButtonMenu setEnabled:YES];
+	[self.startButtonToolbar setEnabled:YES];
+	
+	[self.stopButtonMenu setEnabled:NO];
+	[self.stopButtonToolbar setEnabled:NO];
+	
+	[self.stepButtonMenu setEnabled:YES];
+	[self.stepButtonToolbar setEnabled:YES];
+	
+	[self.resetButtonMenu setEnabled:YES];
+	[self.resetButtonToolbar setEnabled:YES];
 }
 @end

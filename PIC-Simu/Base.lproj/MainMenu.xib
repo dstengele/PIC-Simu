@@ -105,7 +105,7 @@
                 <menuItem title="Control" id="tpF-rw-N2e">
                     <attributedString key="attributedTitle"/>
                     <modifierMask key="keyEquivalentModifierMask"/>
-                    <menu key="submenu" title="Control" id="3NF-XL-1ax">
+                    <menu key="submenu" title="Control" autoenablesItems="NO" id="3NF-XL-1ax">
                         <items>
                             <menuItem title="Start" keyEquivalent="r" id="DwB-ah-eeQ">
                                 <connections>
@@ -200,7 +200,7 @@ CA
             <windowCollectionBehavior key="collectionBehavior" fullScreenPrimary="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="228" y="236" width="1267" height="661"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1028"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1050"/>
             <view key="contentView" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="1267" height="661"/>
                 <autoresizingMask key="autoresizingMask"/>

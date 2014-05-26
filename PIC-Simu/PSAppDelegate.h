@@ -32,4 +32,6 @@
 @property (assign) IBOutlet NSWindow *window;
 - (IBAction)showPDFHelp:(id)sender;
 
+- (void)breakpointReached;
+
 @end

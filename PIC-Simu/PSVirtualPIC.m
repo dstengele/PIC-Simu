@@ -9,6 +9,7 @@
 #import "PSVirtualPIC.h"
 #import "PSLineOfCode.h"
 #import "PSInstruction.h"
+#import "PSAppDelegate.h"
 
 @implementation PSVirtualPIC
 
@@ -169,6 +170,8 @@
 - (void)timerFireMethod:(NSTimer *)timer {
 		// Wenn false zurückgegeben wird (bei einem Breakpoint) wird der Timer invalidiert und die Programmausführung stoppt.
 	if (![self executeNextInstruction]) {
+		PSAppDelegate *delegate = [timer userInfo];
+		[delegate breakpointReached];
 		[timer invalidate];
 	}
 	return;
