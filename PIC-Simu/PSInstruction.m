@@ -632,14 +632,15 @@
 			[fileRegister setRegisterValue:(fileRegister.registerValue - wRegister.registerValue)];
 				//move to f
             
-            if(fileRegister.registerValue > 0){
+            if(fileRegister.registerValue > 0 && fileRegister.registerValue < 0xFF){
                 statusRegister.bit0 = true;
+                statusRegister.bit2 = false;
             }
             else if(fileRegister.registerValue == 0){
                 statusRegister.bit0 = true;
                 statusRegister.bit2 = true;
             }
-            else if(fileRegister.registerValue < 0){
+            else if(fileRegister.registerValue == 0xFF){
                 statusRegister.bit0 = false;
                 statusRegister.bit2 = false;
             }
@@ -647,14 +648,14 @@
             pic.storage.w.registerValue = (fileRegister.registerValue - wRegister.registerValue);
 				//move to W
             
-            if(wRegister.registerValue > 0){
+            if(wRegister.registerValue > 0 && fileRegister.registerValue < 0xFF){
                 statusRegister.bit0 = true;
             }
             else if(wRegister.registerValue == 0){
                 statusRegister.bit0 = true;
                 statusRegister.bit2 = true;
             }
-            else if(wRegister.registerValue < 0){
+            else if(wRegister.registerValue == 0xFF){
                 statusRegister.bit0 = false;
                 statusRegister.bit2 = false;
             }
@@ -769,18 +770,21 @@
 	}
 	
 	if ([self.instruction isEqualToString:@"SUBLW"]) {
-        pic.storage.w.registerValue = self.literal - pic.storage.w.registerValue;
-		PSRegister *statusRegister = pic.storage.status;
-		PSRegister *wRegister = pic.storage.w;
         
-        if(wRegister.registerValue > 0){
+        PSRegister *statusRegister = pic.storage.status;
+		PSRegister *wRegister = pic.storage.w;
+        wRegister.registerValue = self.literal - wRegister.registerValue;
+        
+        if(wRegister.registerValue > 0 && wRegister.registerValue < 0xFF){
             statusRegister.bit0 = true;
+            statusRegister.bit2 = false;
+
         }
-        else if(wRegister.registerValue == 0){
+        if(wRegister.registerValue == 0){
             statusRegister.bit0 = true;
             statusRegister.bit2 = true;
         }
-        else if(wRegister.registerValue < 0){
+        if(wRegister.registerValue == 0xFF){
             statusRegister.bit0 = false;
             statusRegister.bit2 = false;
         }
