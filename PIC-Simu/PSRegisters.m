@@ -13,10 +13,13 @@
 @implementation PSRegisters
 
 BOOL oldRb0 = 0;
+BOOL oldRa4 = 0;
 BOOL bit7Old = 0;
 bool bit6Old = 0;
 bool bit5Old = 0;
 bool bit4Old = 0;
+NSInteger TmrCounter = 1;
+NSInteger Ra4Counter = 1;
 
 	// Init-Methode, initialisiert alle Register
 - (id)init {
@@ -461,9 +464,74 @@ bool bit4Old = 0;
 
 	// Internen Timer erhöhen
 - (void)incrementTmr {
-	uint8_t temp = self.tmr0.registerValue;
-	temp++;
-	self.tmr0.registerValue = temp;
+		// Prescaler
+	uint16_t prescaler = 1;
+	if (self.option.bit3) {
+		prescaler = 1;
+	} else {
+		switch ((self.option.bit2*4) + (self.option.bit1*2) + (self.option.bit0)) {
+			case 0:
+				prescaler = 2;
+				break;
+			case 1:
+				prescaler = 4;
+				break;
+			case 2:
+				prescaler = 8;
+				break;
+			case 3:
+				prescaler = 16;
+				break;
+			case 4:
+				prescaler = 32;
+				break;
+			case 5:
+				prescaler = 64;
+				break;
+			case 6:
+				prescaler = 128;
+				break;
+			case 7:
+				prescaler = 256;
+				
+			default:
+				break;
+		}
+	}
+	if (self.option.bit5) { // Test, ob Counter-Mode genutzt wird
+		if (self.option.bit4) { // Steigende oder fallende Flanke
+			if (oldRa4 == 0 && self.porta.bit4 == 1) { // Steigende Flanke
+				if (Ra4Counter == prescaler || prescaler == 1) {
+					uint8_t temp = self.tmr0.registerValue;
+					temp += 1;
+					self.tmr0.registerValue = temp;
+					Ra4Counter = 1;
+				} else {
+					Ra4Counter++;
+				}
+			}
+		} else {
+				if (oldRa4 == 1 && self.porta.bit4 == 0) { // Fallende Flanke
+					uint8_t temp = self.tmr0.registerValue;
+					temp += 1;
+					self.tmr0.registerValue = temp;
+					Ra4Counter = 1;
+				} else {
+					Ra4Counter++;
+				}
+		}
+	} else { // Normaler Timer-Mode
+		if (TmrCounter == prescaler || prescaler == 1) {
+			uint8_t temp = self.tmr0.registerValue;
+			temp += 1;
+			self.tmr0.registerValue = temp;
+			TmrCounter = 1;
+		} else {
+			TmrCounter++;
+		}
+	}
+	
+	oldRa4 = self.porta.bit4;
 }
 
 	// Prüfen, ob das TMR0-Register übergelaufen ist und gegebenenfalls Interrupt setzen
@@ -528,5 +596,9 @@ bool bit4Old = 0;
 	// Dabei soll der Interrupt nicht ausgelöst werden.
 - (void)resetOldRb0 {
 	oldRb0 = self.portb.bit0;
+}
+
+- (void)resetTmrCounter {
+	TmrCounter = -1;
 }
 @end

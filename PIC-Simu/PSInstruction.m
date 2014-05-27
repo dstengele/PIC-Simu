@@ -244,7 +244,7 @@
 		if ((instructionBinary & 0b1111110000000000) == 0b0001110000000000) {
 			self.instruction = @"BTFSS";
 			
-			self.registerAddress = instructionBinary & 0b0000000011111111;
+			self.registerAddress = instructionBinary & 0b0000000001111111;
 			
 			self.bitAddress = (instructionBinary & 0b0000001110000000) >> 7;
 			return self;
@@ -287,7 +287,7 @@
 	}
 	
 		// Prüfen, welche Bank in Benutzung ist
-	if (pic.storage.status.bit5) {
+	if (pic.storage.status.bit5 && !(self.registerAddress&0b0000100000000000)) {
 			// Auf Bank 1 schreiben
 		self.registerAddress = self.registerAddress + 0x80;
 	}
@@ -326,6 +326,9 @@
 	if ([self.instruction isEqualToString:@"MOVWF"]) {
 		PSRegister *reg = [pic.storage registerforAddress:self.registerAddress];
 		[reg setRegisterValue:pic.storage.w.registerValue];
+		if (self.registerAddress == 1) {
+			[pic.storage resetTmrCounter];
+		}
 		return;
 	}
 	

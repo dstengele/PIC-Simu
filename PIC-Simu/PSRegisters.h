@@ -120,5 +120,6 @@
 - (BOOL)checkportbInt;
 
 - (void)resetOldRb0;
+- (void)resetTmrCounter;
 
 @end

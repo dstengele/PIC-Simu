@@ -127,9 +127,6 @@
 	[scanner scanHexInt:&instructionBinary];
 		// Neues PSInstruction-Objekt erstellen, mit eingelesenem Bitmuster
 	PSInstruction *instruction = [[PSInstruction alloc] initWithBits:(uint16_t)instructionBinary];
-	
-		// Instruktion ausführen
-	[instruction executeWithVirtualPIC:self];
 
 		// Nächste Zeile highlighten und hinscrollen
 	NSIndexSet *rows = [NSIndexSet indexSetWithIndex:nextInstructionRow];
@@ -165,6 +162,9 @@
 		[self.storage setPc:4];
 		return true;
 	}
+	
+		// Instruktion ausführen
+	[instruction executeWithVirtualPIC:self];
 	
 		// Programmzähler erhöhen
 	[self.storage incrementPc];
