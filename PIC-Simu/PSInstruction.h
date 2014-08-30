@@ -13,9 +13,9 @@
 @interface PSInstruction : NSObject
 
 @property (retain) NSString* instruction;
-@property (readwrite) int16_t registerAddress;
-@property (readwrite) int16_t bitAddress;
-@property (readwrite) int16_t literal;
+@property (readwrite) int8_t registerAddress;
+@property (readwrite) int8_t bitAddress;
+@property (readwrite) int8_t literal;
 @property (readwrite) BOOL storeInF;
 
 - (PSInstruction *)initWithBits:(int16_t)instructionBinary;

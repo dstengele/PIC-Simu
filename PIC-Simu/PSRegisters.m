@@ -9,7 +9,7 @@
 #import "PSRegisters.h"
 #import "PSRegister.h"
 
-	// "Speicher", beinhaltet alle Register
+// "Speicher", beinhaltet alle Register
 @implementation PSRegisters
 
 BOOL oldRb0 = 0;
@@ -462,9 +462,44 @@ NSInteger Ra4Counter = 1;
 	[self setPc:temp];
 }
 
-	// Internen Timer erhöhen
-- (void)incrementTmr {
-		// Prescaler
+	// Counter erhöhen
+- (void)incrementCounterWithPrescaler:(int)prescaler {
+	if (self.option.bit4) { // Steigende oder fallende Flanke
+		if (oldRa4 == 0 && self.porta.bit4 == 1) { // Steigende Flanke
+			if (Ra4Counter == prescaler || prescaler == 1) {
+				uint8_t temp = self.tmr0.registerValue;
+				temp += 1;
+				self.tmr0.registerValue = temp;
+				Ra4Counter = 1;
+			} else {
+				Ra4Counter++;
+			}
+		}
+	} else {
+		if (oldRa4 == 1 && self.porta.bit4 == 0) { // Fallende Flanke
+			uint8_t temp = self.tmr0.registerValue;
+			temp += 1;
+			self.tmr0.registerValue = temp;
+			Ra4Counter = 1;
+		} else {
+			Ra4Counter++;
+		}
+	}
+}
+
+- (void)incrementTimer0WithPrescaler:(int)prescaler {
+	if (TmrCounter == prescaler || prescaler == 1) {
+		uint8_t temp = self.tmr0.registerValue;
+		temp += 1;
+		self.tmr0.registerValue = temp;
+		TmrCounter = 1;
+	} else {
+		TmrCounter++;
+	}
+}
+
+- (int)getPrescaler {
+	// Prescaler
 	uint16_t prescaler = 1;
 	if (self.option.bit3) {
 		prescaler = 1;
@@ -498,37 +533,16 @@ NSInteger Ra4Counter = 1;
 				break;
 		}
 	}
+	return prescaler;
+}
+
+	// Internen Timer erhöhen
+- (void)incrementTmr {
+	int prescaler = [self getPrescaler];
 	if (self.option.bit5) { // Test, ob Counter-Mode genutzt wird
-		if (self.option.bit4) { // Steigende oder fallende Flanke
-			if (oldRa4 == 0 && self.porta.bit4 == 1) { // Steigende Flanke
-				if (Ra4Counter == prescaler || prescaler == 1) {
-					uint8_t temp = self.tmr0.registerValue;
-					temp += 1;
-					self.tmr0.registerValue = temp;
-					Ra4Counter = 1;
-				} else {
-					Ra4Counter++;
-				}
-			}
-		} else {
-				if (oldRa4 == 1 && self.porta.bit4 == 0) { // Fallende Flanke
-					uint8_t temp = self.tmr0.registerValue;
-					temp += 1;
-					self.tmr0.registerValue = temp;
-					Ra4Counter = 1;
-				} else {
-					Ra4Counter++;
-				}
-		}
+		[self incrementCounterWithPrescaler:prescaler];
 	} else { // Normaler Timer-Mode
-		if (TmrCounter == prescaler || prescaler == 1) {
-			uint8_t temp = self.tmr0.registerValue;
-			temp += 1;
-			self.tmr0.registerValue = temp;
-			TmrCounter = 1;
-		} else {
-			TmrCounter++;
-		}
+		[self incrementTimer0WithPrescaler:prescaler];
 	}
 	
 	oldRa4 = self.porta.bit4;
