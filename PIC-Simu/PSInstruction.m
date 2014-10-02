@@ -207,7 +207,7 @@ typedef enum operation {
 		if ((instructionBinary & 0b1111111100000000) == 0b0011101000000000) {
 			self.instruction = @"XORLW";
 			
-			self.literal = instructionBinary & 0b0000000001111111;
+			self.literal = instructionBinary & 0b0000000011111111;
 			
 			self.storeInF = instructionBinary & 0b0000000010000000;
 			return self;
