@@ -378,8 +378,10 @@ typedef enum operation {
     uint8_t firstValue = wRegister.registerValue;
     uint8_t secondValue = fileRegister.registerValue;
 
-    uint8_t result = fileRegister.registerValue - wRegister.registerValue;
+    uint8_t wRegisterValueTwosComp = (~(wRegister.registerValue) + 1);
 
+    uint8_t result = fileRegister.registerValue + wRegisterValueTwosComp;
+    
     BOOL carry = [self checkCarryForValue:firstValue andValue:secondValue withOperation:subtraction];
     BOOL digitCarry = [self checkDigitCarryForValue:firstValue andValue:secondValue withOperation:subtraction];
 	
