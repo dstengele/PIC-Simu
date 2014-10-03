@@ -184,16 +184,12 @@ typedef enum operation {
 			self.instruction = @"ADDLW";
 			
 			self.literal = instructionBinary & 0b0000000011111111;
-			
-			self.storeInF = instructionBinary & 0b0000000010000000;
 			return self;
 		}
 		if ((instructionBinary & 0b1111111100000000) == 0b0011100100000000) {
 			self.instruction = @"ANDLW";
 			
-			self.literal = instructionBinary & 0b0000000001111111;
-			
-			self.storeInF = instructionBinary & 0b0000000010000000;
+			self.literal = instructionBinary & 0b0000000011111111;
 			return self;
 		}
 		if ((instructionBinary & 0b1111111100000000) == 0b0011100000000000) {
@@ -709,7 +705,7 @@ typedef enum operation {
 }
 
 - (void)executeADDLW:(PSVirtualPIC *)pic {
-	;
+	pic.storage.w.registerValue += self.literal;
 	if (pic.storage.w.registerValue == 0) {
 		pic.storage.status.bit2 = 1;
 	} else {
@@ -870,7 +866,7 @@ typedef enum operation {
 	}
 	
 	if ([self.instruction isEqualToString:@"ADDLW"]) {
-		pic.storage.w.registerValue += self.literal;
+		[self executeADDLW:pic];
 		return;
 	}
 	

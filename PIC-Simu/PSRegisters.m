@@ -501,9 +501,7 @@ NSInteger Ra4Counter = 1;
 - (int)getPrescaler {
 	// Prescaler
 	uint16_t prescaler = 1;
-	if (self.option.bit3) {
-		prescaler = 1;
-	} else {
+	if (!(self.option.bit3)) {
 		switch ((self.option.bit2*4) + (self.option.bit1*2) + (self.option.bit0)) {
 			case 0:
 				prescaler = 2;
