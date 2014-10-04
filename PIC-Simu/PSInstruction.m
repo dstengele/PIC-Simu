@@ -280,6 +280,254 @@ typedef enum operation {
 	return nil;
 }
 
+// Code, der die eigenlichen Befehle dann ausführt
+- (void)executeWithVirtualPIC:(PSVirtualPIC *)pic {
+	// Prüfung ob mit PORTB gearbeitet wird (für PORTB-Interrupt)
+	if (self.registerAddress == 0x06 || pic.storage.fsr.registerValue == 0x06) {
+		[pic.storage resetOldRb0];
+	}
+	
+	// Prüfen, welche Bank in Benutzung ist
+	if (pic.storage.status.bit5 && !(self.registerAddress&0b0000100000000000)) {
+		// Auf Bank 1 schreiben
+		self.registerAddress = self.registerAddress + 0x80;
+	}
+	
+	if ([self.instruction isEqualToString:@"CLRWDT"]) {
+		[self executeCLRWDT:pic];
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"RETFIE"]) {
+		[self executeRETFIE:pic];
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"RETURN"]) {
+		[self executeRETURN:pic];
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"SLEEP"]) {
+		[self executeSLEEP];
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"NOP"]) {
+		//Nope Nope Nope Nope Nope
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"CLRW"]) {
+		[self executeCLRW:pic];
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"MOVWF"]) {
+		[self executeMOVWF:pic];
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"CLRF"]) {
+		[self executeCLRF:pic];
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"ADDWF"]) {
+		[self executeADDWF:pic];
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"ANDWF"]) {
+		[self executeANDWF:pic];
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"COMF"]) {
+		[self executeCOMF:pic];
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"DECF"]) {
+		[self executeDECF:pic];
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"DECFSZ"]) {
+		[self executeDECFSZ:pic];
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"INCF"]) {
+		[self executeINCF:pic];
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"INCFSZ"]) {
+		[self executeINCFSZ:pic];
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"IORWF"]) {
+		[self executeIORWF:pic];
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"MOVF"]) {
+		[self executeMOVF:pic];
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"RLF"]) {
+		[self executeRLF:pic];
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"RRF"]) {
+		[self executeRRF:pic];
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"SUBWF"]) {
+		[self executeSUBWF:pic];
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"SWAPF"]) {
+		[self executeSWAPF:pic];
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"XORWF"]) {
+		[self executeXORWF:pic];
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"ADDLW"]) {
+		[self executeADDLW:pic];
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"ANDLW"]) {
+		[self executeANDLW:pic];
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"IORLW"]) {
+		[self executeIORLW:pic];
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"XORLW"]) {
+		[self executeXORLW:pic];
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"SUBLW"]) {
+		[self executeSUBLW:pic];
+		
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"BCF"]) {
+		[self executeBCF:pic];
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"BSF"]) {
+		[self executeBSF:pic];
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"BTFSC"]) {
+		[self executeBTFSC:pic];
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"BTFSS"]) {
+		[self executeBTFSS:pic];
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"MOVLW"]) {
+		[self executeMOVLW:pic];
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"RETLW"]) {
+		[self executeRETLW:pic];
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"CALL"]) {
+		[self executeCALL:pic];
+		return;
+	}
+	
+	if ([self.instruction isEqualToString:@"GOTO"]) {
+		[self executeGOTO:pic];
+		return;
+	}
+}
+
+- (BOOL)checkCarryForValue:(uint8_t)firstValue andValue:(uint8_t) secondValue withOperation:(enum operation)op{
+	switch (op) {
+		case addition: {
+			uint16_t temp = firstValue + secondValue;
+			if (temp > 0xFF) {
+				return true;
+			}
+			break;
+		}
+		case subtraction: {
+			if (firstValue < secondValue) {
+				return true;
+			}
+			break;
+		}
+	}
+	return false;
+}
+
+- (BOOL)checkDigitCarryForValue:(uint8_t)firstValue andValue:(uint8_t) secondValue withOperation:(enum operation)op{
+	uint8_t firstNibble = firstValue & 0x0F;
+	uint8_t secondNibble = secondValue & 0x0F;
+	switch (op) {
+		case addition: {
+			uint8_t temp = firstNibble + secondNibble;
+			if (temp > 15) {
+				return true;
+			}
+			break;
+		}
+		case subtraction: {
+			if (firstNibble < secondNibble) {
+				return true;
+			}
+			break;
+		}
+	}
+	return false;
+}
+
+- (BOOL)checkZeroForValue:(uint8_t)firstValue andValue:(uint8_t) secondValue withOperation:(enum operation)op{
+	uint8_t temp;
+	switch (op) {
+		case addition: {
+			temp = firstValue + secondValue;
+			break;
+		}
+		case subtraction: {
+			temp = firstValue - secondValue;
+			break;
+		}
+	}
+	if (temp == 0) {
+		return true;
+	}
+	return false;
+}
+
 - (void)executeCLRWDT:(PSVirtualPIC *)pic {
 	pic.wdt = 0b00000000;
 }
@@ -327,59 +575,16 @@ typedef enum operation {
 	}
 }
 
-- (BOOL)checkCarryForValue:(uint8_t)firstValue andValue:(uint8_t) secondValue withOperation:(enum operation)op{
-	switch (op) {
-		case addition: {
-			uint16_t temp = firstValue + secondValue;
-			if (temp > 255) {
-				return true;
-			}
-			break;
-		}
-		case subtraction: {
-			if (firstValue < secondValue) {
-				return true;
-			}
-			break;
-		}
-	}
-	return false;
-}
-
-- (BOOL)checkDigitCarryForValue:(uint8_t)firstValue andValue:(uint8_t) secondValue withOperation:(enum operation)op{
-	uint8_t firstNibble = firstValue & 0x01;
-	uint8_t secondNibble = secondValue & 0x01;
-	switch (op) {
-		case addition: {
-			uint8_t temp = firstNibble + secondNibble;
-			if (temp > 15) {
-				return true;
-			}
-			break;
-		}
-		case subtraction: {
-			if (firstNibble < secondNibble) {
-				return true;
-			}
-			break;
-		}
-	}
-	return false;
-}
-
 - (void)executeSUBWF:(PSVirtualPIC *)pic {
 	PSRegister *fileRegister = [pic.storage registerforAddress:self.registerAddress];
 	PSRegister *statusRegister = pic.storage.status;
 	PSRegister *wRegister = pic.storage.w;
-    uint8_t firstValue = wRegister.registerValue;
-    uint8_t secondValue = fileRegister.registerValue;
+	uint8_t firstValue = fileRegister.registerValue;
+    uint8_t secondValue = wRegister.registerValue;
 
-    uint8_t wRegisterValueTwosComp = (~(wRegister.registerValue) + 1);
+    uint8_t secondValueTwosComp = (~(secondValue) + 1);
 
-    uint8_t result = fileRegister.registerValue + wRegisterValueTwosComp;
-    
-    BOOL carry = [self checkCarryForValue:firstValue andValue:secondValue withOperation:subtraction];
-    BOOL digitCarry = [self checkDigitCarryForValue:firstValue andValue:secondValue withOperation:subtraction];
+    uint8_t result = firstValue - secondValue;
 	
 	if (self.storeInF) {
 		[fileRegister setRegisterValue:result];
@@ -388,8 +593,21 @@ typedef enum operation {
         [wRegister setRegisterValue:result];
 		//move to W
 	}
+	
+	BOOL carry;
+	if (firstValue - secondValue >= 0) {
+		carry = TRUE;
+	} else {
+		carry = FALSE;
+	}
+	
+//	BOOL carry = [self checkCarryForValue:firstValue andValue:secondValue withOperation:subtraction];
+	BOOL digitCarry = [self checkDigitCarryForValue:firstValue andValue:secondValueTwosComp withOperation:addition];
+	BOOL zero = [self checkZeroForValue:firstValue andValue:secondValueTwosComp withOperation:addition];
+	
 	[statusRegister setBit1:digitCarry];
 	[statusRegister setBit0:carry];
+	[statusRegister setBit2:zero];
 }
 
 - (void)executeSWAPF:(PSVirtualPIC *)pic {
@@ -653,6 +871,14 @@ typedef enum operation {
 		[pic.storage.w setRegisterValue:sum];
 		//Sum to W
 	}
+	
+	BOOL carry = [self checkCarryForValue:valueF andValue:valueW withOperation:addition];
+	BOOL digitCarry = [self checkDigitCarryForValue:valueF andValue:valueW withOperation:addition];
+	BOOL zero = [self checkZeroForValue:valueF andValue:valueW withOperation:addition];
+	
+	[pic.storage.status setBit1:digitCarry];
+	[pic.storage.status setBit0:carry];
+	[pic.storage.status setBit2:zero];
 }
 
 - (void)executeANDWF:(PSVirtualPIC *)pic {
@@ -705,12 +931,18 @@ typedef enum operation {
 }
 
 - (void)executeADDLW:(PSVirtualPIC *)pic {
-	pic.storage.w.registerValue += self.literal;
-	if (pic.storage.w.registerValue == 0) {
-		pic.storage.status.bit2 = 1;
-	} else {
-		pic.storage.status.bit2 = 0;
-	}
+	uint8_t firstValue = pic.storage.w.registerValue;
+	uint8_t secondValue = self.literal;
+	uint8_t temp = firstValue + secondValue;
+	pic.storage.w.registerValue = temp;
+	
+	BOOL carry = [self checkCarryForValue:firstValue andValue:secondValue withOperation:addition];
+	BOOL digitCarry = [self checkDigitCarryForValue:firstValue andValue:secondValue withOperation:addition];
+	BOOL zero = [self checkZeroForValue:firstValue andValue:secondValue withOperation:addition];
+	
+	[pic.storage.status setBit1:digitCarry];
+	[pic.storage.status setBit0:carry];
+	[pic.storage.status setBit2:zero];
 }
 
 - (void)executeBTFSC:(PSVirtualPIC *)pic {
@@ -740,196 +972,6 @@ typedef enum operation {
 - (void)executeRETLW:(PSVirtualPIC *)pic {
 	pic.storage.pc = pic.callStack.pop;
 	pic.storage.w.registerValue = self.literal;
-}
-
-	// Code, der die eigenlichen Befehle dann ausführt
-- (void)executeWithVirtualPIC:(PSVirtualPIC *)pic {
-		// Prüfung ob mit PORTB gearbeitet wird (für PORTB-Interrupt)
-	if (self.registerAddress == 0x06 || pic.storage.fsr.registerValue == 0x06) {
-		[pic.storage resetOldRb0];
-	}
-	
-		// Prüfen, welche Bank in Benutzung ist
-	if (pic.storage.status.bit5 && !(self.registerAddress&0b0000100000000000)) {
-			// Auf Bank 1 schreiben
-		self.registerAddress = self.registerAddress + 0x80;
-	}
-
-	if ([self.instruction isEqualToString:@"CLRWDT"]) {
-		[self executeCLRWDT:pic];
-		return;
-	}
-	
-	if ([self.instruction isEqualToString:@"RETFIE"]) {
-		[self executeRETFIE:pic];
-		return;
-	}
-	
-	if ([self.instruction isEqualToString:@"RETURN"]) {
-        [self executeRETURN:pic];
-        return;
-	}
-	
-	if ([self.instruction isEqualToString:@"SLEEP"]) {
-		[self executeSLEEP];
-		return;
-	}
-	
-	if ([self.instruction isEqualToString:@"NOP"]) {
-        //Nope Nope Nope Nope Nope
-		return;
-	}
-	
-	if ([self.instruction isEqualToString:@"CLRW"]) {
-		[self executeCLRW:pic];
-		return;
-	}
-	
-	if ([self.instruction isEqualToString:@"MOVWF"]) {
-		[self executeMOVWF:pic];
-		return;
-	}
-	
-	if ([self.instruction isEqualToString:@"CLRF"]) {
-		[self executeCLRF:pic];
-		return;
-	}
-	
-	if ([self.instruction isEqualToString:@"ADDWF"]) {
-		[self executeADDWF:pic];
-		return;
-	}
-	
-	if ([self.instruction isEqualToString:@"ANDWF"]) {
-		[self executeANDWF:pic];
-		return;
-	}
-	
-	if ([self.instruction isEqualToString:@"COMF"]) {
-		[self executeCOMF:pic];
-		return;
-	}
-	
-	if ([self.instruction isEqualToString:@"DECF"]) {
-		[self executeDECF:pic];
-		return;
-	}
-	
-	if ([self.instruction isEqualToString:@"DECFSZ"]) {
-		[self executeDECFSZ:pic];
-		return;
-	}
-	
-	if ([self.instruction isEqualToString:@"INCF"]) {
-		[self executeINCF:pic];
-		return;
-	}
-	
-	if ([self.instruction isEqualToString:@"INCFSZ"]) {
-		[self executeINCFSZ:pic];
-		return;
-	}
-	
-	if ([self.instruction isEqualToString:@"IORWF"]) {
-		[self executeIORWF:pic];
-		return;
-	}
-	
-	if ([self.instruction isEqualToString:@"MOVF"]) {
-		[self executeMOVF:pic];
-		return;
-	}
-	
-	if ([self.instruction isEqualToString:@"RLF"]) {
-		[self executeRLF:pic];
-		return;
-	}
-	
-	if ([self.instruction isEqualToString:@"RRF"]) {
-		[self executeRRF:pic];
-		return;
-	}
-	
-	if ([self.instruction isEqualToString:@"SUBWF"]) {
-		[self executeSUBWF:pic];
-		return;
-	}
-	
-	if ([self.instruction isEqualToString:@"SWAPF"]) {
-		[self executeSWAPF:pic];
-		return;
-	}
-	
-	if ([self.instruction isEqualToString:@"XORWF"]) {
-		[self executeXORWF:pic];
-		return;
-	}
-	
-	if ([self.instruction isEqualToString:@"ADDLW"]) {
-		[self executeADDLW:pic];
-		return;
-	}
-	
-	if ([self.instruction isEqualToString:@"ANDLW"]) {
-        [self executeANDLW:pic];
-        return;
-	}
-	
-	if ([self.instruction isEqualToString:@"IORLW"]) {
-        [self executeIORLW:pic];
-        return;
-	}
-	
-	if ([self.instruction isEqualToString:@"XORLW"]) {
-        [self executeXORLW:pic];
-        return;
-	}
-	
-	if ([self.instruction isEqualToString:@"SUBLW"]) {
-        [self executeSUBLW:pic];
-
-        return;
-	}
-	
-	if ([self.instruction isEqualToString:@"BCF"]) {
-        [self executeBCF:pic];
-        return;
-	}
-	
-	if ([self.instruction isEqualToString:@"BSF"]) {
-        [self executeBSF:pic];
-        return;
-	}
-	
-	if ([self.instruction isEqualToString:@"BTFSC"]) {
-		[self executeBTFSC:pic];
-		return;
-	}
-	
-	if ([self.instruction isEqualToString:@"BTFSS"]) {
-		[self executeBTFSS:pic];
-		return;
-	}
-	
-	if ([self.instruction isEqualToString:@"MOVLW"]) {
-		[self executeMOVLW:pic];
-		return;
-	}
-	
-	if ([self.instruction isEqualToString:@"RETLW"]) {
-		[self executeRETLW:pic];
-		return;
-	}
-	
-	if ([self.instruction isEqualToString:@"CALL"]) {
-		[self executeCALL:pic];
-		return;
-	}
-	
-	if ([self.instruction isEqualToString:@"GOTO"]) {
-        [self executeGOTO:pic];
-        return;
-	}
 }
 
 - (void)executeRETURN:(PSVirtualPIC *)pic {
@@ -965,23 +1007,25 @@ typedef enum operation {
 }
 
 - (void)executeSUBLW:(PSVirtualPIC *)pic {
-    PSRegister *statusRegister = pic.storage.status;
-    PSRegister *wRegister = pic.storage.w;
-    wRegister.registerValue = self.literal - wRegister.registerValue;
-
-    if(wRegister.registerValue > 0 && wRegister.registerValue < 0xFF){
-statusRegister.bit0 = true;
-statusRegister.bit2 = false;
-
-}
-    if(wRegister.registerValue == 0){
-statusRegister.bit0 = true;
-statusRegister.bit2 = true;
-}
-    if(wRegister.registerValue == 0xFF){
-statusRegister.bit0 = false;
-statusRegister.bit2 = false;
-}
+	uint8_t firstValue = self.literal;
+	uint8_t secondValue = pic.storage.w.registerValue;
+	uint8_t temp = firstValue - secondValue;
+	pic.storage.w.registerValue = temp;
+	
+	BOOL carry;
+	if (firstValue - secondValue >= 0) {
+		carry = TRUE;
+	} else {
+		carry = FALSE;
+	}
+	
+//	BOOL carry = [self checkCarryForValue:firstValue andValue:secondValue withOperation:subtraction];
+	BOOL digitCarry = [self checkDigitCarryForValue:firstValue andValue:secondValue withOperation:subtraction];
+	BOOL zero = [self checkZeroForValue:firstValue andValue:secondValue withOperation:subtraction];
+	
+	[pic.storage.status setBit1:digitCarry];
+	[pic.storage.status setBit0:carry];
+	[pic.storage.status setBit2:zero];
 }
 
 - (void)executeBCF:(PSVirtualPIC *)pic {

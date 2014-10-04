@@ -550,7 +550,7 @@ NSInteger Ra4Counter = 1;
 - (BOOL)checkTmrInt {
 	[self incrementTmr];
 	if (self.tmr0.registerValue == 0) {
-		self.status.bit2 = 1;
+//		self.status.bit2 = 1;
 		if (self.intcon.bit5) {
 			self.intcon.bit2 = 1;
 			NSLog(@"TMR-Interrupt occured!");
