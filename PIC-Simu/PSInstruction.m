@@ -480,7 +480,7 @@ typedef enum operation {
 			break;
 		}
 		case subtraction: {
-			if (firstValue < secondValue) {
+			if (firstValue - secondValue >= 0) {
 				return true;
 			}
 			break;
@@ -594,14 +594,7 @@ typedef enum operation {
 		//move to W
 	}
 	
-	BOOL carry;
-	if (firstValue - secondValue >= 0) {
-		carry = TRUE;
-	} else {
-		carry = FALSE;
-	}
-	
-//	BOOL carry = [self checkCarryForValue:firstValue andValue:secondValue withOperation:subtraction];
+	BOOL carry = [self checkCarryForValue:firstValue andValue:secondValue withOperation:subtraction];
 	BOOL digitCarry = [self checkDigitCarryForValue:firstValue andValue:secondValueTwosComp withOperation:addition];
 	BOOL zero = [self checkZeroForValue:firstValue andValue:secondValueTwosComp withOperation:addition];
 	
@@ -1012,19 +1005,14 @@ typedef enum operation {
 	uint8_t temp = firstValue - secondValue;
 	pic.storage.w.registerValue = temp;
 	
-	BOOL carry;
-	if (firstValue - secondValue >= 0) {
-		carry = TRUE;
-	} else {
-		carry = FALSE;
-	}
+	uint8_t secondValueTwosComp = (~(secondValue) + 1);
 	
-//	BOOL carry = [self checkCarryForValue:firstValue andValue:secondValue withOperation:subtraction];
-	BOOL digitCarry = [self checkDigitCarryForValue:firstValue andValue:secondValue withOperation:subtraction];
+	BOOL carry = [self checkCarryForValue:firstValue andValue:secondValue withOperation:subtraction];
+	BOOL digitCarry = [self checkDigitCarryForValue:firstValue andValue:secondValueTwosComp withOperation:addition];
 	BOOL zero = [self checkZeroForValue:firstValue andValue:secondValue withOperation:subtraction];
 	
-	[pic.storage.status setBit1:digitCarry];
 	[pic.storage.status setBit0:carry];
+	[pic.storage.status setBit1:digitCarry];
 	[pic.storage.status setBit2:zero];
 }
 

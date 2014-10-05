@@ -136,9 +136,6 @@
 		// Keine Zeile ausgewählt in der StackView
 	[self.stackView deselectAll:self];
 	
-		// File-Register-View updaten
-	[self updateFileRegisters];
-	
 		// Laufzeitzähler erhöhen
 	self.runtimeCounter++;
 		// Laufzeitzähler-View updaten
@@ -165,6 +162,9 @@
 	
 		// Instruktion ausführen
 	[instruction executeWithVirtualPIC:self];
+	
+	// File-Register-View updaten
+	[self updateFileRegisters];
 	
 		// Programmzähler erhöhen
 	[self.storage incrementPc];
