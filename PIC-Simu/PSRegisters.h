@@ -112,7 +112,9 @@
 - (PSRegister *)registerforAddress:(uint8_t)registerAddress;
 
 - (uint16_t)pc;
+- (uint16_t)pcFull;
 - (void)setPc:(uint16_t)newPc;
+- (void)updatePc;
 - (void)incrementPc;
 - (void)incrementTmr;
 - (BOOL)checkTmrInt;

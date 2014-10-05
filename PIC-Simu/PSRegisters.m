@@ -20,6 +20,7 @@ bool bit5Old = 0;
 bool bit4Old = 0;
 NSInteger TmrCounter = 1;
 NSInteger Ra4Counter = 1;
+uint16_t pcFull = 0;
 
 	// Init-Methode, initialisiert alle Register
 - (id)init {
@@ -422,37 +423,31 @@ NSInteger Ra4Counter = 1;
 	}
 }
 
-	// Programmzähler berechnen und ausgeben
-- (uint16_t)pc {
-	uint16_t res =
-	   (self.pclath.bit4 * 4096)
+
+- (void)updatePc {
+	uint16_t newPc =
+	(self.pclath.bit4 * 4096)
 	+  (self.pclath.bit3 * 2048)
 	+  (self.pclath.bit2 * 1024)
 	+  (self.pclath.bit1 * 512)
-	+  (self.pclath.bit0 * 256)
-	+  (self.pcl.   bit7 * 128)
-	+  (self.pcl.   bit6 * 64)
-	+  (self.pcl.   bit5 * 32)
-	+  (self.pcl.   bit4 * 16)
-	+  (self.pcl.   bit3 * 8)
-	+  (self.pcl.   bit2 * 4)
-	+  (self.pcl.   bit1 * 2)
-	+  (self.pcl.   bit0);
-	
-	return res;
+	+  (self.pclath.bit0 * 256);
+	pcFull = newPc + (self.pcl.registerValue & 0x00FF);
+}
+
+	// Programmzähler berechnen und ausgeben
+- (uint16_t)pc {
+	return pcFull;
 }
 
 	// Programmzähler setzen
 - (void)setPc:(uint16_t)newPc {
-		// Aufteilen in oberen und unteren Teil
-	uint16_t newPcCopy = newPc & 0b0001111111111111;
-	uint16_t high = newPcCopy &  0b1111111100000000;
-	uint16_t low = newPcCopy &   0b0000000011111111;
+		// Aufteilen in unteren Teil
+	uint8_t low  = (newPc & 0x00FF);
 	
 		// Unteren Teil setzen
 	[self.pcl setRegisterValue:low];
-		// Oberen Teil setzen
-	[self.pclath setRegisterValue:high];
+	
+	pcFull = newPc;
 }
 
 	// Programmzähler erhöhen
@@ -549,14 +544,10 @@ NSInteger Ra4Counter = 1;
 	// Prüfen, ob das TMR0-Register übergelaufen ist und gegebenenfalls Interrupt setzen
 - (BOOL)checkTmrInt {
 	[self incrementTmr];
-	if (self.tmr0.registerValue == 0) {
-//		self.status.bit2 = 1;
-		if (self.intcon.bit5) {
-			self.intcon.bit2 = 1;
-			NSLog(@"TMR-Interrupt occured!");
-			return TRUE;
-			
-		}
+	if (self.tmr0.registerValue == 0 && self.intcon.bit5 == 1 && self.intcon.bit2 == 0) {
+		self.intcon.bit2 = 1;
+		NSLog(@"TMR-Interrupt occured!");
+		return TRUE;
 	}
 	return FALSE;
 }

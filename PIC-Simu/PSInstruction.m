@@ -851,6 +851,9 @@ typedef enum operation {
 }
 
 - (void)executeADDWF:(PSVirtualPIC *)pic {
+	if (self.registerAddress == 0x02 && self.storeInF) {
+		[pic.storage updatePc];
+	}
 	uint8_t valueW = pic.storage.w.registerValue;
 	PSRegister *fileRegister = [pic.storage registerforAddress:self.registerAddress];
 	uint8_t valueF = [fileRegister registerValue];
@@ -863,6 +866,10 @@ typedef enum operation {
 	else {
 		[pic.storage.w setRegisterValue:sum];
 		//Sum to W
+	}
+	
+	if (self.registerAddress == 0x02 && self.storeInF) {
+		[pic.storage updatePc];
 	}
 	
 	BOOL carry = [self checkCarryForValue:valueF andValue:valueW withOperation:addition];
@@ -888,6 +895,9 @@ typedef enum operation {
 			pic.storage.status.bit2 = 0;
 		}
 		//AND to f
+		if (self.registerAddress == 0x02) {
+			[pic.storage updatePc];
+		}
 	}
 	else {
 		[pic.storage.w setRegisterValue:and];
@@ -905,6 +915,9 @@ typedef enum operation {
 	[reg setRegisterValue:pic.storage.w.registerValue];
 	if (self.registerAddress == 1) {
 		[pic.storage resetTmrCounter];
+	}
+	if (self.registerAddress == 0x02) {
+		[pic.storage updatePc];
 	}
 }
 
@@ -954,8 +967,8 @@ typedef enum operation {
 
 - (void)executeCALL:(PSVirtualPIC *)pic {
 	[pic.callStack push:(pic.storage.pc)];
-	// ACHTUNG! HACK! Oberer Teil des Programmzählers wird ignoriert.
 	pic.storage.pc = self.literal - 1;
+	[pic.storage updatePc];
 }
 
 - (void)executeMOVLW:(PSVirtualPIC *)pic {
@@ -1077,6 +1090,7 @@ typedef enum operation {
 }
 
 - (void)executeGOTO:(PSVirtualPIC *)pic {
+	[pic.storage updatePc];
     pic.storage.pc = self.literal - 1;
 }
 
