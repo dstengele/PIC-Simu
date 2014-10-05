@@ -858,14 +858,6 @@ typedef enum operation {
 	PSRegister *fileRegister = [pic.storage registerforAddress:self.registerAddress];
 	uint8_t valueF = [fileRegister registerValue];
 	uint8_t sum = valueW + valueF;
-    
-    PSRegister *wRegister = pic.storage.w;
-    PSRegister *statusRegister = pic.storage.status;
-    BOOL carry = statusRegister.bit0;
-    if(fileRegister.bit0 == 1 || wRegister.bit0 == 1)
-    {
-        carry = 1;
-    }
 	
 	if (self.storeInF) {
 		[fileRegister setRegisterValue:sum];
